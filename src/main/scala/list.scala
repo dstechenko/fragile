@@ -9,6 +9,8 @@ sealed trait TList {
   type Reduce[F[_ <: Nat, _ <: Nat] <: Nat] = Fold[Zero, F]
   type Filter[F[_ <: Nat] <: Bool] <: TList
   type Remove[N <: Nat] <: TList
+  type Sorted <: TList
+  type Min[N <: Nat] <: Nat
 }
 
 sealed trait ::[H <: Nat, T <: TList] extends TList {
@@ -16,6 +18,8 @@ sealed trait ::[H <: Nat, T <: TList] extends TList {
   override type Fold[Z <: Nat, F[_ <: Nat, _ <: Nat] <: Nat] = H F T#Fold[Z, F]
   override type Filter[F[_ <: Nat] <: Bool] = ifl[F[H], H :: T#Filter[F], T#Filter[F]]
   override type Remove[N <: Nat] = ifl[H == N, T, H :: T#Remove[N]]
+  override type Sorted = T#Min[H] :: (H :: T)#Remove[T#Min[H]]#Sorted
+  override type Min[N <: Nat] = T#Min[H min N]
 }
 
 sealed trait TNil extends TList {
@@ -23,6 +27,8 @@ sealed trait TNil extends TList {
   override type Fold[Z <: Nat, F[_ <: Nat, _ <: Nat] <: Nat] = Z
   override type Filter[F[_ <: Nat] <: Bool] = TNil
   override type Remove[N <: Nat] = TNil
+  override type Sorted = TNil
+  override type Min[N <: Nat] = N
 }
 
 trait TListFunctions {
@@ -30,6 +36,7 @@ trait TListFunctions {
   type reduce[L <: TList, F[_ <: Nat, _ <: Nat] <: Nat] = L#Reduce[F]
   type filter[L <: TList, F[_ <: Nat] <: Bool] = L#Filter[F]
   type remove[L <: TList, N <: Nat] = L#Remove[N]
+  type sorted[L <: TList] = L#Sorted
 }
 
 object TList extends TListFunctions

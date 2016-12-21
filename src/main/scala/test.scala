@@ -43,9 +43,17 @@ object FilterTest {
 }
 
 object RemoveTest {
-  type given = _1 :: _2 :: _1 :: _2 :: TNil
-  type expected = _1 :: _1 :: _2 :: TNil
-  type result = given remove _2
+  type given = _1 :: _2 :: _3 :: _2 :: TNil
+  type expected = _1 :: _2 :: _2 :: TNil
+  type result = given remove _3
+
+  implicitly[expected =:= result]
+}
+
+object SortedTest {
+  type given = _0 :: _5 :: _3 :: _4 :: _2 :: _1 :: TNil
+  type expected = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: TNil
+  type result = sorted[given]
 
   implicitly[expected =:= result]
 }
