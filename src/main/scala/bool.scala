@@ -5,9 +5,9 @@ sealed trait Bool {
   type Or[B <: Bool] <: Bool
   type And[B <: Bool] <: Bool
 
-  type IfB[C <: Bool, A <: Bool] <: Bool
-  type IfN[C <: Nat, A <: Nat] <: Nat
-  type IfL[C <: TList, A <: TList] <: TList
+  type IfB[T <: Bool, E <: Bool] <: Bool
+  type IfN[T <: Nat, E <: Nat] <: Nat
+  type IfL[T <: TList, E <: TList] <: TList
 }
 
 sealed trait True extends Bool {
@@ -15,9 +15,9 @@ sealed trait True extends Bool {
   override type Or[B <: Bool] = True
   override type And[B <: Bool] = B
 
-  override type IfB[C <: Bool, A <: Bool] = C
-  override type IfN[C <: Nat, A <: Nat] = C
-  override type IfL[C <: TList, A <: TList] = C
+  override type IfB[T <: Bool, E <: Bool] = T
+  override type IfN[T <: Nat, E <: Nat] = T
+  override type IfL[T <: TList, E <: TList] = T
 }
 
 sealed trait False extends Bool {
@@ -25,17 +25,19 @@ sealed trait False extends Bool {
   override type Or[B <: Bool] = B
   override type And[B <: Bool] = False
 
-  override type IfB[C <: Bool, A <: Bool] = A
-  override type IfN[C <: Nat, A <: Nat] = A
-  override type IfL[C <: TList, A <: TList] = A
+  override type IfB[T <: Bool, E <: Bool] = E
+  override type IfN[T <: Nat, E <: Nat] = E
+  override type IfL[T <: TList, E <: TList] = E
 }
 
-object Bool {
+trait BoolFunctions {
   type &&[L <: Bool, R <: Bool] = L#And[R]
   type ||[L <: Bool, R <: Bool] = L#Or[R]
   type ![B <: Bool] = B#Not
 
-  type ifb[B <: Bool, C <: Bool, A <: Bool] = B#IfB[C, A]
-  type ifn[B <: Bool, C <: Nat, A <: Nat] = B#IfN[C, A]
-  type ifl[B <: Bool, C <: TList, A <: TList] = B#IfL[C, A]
+  type ifb[B <: Bool, T <: Bool, E <: Bool] = B#IfB[T, E]
+  type ifn[B <: Bool, T <: Nat, E <: Nat] = B#IfN[T, E]
+  type ifl[B <: Bool, T <: TList, E <: TList] = B#IfL[T, E]
 }
+
+object Bool extends BoolFunctions
