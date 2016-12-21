@@ -41,3 +41,11 @@ object FilterTest {
 
   implicitly[expected =:= result]
 }
+
+object RemoveTest {
+  type given = _1 :: _2 :: _1 :: _2 :: TNil
+  type expected = _1 :: _1 :: _2 :: TNil
+  type result = given remove _2
+
+  implicitly[expected =:= result]
+}
