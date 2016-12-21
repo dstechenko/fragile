@@ -8,6 +8,7 @@ sealed trait TList {
   type Reduce[F[_ <: Nat, _ <: Nat] <: Nat] = Fold[Zero, F]
   type Filter[F[_ <: Nat] <: Bool] <: TList
 }
+
 sealed trait ::[H <: Nat, T <: TList] extends TList {
   override type Map[F[_ <: Nat] <: Nat] = F[H] :: T#Map[F]
   override type Fold[Z <: Nat, F[_ <: Nat, _ <: Nat] <: Nat] = H F T#Fold[Z, F]
