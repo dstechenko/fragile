@@ -24,6 +24,9 @@ object NatTest {
 
   implicitly[_4 min _3 =:= _3]
   implicitly[_1 min _4 =:= _1]
+
+  implicitly[_4 max _3 =:= _4]
+  implicitly[_1 max _4 =:= _4]
 }
 
 object BoolTest {
