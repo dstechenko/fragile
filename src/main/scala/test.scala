@@ -33,8 +33,15 @@ object NatTest {
 }
 
 object BoolTest {
-  implicitly[True || False          =:= ![False]]
-  implicitly[ifb[True, False, True] =:= False]
+  implicitly[![False]       =:= True]
+  implicitly[![True]        =:= False]
+
+  implicitly[True  || False =:= True]
+  implicitly[False || False =:= False]
+
+  implicitly[True  && False =:= False]
+  implicitly[False && True  =:= False]
+  implicitly[True  && True  =:= True]
 }
 
 object MapTest {
