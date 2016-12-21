@@ -7,7 +7,7 @@ sealed trait Bool {
 
   type IfB[T <: Bool, E <: Bool] <: Bool
   type IfN[T <: Nat, E <: Nat] <: Nat
-  type IfL[T <: TList, E <: TList] <: TList
+  type IfL[T <: List, E <: List] <: List
 }
 
 sealed trait True extends Bool {
@@ -17,7 +17,7 @@ sealed trait True extends Bool {
 
   override type IfB[T <: Bool, E <: Bool]   = T
   override type IfN[T <: Nat, E <: Nat]     = T
-  override type IfL[T <: TList, E <: TList] = T
+  override type IfL[T <: List, E <: List] = T
 }
 
 sealed trait False extends Bool {
@@ -27,7 +27,7 @@ sealed trait False extends Bool {
 
   override type IfB[T <: Bool, E <: Bool]   = E
   override type IfN[T <: Nat, E <: Nat]     = E
-  override type IfL[T <: TList, E <: TList] = E
+  override type IfL[T <: List, E <: List] = E
 }
 
 trait BoolFunctions {
@@ -37,7 +37,7 @@ trait BoolFunctions {
 
   type ifb[B <: Bool, T <: Bool, E <: Bool]   = B#IfB[T, E]
   type ifn[B <: Bool, T <: Nat, E <: Nat]     = B#IfN[T, E]
-  type ifl[B <: Bool, T <: TList, E <: TList] = B#IfL[T, E]
+  type ifl[B <: Bool, T <: List, E <: List] = B#IfL[T, E]
 }
 
 object Bool extends BoolFunctions
