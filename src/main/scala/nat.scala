@@ -6,17 +6,40 @@ import Bool._
 sealed trait Nat {
   type Pred                                  <: Nat
   type Plus  [N <: Nat]                      <: Nat
-  type Mult  [N <: Nat]                      <: Nat
+  type Mult  [N <: Nat, A <: Nat]            <: Nat
   type Min   [N <: Nat, O <: Nat, NO <: Nat] <: Nat
   type IsZero                                <: Bool
   type Equal [N <: Nat]                      <: Bool
   type Lower [N <: Nat]                      <: Bool
 }
 
+sealed trait Succ[P <: Nat] extends Nat {
+  override type Pred                                  = P
+  override type Plus  [N <: Nat]                      = Succ[N + Pred]
+  override type Mult  [N <: Nat, A <: Nat]            = Pred#Mult[N, N + A]
+  override type Min   [N <: Nat, O <: Nat, NO <: Nat] = ifn[isZero[N], NO, Pred#Min[pred[N], O, NO]]
+  override type IsZero                                = False
+
+  private type loop   [N <: Nat, F[_ <: Nat] <: Bool] = ifb[isZero[N], False, F[pred[N]]]
+
+  override type Equal [N <: Nat]                      = loop[N, Pred#Equal]
+  override type Lower [N <: Nat]                      = loop[N, Pred#Lower]
+}
+
+sealed trait Zero extends Nat {
+  override type Pred                                  = _0
+  override type Plus  [N <: Nat]                      = N
+  override type Mult  [N <: Nat, A <: Nat]            = A
+  override type Min   [N <: Nat, O <: Nat, NO <: Nat] = O
+  override type IsZero                                = True
+  override type Equal [N <: Nat]                      = isZero[N]
+  override type Lower [N <: Nat]                      = ![Equal[N]]
+}
+
 trait NatFunctions {
   type pred  [N <: Nat]           = N#Pred
   type +     [L <: Nat, R <: Nat] = L#Plus[R]
-  type *     [L <: Nat, R <: Nat] = L#Mult[R]
+  type *     [L <: Nat, R <: Nat] = L#Mult[R, _0]
   type min   [L <: Nat, R <: Nat] = L#Min[R, L, R]
   type isZero[N <: Nat]           = N#IsZero
   type ==    [L <: Nat, R <: Nat] = L#Equal[R]
@@ -43,24 +66,3 @@ trait NatInstances {
 }
 
 object Nat extends NatFunctions with NatInstances
-
-sealed trait Succ[P <: Nat] extends Nat {
-  override type Pred                                  = P
-  override type Plus  [N <: Nat]                      = Succ[N + Pred]
-  override type Min   [N <: Nat, O <: Nat, NO <: Nat] = ifn[isZero[N], NO, Pred#Min[pred[N], O, NO]]
-  override type IsZero                                = False
-
-  private type loop   [N <: Nat, F[_ <: Nat] <: Bool] = ifb[isZero[N], False, F[pred[N]]]
-
-  override type Equal [N <: Nat]                      = loop[N, Pred#Equal]
-  override type Lower [N <: Nat]                      = loop[N, Pred#Lower]
-}
-
-sealed trait Zero extends Nat {
-  override type Pred                                  = Zero
-  override type Plus  [N <: Nat]                      = N
-  override type Min   [N <: Nat, O <: Nat, NO <: Nat] = O
-  override type IsZero                                = True
-  override type Equal [N <: Nat]                      = isZero[N]
-  override type Lower [N <: Nat]                      = ![Equal[N]]
-}

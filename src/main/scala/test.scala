@@ -30,6 +30,11 @@ object NatTest {
 
   implicitly[_4 max _3 =:= _4]
   implicitly[_1 max _4 =:= _4]
+
+  implicitly[_5 * _1   =:= _5]
+  implicitly[_2 * _3   =:= _6]
+  implicitly[_4 * _2   =:= _8]
+  implicitly[_3 * _3   =:= _9]
 }
 
 object BoolTest {

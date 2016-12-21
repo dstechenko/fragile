@@ -28,7 +28,7 @@ sealed trait ::[H <: Nat, T <: List] extends List {
   override type Equal         [L <: List]                              = True
   override type Reversed                                               = T#Reversed#Concat[H :: Nil]
   override type Sorted                                                 = T#Min[H] :: (H :: T)#Remove[T#Min[H]]#Sorted
-  override type Size                                                   = T#Size + _1
+  override type Size                                                   = Succ[T#Size]
 
   override protected type This                                         = H :: T
   override protected type Min [N <: Nat]                               = T#Min[H min N]
