@@ -31,6 +31,8 @@ object NatTest {
   implicitly[_4 max _3 =:= _4]
   implicitly[_1 max _4 =:= _4]
 
+  implicitly[_9 * _0   =:= _0]
+  implicitly[_0 * _9   =:= _0]
   implicitly[_5 * _1   =:= _5]
   implicitly[_2 * _3   =:= _6]
   implicitly[_4 * _2   =:= _8]
@@ -57,14 +59,6 @@ object MapTest {
   implicitly[expected =:= result]
 }
 
-object ReduceTest {
-  type given    = _1 :: _1 :: _0 :: _2 :: _1 :: _0 :: Nil
-  type expected = _5
-  type result   = given reduce ({ type F[N <: Nat, A <: Nat] = A + N })#F
-
-  implicitly[expected =:= result]
-}
-
 object FilterTest {
   type given    = _1 :: _2 :: _0 :: _2 :: _3 :: _5 :: _4 :: _1 :: Nil
   type expected = _1 :: _2 :: _0 :: _2 :: _3 :: _1 :: Nil
@@ -81,10 +75,10 @@ object RemoveTest {
   implicitly[expected =:= result]
 }
 
-object SortedTest {
+object SortTest {
   type given    = _0 :: _5 :: _3 :: _4 :: _2 :: _1 :: Nil
   type expected = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: Nil
-  type result   = sorted[given]
+  type result   = sort[given]
 
   implicitly[expected =:= result]
 }
@@ -98,10 +92,10 @@ object ConcatTest {
   implicitly[expected =:= result]
 }
 
-object ReversedTest {
+object ReverseTest {
   type given    = _0 :: _1 :: _2 :: _3 :: Nil
   type expected = _3 :: _2 :: _1 :: _0 :: Nil
-  type result   = reversed[given]
+  type result   = reverse[given]
 
   implicitly[expected =:= result]
 }
@@ -113,6 +107,15 @@ object SumTest {
 
   implicitly[expected =:= result]
 }
+
+object ProductTest {
+  type given    = _1 :: _2 :: _3 :: Nil
+  type expected = _6
+  // type result   = product[given]
+
+  // implicitly[expected =:= result]
+}
+
 
 object SizeTest {
   type given    = _0 :: _1 :: _2 :: _3 :: Nil
@@ -127,6 +130,6 @@ object EqualTest {
   type same  = _0 :: _1 :: _2 :: _3 :: Nil
   type other = _0 :: _2 :: _1 :: _3 :: Nil
 
-  implicitly[===[given, same]  =:= True]
-  implicitly[===[given, other] =:= True]
+  // implicitly[===[_0 :: Nil, _0 :: Nil]  =:= False]
+  // implicitly[===[given, other] =:= False]
 }
