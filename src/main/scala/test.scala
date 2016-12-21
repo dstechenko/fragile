@@ -108,3 +108,20 @@ object SumTest {
 
   implicitly[expected =:= result]
 }
+
+object SizeTest {
+  type given    = _0 :: _1 :: _2 :: _3 :: Nil
+  type expected = _4
+  type result   = size[given]
+
+  implicitly[expected =:= result]
+}
+
+object EqualTest {
+  type given = _0 :: _1 :: _2 :: _3 :: Nil
+  type same  = _0 :: _1 :: _2 :: _3 :: Nil
+  type other = _0 :: _2 :: _1 :: _3 :: Nil
+
+  implicitly[===[given, same]  =:= True]
+  implicitly[===[given, other] =:= True]
+}
