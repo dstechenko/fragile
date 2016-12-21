@@ -66,3 +66,11 @@ object ConcatTest {
 
   implicitly[expected =:= result]
 }
+
+object ReversedTest {
+  type given    = _0 :: _1 :: _2 :: _3 :: TNil
+  type expected = _3 :: _2 :: _1 :: _0 :: TNil
+  type result   = reversed[given]
+
+  implicitly[expected =:= result]
+}
