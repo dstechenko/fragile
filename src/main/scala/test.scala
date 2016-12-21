@@ -4,11 +4,24 @@ import TList._
 
 object NatTest {
   implicitly[_2 + _3 =:= _5]
+
   implicitly[_2 == _2 =:= True]
   implicitly[_2 == _3 =:= False]
+
   implicitly[_2 <= _3 =:= True]
   implicitly[_3 <= _3 =:= True]
   implicitly[_4 <= _3 =:= False]
+
+  implicitly[_3 >= _3 =:= True]
+  implicitly[_3 >= _2 =:= True]
+  implicitly[_2 >= _3 =:= False]
+
+  implicitly[_2 < _3 =:= True]
+  implicitly[_3 < _3 =:= False]
+
+  implicitly[_4 > _3 =:= True]
+  implicitly[_3 > _3 =:= False]
+
   implicitly[_4 min _3 =:= _3]
   implicitly[_1 min _4 =:= _1]
 }
@@ -71,6 +84,14 @@ object ReversedTest {
   type given    = _0 :: _1 :: _2 :: _3 :: TNil
   type expected = _3 :: _2 :: _1 :: _0 :: TNil
   type result   = reversed[given]
+
+  implicitly[expected =:= result]
+}
+
+object SumTest {
+  type given    = _0 :: _1 :: _2 :: _3 :: TNil
+  type expected = _6
+  type result   = sum[given]
 
   implicitly[expected =:= result]
 }
