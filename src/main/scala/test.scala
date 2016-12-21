@@ -19,41 +19,41 @@ object BoolTest {
 }
 
 object MapTest {
-  type given = _3 :: _1 :: _2 :: _4 :: _0 :: TNil
+  type given    = _3 :: _1 :: _2 :: _4 :: _0 :: TNil
   type expected = _4 :: _2 :: _3 :: _5 :: _1 :: TNil
-  type result = given map ({type F[N <: Nat] = N + _1})#F
+  type result   = given map ({ type F[N <: Nat] = N + _1 })#F
 
   implicitly[expected =:= result]
 }
 
 object ReduceTest {
-  type given = _1 :: _1 :: _0 :: _2 :: _1 :: _0 :: TNil
+  type given    = _1 :: _1 :: _0 :: _2 :: _1 :: _0 :: TNil
   type expected = _5
-  type result = given reduce ({type F[N <: Nat, A <: Nat] = N + A})#F
+  type result   = given reduce ({ type F[N <: Nat, A <: Nat] = N + A })#F
 
   implicitly[expected =:= result]
 }
 
 object FilterTest {
-  type given = _1 :: _2 :: _0 :: _2 :: _3 :: _5 :: _4 :: _1 :: TNil
+  type given    = _1 :: _2 :: _0 :: _2 :: _3 :: _5 :: _4 :: _1 :: TNil
   type expected = _1 :: _2 :: _0 :: _2 :: _3 :: _1 :: TNil
-  type result = given filter ({type F[N <: Nat] = N <= _3})#F
+  type result   = given filter ({ type F[N <: Nat] = N <= _3 })#F
 
   implicitly[expected =:= result]
 }
 
 object RemoveTest {
-  type given = _1 :: _2 :: _3 :: _2 :: TNil
+  type given    = _1 :: _2 :: _3 :: _2 :: TNil
   type expected = _1 :: _2 :: _2 :: TNil
-  type result = given remove _3
+  type result   = given remove _3
 
   implicitly[expected =:= result]
 }
 
 object SortedTest {
-  type given = _0 :: _5 :: _3 :: _4 :: _2 :: _1 :: TNil
+  type given    = _0 :: _5 :: _3 :: _4 :: _2 :: _1 :: TNil
   type expected = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: TNil
-  type result = sorted[given]
+  type result   = sorted[given]
 
   implicitly[expected =:= result]
 }
