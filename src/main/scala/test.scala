@@ -57,3 +57,12 @@ object SortedTest {
 
   implicitly[expected =:= result]
 }
+
+object ConcatTest {
+  type givenLeft  = _0 :: _2 :: _1 :: TNil
+  type givenRight = _4 :: _3 :: _5 :: TNil
+  type expected   = _0 :: _2 :: _1 :: _4 :: _3 :: _5 :: TNil
+  type result     = givenLeft ::: givenRight
+
+  implicitly[expected =:= result]
+}

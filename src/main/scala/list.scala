@@ -21,7 +21,7 @@ sealed trait ::[H <: Nat, T <: TList] extends TList {
   override type Remove[N <: Nat]                             = ifl[H == N, T, H :: T#Remove[N]]
   override type Sorted                                       = T#Min[H] :: (H :: T)#Remove[T#Min[H]]#Sorted
   override type Min[N <: Nat]                                = T#Min[H min N]
-  override type Concat[L <: TList]                           = ???
+  override type Concat[L <: TList]                           = H :: T#Concat[L]
 }
 
 sealed trait TNil extends TList {
@@ -40,6 +40,7 @@ trait TListFunctions {
   type filter[L <: TList, F[_ <: Nat] <: Bool]          = L#Filter[F]
   type remove[L <: TList, N <: Nat]                     = L#Remove[N]
   type sorted[L <: TList]                               = L#Sorted
+  type :::[L <: TList, R <: TList]                      = L#Concat[R]
 }
 
 object TList extends TListFunctions
