@@ -10,7 +10,6 @@ sealed trait List {
   type Filter[F[_ <: Nat] <: Bool] <: List
   type Remove[N <: Nat] <: List
   type Sorted <: List
-  type Min[N <: Nat] <: Nat
   type Concat[L <: List] <: List
   type Reversed <: List
   type This <: List
@@ -18,6 +17,7 @@ sealed trait List {
   type NonEmpty = ![IsEmpty]
   type Equal[L <: List] <: Bool
   type Sum = Reduce[({ type F[N <: Nat, A <: Nat] = A + N })#F]
+  protected type Min[N <: Nat] <: Nat
 }
 
 sealed trait ::[H <: Nat, T <: List] extends List {
@@ -26,12 +26,12 @@ sealed trait ::[H <: Nat, T <: List] extends List {
   override type Filter[F[_ <: Nat] <: Bool]                  = ifl[F[H], H :: T#Filter[F], T#Filter[F]]
   override type Remove[N <: Nat]                             = ifl[H == N, T, H :: T#Remove[N]]
   override type Sorted                                       = T#Min[H] :: (H :: T)#Remove[T#Min[H]]#Sorted
-  override type Min[N <: Nat]                                = T#Min[H min N]
   override type Concat[L <: List]                            = H :: T#Concat[L]
   override type Reversed                                     = T#Reversed#Concat[H :: Nil]
   override type This                                         = H :: T
   override type IsEmpty                                      = False
   override type Equal[L <: List]                             = True
+  override protected type Min[N <: Nat]                      = T#Min[H min N]
 }
 
 sealed trait Nil extends List {
@@ -40,12 +40,12 @@ sealed trait Nil extends List {
   override type Filter[F[_ <: Nat] <: Bool]                  = Nil
   override type Remove[N <: Nat]                             = Nil
   override type Sorted                                       = Nil
-  override type Min[N <: Nat]                                = N
   override type Concat[L <: List]                            = L
   override type Reversed                                     = Nil
   override type IsEmpty                                      = True
   override type This                                         = Nil
   override type Equal[L <: List]                             = L#IsEmpty
+  override protected type Min[N <: Nat]                      = N
 }
 
 trait TListFunctions {
