@@ -46,7 +46,7 @@ object Nat extends NatFunctions with NatInstances
 
 sealed trait Succ[P <: Nat] extends Nat {
   override type Pred                                  = P
-  override type Plus  [N <: Nat]                      = Succ[Pred + N]
+  override type Plus  [N <: Nat]                      = Succ[N + Pred]
   override type Min   [N <: Nat, O <: Nat, NO <: Nat] = ifn[isZero[N], NO, Pred#Min[pred[N], O, NO]]
   override type IsZero                                = False
 
