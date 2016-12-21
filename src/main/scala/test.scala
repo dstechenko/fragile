@@ -48,7 +48,7 @@ object MapTest {
 object ReduceTest {
   type given    = _1 :: _1 :: _0 :: _2 :: _1 :: _0 :: Nil
   type expected = _5
-  type result   = given reduce ({ type F[N <: Nat, A <: Nat] = N + A })#F
+  type result   = given reduce ({ type F[N <: Nat, A <: Nat] = A + N })#F
 
   implicitly[expected =:= result]
 }

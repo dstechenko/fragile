@@ -6,6 +6,7 @@ import Bool._
 sealed trait Nat {
   type Pred <: Nat
   type Plus[N <: Nat] <: Nat
+  type Mult[N <: Nat] <: Nat
   type Min[N <: Nat, O <: Nat, NO <: Nat] <: Nat
   type Max[N <: Nat, O <: Nat, NO <: Nat] <: Nat
   type IsZero <: Bool
