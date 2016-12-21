@@ -8,6 +8,9 @@ object NatTest {
   implicitly[_2 == _2 =:= True]
   implicitly[_2 == _3 =:= False]
 
+  implicitly[_2 =/= _2 =:= False]
+  implicitly[_2 =/= _3 =:= True]
+
   implicitly[_2 <= _3 =:= True]
   implicitly[_3 <= _3 =:= True]
   implicitly[_4 <= _3 =:= False]

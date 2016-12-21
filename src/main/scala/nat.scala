@@ -10,6 +10,7 @@ sealed trait Nat {
   type Max[N <: Nat, O <: Nat, NO <: Nat] <: Nat
   type IsZero <: Bool
   type Equal[N <: Nat] <: Bool
+  type NotEqual[N <: Nat] = ![Equal[N]]
   type LowerEqual[N <: Nat] <: Bool
   type GreaterEqual[N <: Nat] = Greater[N] || Equal[N]
   type Lower[N <: Nat]        = ![GreaterEqual[N]]
@@ -23,6 +24,7 @@ trait NatFunctions {
   type max[L <: Nat, R <: Nat] = L#Max[R, L, R]
   type isZero[N <: Nat]        = N#IsZero
   type ==[L <: Nat, R <: Nat]  = L#Equal[R]
+  type =/=[L <: Nat, R <: Nat] = L#NotEqual[R]
   type <=[L <: Nat, R <: Nat]  = L#LowerEqual[R]
   type >=[L <: Nat, R <: Nat]  = L#GreaterEqual[R]
   type <[L <: Nat, R <: Nat]   = L#Lower[R]
