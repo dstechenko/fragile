@@ -87,14 +87,14 @@ trait TListFunctions {
   type corresponds     [L <: List, R <: List]                              = L forall ({ type F[N <: Nat] = (L indexOf N) == (R indexOf N) })#F
   type ===             [L <: List, R <: List]                              = (size[L] == size[R]) && (L corresponds R) && (R corresponds L)
   type isDefinedAt     [L <: List, N <: Nat]                               = size[L] >= N
+  type distinct        [L <: List]                                         = reverse[reverse[L]#Distinct]
+  type isDistinct      [L <: List]                                         = L === distinct[L]
 
   type indexWhere      [L <: List, F[_ <: Nat] <: Bool]                    = Nothing
   type indexWhereFrom  [L <: List, F[_ <: Nat] <: Bool, B <: Nat]          = Nothing
   type indexOfSlice    [L <: List, R <: List]                              = Nothing
   type indexOfSliceFrom[L <: List, R <: List, B <: Nat]                    = Nothing
   type containsSlice   [L <: List, R <: List]                              = Nothing
-  type distinct        [L <: List]                                         = reverse[reverse[L]#Distinct]
-  type isDistinct      [L <: List]                                         = L === distinct[L]
   type dropLeft        [L <: List, N <: Nat]                               = Nothing
   type dropRight       [L <: List, N <: Nat]                               = Nothing
   type dropWhile       [L <: List, F[_ <: Nat] <: Bool]                    = Nothing
