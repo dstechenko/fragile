@@ -125,6 +125,13 @@ object SizeTest {
   implicitly[expected =:= result]
 }
 
+object ContainsTest {
+  type given    = _0 :: _1 :: _2 :: _3 :: Nil
+
+  implicitly[given contains _2 =:= True]
+  implicitly[given contains _4 =:= False]
+}
+
 object CountTest {
   type given    = _0 :: _1 :: _2 :: _3 :: Nil
   type expected = _2

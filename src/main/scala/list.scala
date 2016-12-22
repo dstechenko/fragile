@@ -75,6 +75,7 @@ trait TListFunctions {
   type sum     [L <: List]                                         = L reduceP ({ type F[LN <: Nat, RN <: Nat] = RN + LN })#F
   type product [L <: List]                                         = L reduceM ({ type F[LN <: Nat, RN <: Nat] = RN * LN })#F
   type count   [L <: List, F[_ <: Nat] <: Bool]                    = size[L filter F]
+  type contains[L <: List, M <: Nat]                               = nonEmpty[L filter ({ type F[N <: Nat] = M == N })#F]
 }
 
 object List extends TListFunctions
