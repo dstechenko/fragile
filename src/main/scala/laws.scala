@@ -244,6 +244,14 @@ object RemoveAllLaws {
   implicitly[expected =:= result]
 }
 
+object DropLeftLaws {
+  type given    = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: Nil
+  type expected =                   _3 :: _4 :: _5 :: Nil
+  type result   = given dropLeft  _3
+
+  implicitly[expected =:= result]
+}
+
 object IndexWhereLaws {
   type given    = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: _6 :: Nil
   type expected = _5
@@ -256,14 +264,6 @@ object ProductLaws {
   type given    = _1 :: _2 :: _3 :: Nil
   type expected = _6
   // type result   = product[given]
-
-  // implicitly[expected =:= result]
-}
-
-object DropLeftLaws {
-  type given    = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: Nil
-  type expected =                   _3 :: _4 :: _5 :: Nil
-  // type result    = given dropLeft  _3
 
   // implicitly[expected =:= result]
 }

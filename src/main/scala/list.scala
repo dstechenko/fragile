@@ -17,7 +17,6 @@ sealed trait List {
   type Sort                                                   <: List
   type Size                                                   <: Nat
   type TakeLeft      [N <: Nat]                               <: List
-  type DropLeft      [N <: Nat]                               <: List
   type DropWhile     [F[_ <: Nat] <: Bool]                    <: List
 
   protected type This                                         <: List
@@ -37,7 +36,6 @@ sealed trait ::[H <: Nat, T <: List] extends List {
   override type Sort                                                   = T#Min[H] :: (H :: T)#Remove[T#Min[H]]#Sort
   override type Size                                                   = Succ[T#Size]
   override type TakeLeft      [N <: Nat]                               = ifL[isZero[N],  Nil, Head :: Tail#TakeLeft[N - _1]]
-  override type DropLeft      [N <: Nat]                               = ifL[isZero[N], Tail,         Tail#DropLeft[N - _1]]
 
   override protected type This                                         = Head :: Tail
   override protected type Min [N <: Nat]                               = T#Min[H min N]
@@ -59,7 +57,6 @@ sealed trait Nil extends List {
   override type Sort                                                      = This
   override type Size                                                      = _0
   override type TakeLeft        [N <: Nat]                                = This
-  override type DropLeft        [N <: Nat]                                = This
 
   override protected type This                                            = Nil
   override protected type Min   [N <: Nat]                                = N
@@ -77,7 +74,6 @@ trait TListFunctions {
   type sort                 [L <: List]                                         = L#Sort
   type size                 [L <: List]                                         = L#Size
   type takeLeft             [L <: List, N <: Nat]                               = L#TakeLeft[N]
-  type dropLeft             [L <: List, N <: Nat]                               = L#DropLeft[N]
 
   type isEmpty              [L <: List]                                         = size[L] == _0
   type nonEmpty             [L <: List]                                         = ![isEmpty[L]]
@@ -100,6 +96,7 @@ trait TListFunctions {
   type removeEvery          [L <: List, M <: Nat]                               = L filterNot ({ type F[N <: Nat] = M == N })#F
   type removeAll            [L <: List, R <: List]                              = L filterNot ({ type F[N <: Nat] = R contains N })#F
   type dropRight            [L <: List, N <: Nat]                               = L takeLeft (size[L] - N)
+  type dropLeft             [L <: List, N <: Nat]                               = reverse[reverse[L] takeLeft (size[L] - N)]
   type startsWith           [L <: List, R <: List]                              = (L takeLeft size[R]) === R
 
   type indexWhere           [L <: List, F[_ <: Nat] <: Bool]                    = (L map ({ type FN[N <: Nat] = ifN[F[N], _1, _0] })#FN) indexOf _1
