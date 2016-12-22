@@ -100,6 +100,9 @@ trait TListFunctions {
   type dropRight            [L <: List, N <: Nat]                               = L takeLeft (size[L] - N)
   type takeRight            [L <: List, N <: Nat]                               = L dropLeft (size[L] - N)
   type startsWith           [L <: List, R <: List]                              = (L takeLeft size[R]) === R
+  type startsWithOffset     [L <: List, R <: List, B <: Nat]                    = (L dropLeft B) startsWith R
+  type endsWith             [L <: List, R <: List]                              = (L takeRight size[R]) === R
+  type slice                [L <: List, B <: Nat, E <: Nat]                     = (L dropLeft (B - _1)) dropRight (size[L] - E)
 
   type indexWhere           [L <: List, F[_ <: Nat] <: Bool]                    = (L map ({ type FN[N <: Nat] = ifN[F[N], _1, _0] })#FN) indexOf _1
   type indexWhereFrom       [L <: List, F[_ <: Nat] <: Bool, B <: Nat]          = (L dropLeft B) indexWhere F
@@ -118,9 +121,6 @@ trait TListFunctions {
   type dropWhile            [L <: List, F[_ <: Nat] <: Bool]                    <: List
   type takeWhile            [L <: List, F[_ <: Nat] <: Bool]                    <: List
 
-  type startsWithOffset     [L <: List, R <: List, B <: Nat]                    = (L dropLeft B) startsWith R
-  type endsWith             [L <: List, R <: List]                              = (L takeRight size[R]) === R
-
   type partition            [L <: List, F[_ <: Nat] <: Bool]                    <: List
   type padTo                [L <: List, N <: Nat, E <: Nat]                     <: List
 
@@ -129,7 +129,6 @@ trait TListFunctions {
   type intersect            [L <: List, R <: List]                              <: List
   type permutations         [L <: List]                                         <: List
 
-  type slice                [L <: List, B <: Nat, E <: Nat]                     = (L dropLeft B) dropRight (size[L] - E)
   type product              [L <: List]                                         = L reduceM ({ type F[LN <: Nat, RN <: Nat] = RN * LN })#F
 }
 

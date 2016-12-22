@@ -244,13 +244,23 @@ object DropRightLaws {
   implicitly[expected =:= result]
 }
 
-object StartsWithtLaws {
+object StartsWithLaws {
   type given  = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: Nil
   type prefix = _0 :: _1 :: _2 :: Nil
   type other  = _0 :: _2 :: _1 :: Nil
 
   implicitly[(given startsWith prefix) =:=  True]
   implicitly[(given startsWith other)  =:= False]
+}
+
+object StartsWithOffsetLaws {
+  type given             = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: Nil
+  type prefix            =             _2 :: _3 :: _4 :: Nil
+  type other             = _0 :: _2 :: _1 :: Nil
+  type starts[L <: List] = startsWithOffset[given, L, _2]
+
+  implicitly[starts[prefix] =:=   True]
+  implicitly[starts[other]  =:=  False]
 }
 
 object EndsWithtLaws {
@@ -283,6 +293,14 @@ object TakeRightLaws {
   type given    = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: Nil
   type expected =                   _3 :: _4 :: _5 :: Nil
   type result   = given takeRight _3
+
+  implicitly[expected =:= result]
+}
+
+object SliceLaws {
+  type given    = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: Nil
+  type expected =             _2 :: _3 :: _4       :: Nil
+  type result   = slice[given, _3, _5]
 
   implicitly[expected =:= result]
 }
