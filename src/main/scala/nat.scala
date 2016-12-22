@@ -12,6 +12,8 @@ sealed trait Nat {
   type IsZero                                <: Bool
   type Equal [N <: Nat]                      <: Bool
   type Lower [N <: Nat]                      <: Bool
+
+  protected type This                        <: Nat
 }
 
 sealed trait Succ[P <: Nat] extends Nat {
@@ -27,7 +29,7 @@ sealed trait Succ[P <: Nat] extends Nat {
   override type Equal [N <: Nat]                      = loop[N, Pred#Equal]
   override type Lower [N <: Nat]                      = loop[N, Pred#Lower]
 
-  private type This                                   = Succ[P]
+  override protected type This                        = Succ[P]
 }
 
 sealed trait Zero extends Nat {
@@ -40,7 +42,7 @@ sealed trait Zero extends Nat {
   override type Equal [N <: Nat]                      = isZero[N]
   override type Lower [N <: Nat]                      = ![Equal[N]]
 
-  private type This                                   = Zero
+  override protected type This                        = Zero
 }
 
 trait NatFunctions {
