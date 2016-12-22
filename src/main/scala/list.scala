@@ -99,7 +99,7 @@ trait TListFunctions {
   type isDistinct      [L <: List]                                         = L === distinct[L]
   type removeEvery     [L <: List, M <: Nat]                               = L filterNot ({ type F[N <: Nat] = M == N })#F
   type dropRight       [L <: List, N <: Nat]                               = L takeLeft (size[L] - N)
-  type takeRight       [L <: List, N <: Nat]                               = L dropLeft (size[L] - N)
+  type startsWith      [L <: List, R <: List]                              = (L takeLeft size[R]) === R
 
   type indexWhere      [L <: List, F[_ <: Nat] <: Bool]                    = Nothing
   type indexWhereFrom  [L <: List, F[_ <: Nat] <: Bool, B <: Nat]          = Nothing
@@ -110,10 +110,10 @@ trait TListFunctions {
   type removeSlice     [L <: List, R <: List]                              = Nothing
   type removeAll       [L <: List, R <: List]                              = Nothing
 
+  type takeRight       [L <: List, N <: Nat]                               = L dropLeft (size[L] - N)
   type dropWhile       [L <: List, F[_ <: Nat] <: Bool]                    <: List
   type takeWhile       [L <: List, F[_ <: Nat] <: Bool]                    <: List
 
-  type startsWith      [L <: List, R <: List]                              = (L takeLeft size[R]) === R
   type startsWithOffset[L <: List, R <: List, O <: Nat]                    = (L dropLeft O) startsWith R
   type endsWith        [L <: List, R <: List]                              = (L takeRight size[R]) === R
 
