@@ -63,6 +63,7 @@ sealed trait Nil extends List {
 }
 
 trait TListFunctions {
+  type list                 [N <: Nat]                                          = N :: Nil
   type map                  [L <: List, F[_ <: Nat] <: Nat]                     = L#Map[F]
   type flatMap              [L <: List, F[_ <: Nat] <: List]                    = L#FlatMap[F]
   type filter               [L <: List, F[_ <: Nat] <: Bool]                    = L#Filter[F]

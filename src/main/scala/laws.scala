@@ -1,6 +1,7 @@
 import Bool._
 import Nat._
 import List._
+import Function._
 
 object NatLaws {
   implicitly[_2 + _3   =:= _5]
@@ -58,16 +59,20 @@ object MapLaws {
   type given    = _3 :: _1 :: _2 :: _4 :: _0 :: Nil
   type expected = _4 :: _2 :: _3 :: _5 :: _1 :: Nil
   type result   = given map ({ type F[N <: Nat] = N + _1 })#F
+  type id       = given map identity
 
   implicitly[expected =:= result]
+  implicitly[given    =:=     id]
 }
 
 object FlatMapLaws {
   type given    = _1 :: _2 :: _3 :: _4 :: Nil
   type expected = _2 :: _3 :: _3 :: _4 :: _4 :: _5 :: _5 :: _6 :: Nil
   type result   = given flatMap ({ type F[N <: Nat] = (N + _1) :: (N + _2) :: Nil })#F
+  type id       = given flatMap list
 
   implicitly[expected =:= result]
+  implicitly[given    =:=     id]
 }
 
 object FilterLaws {
