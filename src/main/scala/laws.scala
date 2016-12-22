@@ -253,6 +253,15 @@ object StartsWithtLaws {
   implicitly[(given startsWith other)  =:= False]
 }
 
+object EndsWithtLaws {
+  type given  = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: Nil
+  type suffix = _3 :: _4 :: _5 :: Nil
+  type other  = _2 :: _3 :: _4 :: Nil
+
+  implicitly[(given endsWith suffix) =:=  True]
+  implicitly[(given endsWith other)  =:= False]
+}
+
 object RemoveAllLaws {
   type given    = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: _6 :: Nil
   type delta    =       _1 ::       _3 ::       _5       :: Nil
