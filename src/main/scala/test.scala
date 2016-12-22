@@ -172,11 +172,19 @@ object ForallTest {
   implicitly[forallM[_5] =:= False]
 }
 
+object IndexOfTest {
+  type given    = _3 :: _4 :: _5 :: Nil
+  type expected = _2
+  type result   = given indexOf _4
+
+  implicitly[expected =:= result]
+}
+
 object EqualTest {
   type given = _0 :: _1 :: _2 :: _3 :: Nil
   type same  = _0 :: _1 :: _2 :: _3 :: Nil
   type other = _0 :: _2 :: _1 :: _3 :: Nil
 
-  // implicitly[===[_0 :: Nil, _0 :: Nil]  =:= False]
-  // implicitly[===[given, other] =:= False]
+  implicitly[===[given, same]  =:= True]
+  implicitly[===[given, other] =:= False]
 }
