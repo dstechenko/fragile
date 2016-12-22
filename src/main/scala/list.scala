@@ -16,6 +16,7 @@ sealed trait List {
   type Distinct                                               <: List
   type Sort                                                   <: List
   type Size                                                   <: Nat
+  type TakeLeft      [N <: Nat]                               <: List
   type DropLeft      [N <: Nat]                               <: List
   type DropWhile     [F[_ <: Nat] <: Bool]                    <: List
 
@@ -34,6 +35,8 @@ sealed trait ::[H <: Nat, T <: List] extends List {
   override type Distinct                                               = ifL[Tail contains Head, Tail#Distinct, H :: Tail#Distinct]
   override type Sort                                                   = T#Min[H] :: (H :: T)#Remove[T#Min[H]]#Sort
   override type Size                                                   = Succ[T#Size]
+  override type TakeLeft      [N <: Nat]                               = ifL[isZero[N],  Nil, Head :: Tail#TakeLeft[N - _1]]
+  override type DropLeft      [N <: Nat]                               = ifL[isZero[N], Tail,         Tail#DropLeft[N - _1]]
 
   private type This                                                    = Head :: Tail
   override protected type Min [N <: Nat]                               = T#Min[H min N]
@@ -54,6 +57,8 @@ sealed trait Nil extends List {
   override type Distinct                                                  = This
   override type Sort                                                      = This
   override type Size                                                      = _0
+  override type TakeLeft        [N <: Nat]                                = This
+  override type DropLeft        [N <: Nat]                                = This
 
   private type This                                                       = Nil
   override protected type Min   [N <: Nat]                                = N
@@ -70,6 +75,8 @@ trait TListFunctions {
   type reverse         [L <: List]                                         = L#Reverse
   type sort            [L <: List]                                         = L#Sort
   type size            [L <: List]                                         = L#Size
+  type takeLeft        [L <: List, N <: Nat]                               = L#TakeLeft[N]
+  type dropLeft        [L <: List, N <: Nat]                               = L#DropLeft[N]
 
   type isEmpty         [L <: List]                                         = size[L] == _0
   type nonEmpty        [L <: List]                                         = ![isEmpty[L]]
@@ -91,6 +98,8 @@ trait TListFunctions {
   type distinct        [L <: List]                                         = reverse[reverse[L]#Distinct]
   type isDistinct      [L <: List]                                         = L === distinct[L]
   type removeEvery     [L <: List, M <: Nat]                               = L filterNot ({ type F[N <: Nat] = M == N })#F
+  type dropRight       [L <: List, N <: Nat]                               = L takeLeft (size[L] - N)
+  type takeRight       [L <: List, N <: Nat]                               = L dropLeft (size[L] - N)
 
   type indexWhere      [L <: List, F[_ <: Nat] <: Bool]                    = Nothing
   type indexWhereFrom  [L <: List, F[_ <: Nat] <: Bool, B <: Nat]          = Nothing
@@ -101,17 +110,14 @@ trait TListFunctions {
   type removeSlice     [L <: List, R <: List]                              = Nothing
   type removeAll       [L <: List, R <: List]                              = Nothing
 
-  type dropLeft        [L <: List, N <: Nat]                               <: List
-  type dropRight       [L <: List, N <: Nat]                               <: List
   type dropWhile       [L <: List, F[_ <: Nat] <: Bool]                    <: List
-
-  type takeLeft        [L <: List, N <: Nat]                               <: List
-  type takeRigh        [L <: List, N <: Nat]                               <: List
   type takeWhile       [L <: List, F[_ <: Nat] <: Bool]                    <: List
 
-  type startsWith      [L <: List, R <: List]                              = Nothing
-  type startsWithOffset[L <: List, R <: List, O <: Nat]                    = Nothing
-  type endsWith        [L <: List, R <: List]                              = Nothing
+  type startsWith      [L <: List, R <: List]                              = (L takeLeft size[R]) === R
+  type startsWithOffset[L <: List, R <: List, O <: Nat]                    = (L dropLeft O) startsWith R
+  type endsWith        [L <: List, R <: List]                              = (L takeRight size[R]) === R
+
+  type partition       [L <: List, F[_ <: Nat] <: Bool]                    <: List
 
   type diff            [L <: List, R <: List]                              = Nothing
   type union           [L <: List, R <: List]                              = Nothing

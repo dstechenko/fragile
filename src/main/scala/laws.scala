@@ -2,7 +2,7 @@ import Bool._
 import Nat._
 import List._
 
-object NatTest {
+object NatLaws {
   implicitly[_2 + _3   =:= _5]
 
   implicitly[_2 - _3   =:= _0]
@@ -42,7 +42,7 @@ object NatTest {
   implicitly[_3 * _3   =:= _9]
 }
 
-object BoolTest {
+object BoolLaws {
   implicitly[![False]       =:= True]
   implicitly[![True]        =:= False]
 
@@ -54,7 +54,7 @@ object BoolTest {
   implicitly[True  && True  =:= True]
 }
 
-object MapTest {
+object MapLaws {
   type given    = _3 :: _1 :: _2 :: _4 :: _0 :: Nil
   type expected = _4 :: _2 :: _3 :: _5 :: _1 :: Nil
   type result   = given map ({ type F[N <: Nat] = N + _1 })#F
@@ -62,7 +62,7 @@ object MapTest {
   implicitly[expected =:= result]
 }
 
-object FlatMapTest {
+object FlatMapLaws {
   type given    = _1 :: _2 :: _3 :: _4 :: Nil
   type expected = _2 :: _3 :: _3 :: _4 :: _4 :: _5 :: _5 :: _6 :: Nil
   type result   = given flatMap ({ type F[N <: Nat] = (N + _1) :: (N + _2) :: Nil })#F
@@ -70,7 +70,7 @@ object FlatMapTest {
   implicitly[expected =:= result]
 }
 
-object FilterTest {
+object FilterLaws {
   type given    = _1 :: _2 :: _0 :: _2 :: _3 :: _5 :: _4 :: _1 :: Nil
   type expected = _1 :: _2 :: _0 :: _2 :: _3 :: _1 :: Nil
   type result   = given filter ({ type F[N <: Nat] = N <= _3 })#F
@@ -78,7 +78,7 @@ object FilterTest {
   implicitly[expected =:= result]
 }
 
-object FilterNotTest {
+object FilterNotLaws {
   type given    = _1 :: _2 :: _0 :: _2 :: _3 :: _5 :: _4 :: _1 :: Nil
   type expected = _1 :: _2 :: _0 :: _2 :: _3 :: _1 :: Nil
   type result   = given filterNot ({ type F[N <: Nat] = N > _3 })#F
@@ -86,7 +86,7 @@ object FilterNotTest {
   implicitly[expected =:= result]
 }
 
-object RemoveTest {
+object RemoveLaws {
   type given    = _1 :: _2 :: _3 :: _2 :: Nil
   type expected = _1 :: _2 ::       _2 :: Nil
   type result   = given remove _3
@@ -94,7 +94,7 @@ object RemoveTest {
   implicitly[expected =:= result]
 }
 
-object SortAscTest {
+object SortAscLaws {
   type given    = _0 :: _5 :: _3 :: _4 :: _2 :: _1 :: Nil
   type expected = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: Nil
   type result   = sortAsc[given]
@@ -102,7 +102,7 @@ object SortAscTest {
   implicitly[expected =:= result]
 }
 
-object SortDescTest {
+object SortDescLaws {
   type given    = _0 :: _3 :: _4 :: _2 :: _5 :: _1 :: Nil
   type expected = _5 :: _4 :: _3 :: _2 :: _1 :: _0 :: Nil
   type result   = sortDesc[given]
@@ -110,7 +110,7 @@ object SortDescTest {
   implicitly[expected =:= result]
 }
 
-object ConcatTest {
+object ConcatLaws {
   type givenLeft  = _0 :: _2 :: _1 :: Nil
   type givenRight =                   _4 :: _3 :: _5 :: Nil
   type expected   = _0 :: _2 :: _1 :: _4 :: _3 :: _5 :: Nil
@@ -119,7 +119,7 @@ object ConcatTest {
   implicitly[expected =:= result]
 }
 
-object ReverseTest {
+object ReverseLaws {
   type given    = _0 :: _1 :: _2 :: _3 :: Nil
   type expected = _3 :: _2 :: _1 :: _0 :: Nil
   type result   = reverse[given]
@@ -127,7 +127,7 @@ object ReverseTest {
   implicitly[expected =:= result]
 }
 
-object SumTest {
+object SumLaws {
   type given    = _0 :: _1 :: _2 :: _3 :: Nil
   type expected = _6
   type result   = sum[given]
@@ -135,7 +135,7 @@ object SumTest {
   implicitly[expected =:= result]
 }
 
-object ProductTest {
+object ProductLaws {
   type given    = _1 :: _2 :: _3 :: Nil
   type expected = _6
   // type result   = product[given]
@@ -144,7 +144,7 @@ object ProductTest {
 }
 
 
-object SizeTest {
+object SizeLaws {
   type given    = _0 :: _1 :: _2 :: _3 :: Nil
   type expected = _4
   type result   = size[given]
@@ -152,14 +152,14 @@ object SizeTest {
   implicitly[expected =:= result]
 }
 
-object ContainsTest {
+object ContainsLaws {
   type given = _0 :: _1 :: _2 :: _3 :: Nil
 
   implicitly[given contains _2 =:= True]
   implicitly[given contains _4 =:= False]
 }
 
-object ContainsAllTest {
+object ContainsAllLaws {
   type given = _0 :: _1 :: _2 :: _3 :: Nil
   type all   = _2 :: _0 :: Nil
   type other = _1 :: _4 :: Nil
@@ -168,7 +168,7 @@ object ContainsAllTest {
   implicitly[given containsAll other =:= False]
 }
 
-object CountTest {
+object CountLaws {
   type given    = _0 :: _1 :: _2 :: _3 :: Nil
   type expected = _2
   type result   = given count ({ type F[N <: Nat] = N >= _2 })#F
@@ -176,7 +176,7 @@ object CountTest {
   implicitly[expected =:= result]
 }
 
-object ExistsTest {
+object ExistsLaws {
   type given                 = _0 :: _1 :: _2 :: _3 :: Nil
   type existsEqual[M <: Nat] = given exists ({ type F[N <: Nat] = N == M })#F
 
@@ -184,7 +184,7 @@ object ExistsTest {
   implicitly[existsEqual[_5] =:= False]
 }
 
-object ForallTest {
+object ForallLaws {
   type given                   = _3 :: _4 :: _5 :: Nil
   type forallGreater[M <: Nat] = given forall ({ type F[N <: Nat] = N > M })#F
 
@@ -192,7 +192,7 @@ object ForallTest {
   implicitly[forallGreater[_3] =:= False]
 }
 
-object IndexOfTest {
+object IndexOfLaws {
   type given    = _3 :: _4 :: _5 :: Nil
   type expected = _2
   type result   = given indexOf _4
@@ -200,7 +200,7 @@ object IndexOfTest {
   implicitly[expected =:= result]
 }
 
-object EqualTest {
+object EqualLaws {
   type given = _0 :: _1 :: _2 :: _3 :: Nil
   type same  = _0 :: _1 :: _2 :: _3 :: Nil
   type other = _0 :: _2 :: _1 :: _3 :: Nil
@@ -209,7 +209,7 @@ object EqualTest {
   implicitly[===[given, other] =:= False]
 }
 
-object DistinctTest {
+object DistinctLaws {
   type given    = _0 :: _0 :: _1 :: _2 :: _1 :: _0  :: _0 :: Nil
   type expected = _0 ::       _1 :: _2                    :: Nil
   type result   = distinct[given]
@@ -217,4 +217,36 @@ object DistinctTest {
   implicitly[expected           =:= result]
   implicitly[isDistinct[given]  =:=  False]
   implicitly[isDistinct[result] =:=   True]
+}
+
+object TakeLeftLaws {
+  type given     = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: Nil
+  type expected  = _0 :: _1 :: _2                   :: Nil
+  type result     = given takeLeft  _3
+
+  implicitly[expected =:= result]
+}
+
+object DropRightLaws {
+  type given     = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: Nil
+  type expected  = _0 :: _1 :: _2                   :: Nil
+  type result   = given dropRight _3
+
+  implicitly[expected =:= result]
+}
+
+object DropLeftLaws {
+  type given     = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: Nil
+  type expected  =                   _3 :: _4 :: _5 :: Nil
+  // type result    = given dropLeft  _3
+
+  // implicitly[expected =:= result]
+}
+
+object TakeRightLaws {
+  type given     = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: Nil
+  type expected  =                   _3 :: _4 :: _5 :: Nil
+  // type result   = given takeRight _3
+
+  // implicitly[expected =:= result]
 }
