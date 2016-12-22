@@ -111,7 +111,7 @@ object SortDescLaws {
 }
 
 object ConcatLaws {
-  type givenLeft  = _0 :: _2 :: _1 :: Nil
+  type givenLeft  = _0 :: _2 :: _1                   :: Nil
   type givenRight =                   _4 :: _3 :: _5 :: Nil
   type expected   = _0 :: _2 :: _1 :: _4 :: _3 :: _5 :: Nil
   type result     = givenLeft ::: givenRight
@@ -134,15 +134,6 @@ object SumLaws {
 
   implicitly[expected =:= result]
 }
-
-object ProductLaws {
-  type given    = _1 :: _2 :: _3 :: Nil
-  type expected = _6
-  // type result   = product[given]
-
-  // implicitly[expected =:= result]
-}
-
 
 object SizeLaws {
   type given    = _0 :: _1 :: _2 :: _3 :: Nil
@@ -235,6 +226,33 @@ object DropRightLaws {
   implicitly[expected =:= result]
 }
 
+object StartsWithtLaws {
+  type given  = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: Nil
+  type prefix = _0 :: _1 :: _2 :: Nil
+  type other  = _0 :: _2 :: _1 :: Nil
+
+  implicitly[(given startsWith prefix) =:=  True]
+  implicitly[(given startsWith other)  =:= False]
+}
+
+object RemoveAllLaws {
+  type given    = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: _6 :: Nil
+  type delta    =       _1 ::       _3 ::       _5       :: Nil
+  type expected = _0 ::       _2 ::       _4 ::       _6 :: Nil
+  type result   = given removeAll delta
+
+  implicitly[expected =:= result]
+}
+
+
+object ProductLaws {
+  type given    = _1 :: _2 :: _3 :: Nil
+  type expected = _6
+  // type result   = product[given]
+
+  // implicitly[expected =:= result]
+}
+
 object DropLeftLaws {
   type given    = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: Nil
   type expected =                   _3 :: _4 :: _5 :: Nil
@@ -249,13 +267,4 @@ object TakeRightLaws {
   // type result   = given takeRight _3
 
   // implicitly[expected =:= result]
-}
-
-object StartsWithtLaws {
-  type given  = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: Nil
-  type prefix = _0 :: _1 :: _2 :: Nil
-  type other  = _0 :: _2 :: _1 :: Nil
-
-  implicitly[(given startsWith prefix) =:=  True]
-  implicitly[(given startsWith other)  =:= False]
 }
