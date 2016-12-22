@@ -78,6 +78,7 @@ trait TListFunctions {
   type contains [L <: List, M <: Nat]                               = nonEmpty[L filter ({ type F[N <: Nat] = M == N })#F]
   type exists   [L <: List, F[_ <: Nat] <: Bool]                    = (L count F) > _0
   type filterNot[L <: List, F[_ <: Nat] <: Bool]                    = L filter ({ type FN[N <: Nat] = ![F[N]] })#FN
+  type forall   [L <: List, F[_ <: Nat] <: Bool]                    = ![L exists ({ type FN[N <: Nat] = ![F[N]] })#FN]
 }
 
 object List extends TListFunctions

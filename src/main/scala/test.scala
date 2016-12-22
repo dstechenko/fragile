@@ -156,6 +156,13 @@ object ExistsTest {
   implicitly[existsM[_5] =:= False]
 }
 
+object ForallTest {
+  type given             = _3 :: _4 :: _5 :: Nil
+  type forallM[M <: Nat] = given forall ({ type F[N <: Nat] = M <= N })#F
+
+  implicitly[forallM[_3] =:= True]
+  implicitly[forallM[_5] =:= False]
+}
 
 object EqualTest {
   type given = _0 :: _1 :: _2 :: _3 :: Nil
