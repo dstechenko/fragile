@@ -20,10 +20,10 @@ sealed trait List {
 
 sealed trait ::[H <: Nat, T <: List] extends List {
   override type Map           [F[_ <: Nat] <: Nat]                     = F[H] :: T#Map[F]
-  override type Filter        [F[_ <: Nat] <: Bool]                    = ifl[F[H], H :: T#Filter[F], T#Filter[F]]
+  override type Filter        [F[_ <: Nat] <: Bool]                    = ifL[F[H], H :: T#Filter[F], T#Filter[F]]
   override type Fold          [N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat] = F[H, T#Fold[N, F]]
-  override type IndexOf       [N <: Nat, I <: Nat]                     = ifn[Head == N, I + _1, Tail#IndexOf[N, I + _1]]
-  override type Remove        [N <: Nat]                               = ifl[H == N, T, H :: T#Remove[N]]
+  override type IndexOf       [N <: Nat, I <: Nat]                     = ifN[Head == N, I + _1, Tail#IndexOf[N, I + _1]]
+  override type Remove        [N <: Nat]                               = ifL[H == N, T, H :: T#Remove[N]]
   override type Concat        [L <: List]                              = H :: T#Concat[L]
   override type Reverse                                                = T#Reverse#Concat[H :: Nil]
   override type Sort                                                   = T#Min[H] :: (H :: T)#Remove[T#Min[H]]#Sort
@@ -70,6 +70,7 @@ trait TListFunctions {
   type product         [L <: List]                                         = L reduceM ({ type F[LN <: Nat, RN <: Nat] = RN * LN })#F
   type count           [L <: List, F[_ <: Nat] <: Bool]                    = size[L filter F]
   type contains        [L <: List, M <: Nat]                               = nonEmpty[L filter ({ type F[N <: Nat] = M == N })#F]
+  type containsAll     [L <: List, R <: List]                              = R forall ({ type F[N <: Nat] = (L contains N)})#F
   type exists          [L <: List, F[_ <: Nat] <: Bool]                    = (L count F) > _0
   type filterNot       [L <: List, F[_ <: Nat] <: Bool]                    = L filter ({ type FN[N <: Nat] = ![F[N]] })#FN
   type forall          [L <: List, F[_ <: Nat] <: Bool]                    = ![L exists ({ type FN[N <: Nat] = ![F[N]] })#FN]
@@ -84,7 +85,6 @@ trait TListFunctions {
   type indexOfSlice    [L <: List, R <: List]                              = Nothing
   type indexOfSliceFrom[L <: List, R <: List, B <: Nat]                    = Nothing
   type containsSlice   [L <: List, R <: List]                              = Nothing
-  type containsAll     [L <: List, R <: List]                              = Nothing
   type distinct        [L <: List]                                         = Nothing
   type dropLeft        [L <: List, N <: Nat]                               = Nothing
   type dropRight       [L <: List, N <: Nat]                               = Nothing

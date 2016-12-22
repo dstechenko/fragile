@@ -17,10 +17,10 @@ sealed trait Succ[P <: Nat] extends Nat {
   override type Pred                                  = P
   override type Plus  [N <: Nat]                      = Succ[Pred#Plus[N]]
   override type Mult  [N <: Nat, A <: Nat]            = Pred#Mult[N, A#Plus[N]]
-  override type Min   [N <: Nat, O <: Nat, NO <: Nat] = ifn[isZero[N], NO, Pred#Min[pred[N], O, NO]]
+  override type Min   [N <: Nat, O <: Nat, NO <: Nat] = ifN[isZero[N], NO, Pred#Min[pred[N], O, NO]]
   override type IsZero                                = False
 
-  private type loop   [N <: Nat, F[_ <: Nat] <: Bool] = ifb[isZero[N], False, F[pred[N]]]
+  private type loop   [N <: Nat, F[_ <: Nat] <: Bool] = ifB[isZero[N], False, F[pred[N]]]
 
   override type Equal [N <: Nat]                      = loop[N, Pred#Equal]
   override type Lower [N <: Nat]                      = loop[N, Pred#Lower]
@@ -45,7 +45,7 @@ trait NatFunctions {
   type ==    [L <: Nat, R <: Nat] = L#Equal[R]
   type <     [L <: Nat, R <: Nat] = L#Lower[R]
 
-  type max   [L <: Nat, R <: Nat] = ifn[L == min[L, R], R, L]
+  type max   [L <: Nat, R <: Nat] = ifN[L == min[L, R], R, L]
   type =/=   [L <: Nat, R <: Nat] = ![L == R]
   type >     [L <: Nat, R <: Nat] = ![L <= R]
   type <=    [L <: Nat, R <: Nat] = ==[L, R] || <[L, R]

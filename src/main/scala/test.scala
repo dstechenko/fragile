@@ -142,10 +142,19 @@ object SizeTest {
 }
 
 object ContainsTest {
-  type given    = _0 :: _1 :: _2 :: _3 :: Nil
+  type given = _0 :: _1 :: _2 :: _3 :: Nil
 
   implicitly[given contains _2 =:= True]
   implicitly[given contains _4 =:= False]
+}
+
+object ContainsAllTest {
+  type given = _0 :: _1 :: _2 :: _3 :: Nil
+  type all   = _2 :: _0 :: Nil
+  type other = _1 :: _4 :: Nil
+
+  implicitly[given containsAll all   =:= True]
+  implicitly[given containsAll other =:= False]
 }
 
 object CountTest {
