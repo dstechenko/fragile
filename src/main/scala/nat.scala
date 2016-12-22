@@ -6,6 +6,7 @@ import Bool._
 sealed trait Nat {
   type Pred                                  <: Nat
   type Plus  [N <: Nat]                      <: Nat
+  type Minus [N <: Nat]                      <: Nat
   type Mult  [N <: Nat, A <: Nat]            <: Nat
   type Min   [N <: Nat, O <: Nat, NO <: Nat] <: Nat
   type IsZero                                <: Bool
@@ -16,6 +17,7 @@ sealed trait Nat {
 sealed trait Succ[P <: Nat] extends Nat {
   override type Pred                                  = P
   override type Plus  [N <: Nat]                      = Succ[Pred#Plus[N]]
+  override type Minus [N <: Nat]                      = ifN[isZero[N], This, Pred#Minus[N#Pred]]
   override type Mult  [N <: Nat, A <: Nat]            = Pred#Mult[N, A#Plus[N]]
   override type Min   [N <: Nat, O <: Nat, NO <: Nat] = ifN[isZero[N], NO, Pred#Min[pred[N], O, NO]]
   override type IsZero                                = False
@@ -24,21 +26,27 @@ sealed trait Succ[P <: Nat] extends Nat {
 
   override type Equal [N <: Nat]                      = loop[N, Pred#Equal]
   override type Lower [N <: Nat]                      = loop[N, Pred#Lower]
+
+  private type This                                   = Succ[P]
 }
 
 sealed trait Zero extends Nat {
-  override type Pred                                  = _0
+  override type Pred                                  = This
   override type Plus  [N <: Nat]                      = N
+  override type Minus [N <: Nat]                      = This
   override type Mult  [N <: Nat, A <: Nat]            = A
   override type Min   [N <: Nat, O <: Nat, NO <: Nat] = O
   override type IsZero                                = True
   override type Equal [N <: Nat]                      = isZero[N]
   override type Lower [N <: Nat]                      = ![Equal[N]]
+
+  private type This                                   = Zero
 }
 
 trait NatFunctions {
   type pred  [N <: Nat]           = N#Pred
   type +     [L <: Nat, R <: Nat] = L#Plus[R]
+  type -     [L <: Nat, R <: Nat] = L#Minus[R]
   type *     [L <: Nat, R <: Nat] = L#Mult[R, _0]
   type min   [L <: Nat, R <: Nat] = L#Min[R, L, R]
   type isZero[N <: Nat]           = N#IsZero

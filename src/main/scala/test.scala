@@ -5,6 +5,9 @@ import List._
 object NatTest {
   implicitly[_2 + _3   =:= _5]
 
+  implicitly[_2 - _3   =:= _0]
+  implicitly[_5 - _3   =:= _2]
+
   implicitly[_2 == _2  =:= True]
   implicitly[_2 == _3  =:= False]
 

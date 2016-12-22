@@ -16,8 +16,9 @@ sealed trait List {
   type Distinct                                               <: List
   type Sort                                                   <: List
   type Size                                                   <: Nat
+  type DropLeft      [N <: Nat]                               <: List
+  type DropWhile     [F[_ <: Nat] <: Bool]                    <: List
 
-  protected type This                                         <: List
   protected type Min [N <: Nat]                               <: Nat
 }
 
@@ -34,7 +35,7 @@ sealed trait ::[H <: Nat, T <: List] extends List {
   override type Sort                                                   = T#Min[H] :: (H :: T)#Remove[T#Min[H]]#Sort
   override type Size                                                   = Succ[T#Size]
 
-  override protected type This                                         = Head :: Tail
+  private type This                                                    = Head :: Tail
   override protected type Min [N <: Nat]                               = T#Min[H min N]
 
   protected type Head                                                  = H
@@ -54,7 +55,7 @@ sealed trait Nil extends List {
   override type Sort                                                      = This
   override type Size                                                      = _0
 
-  override protected type This                                            = Nil
+  private type This                                                       = Nil
   override protected type Min   [N <: Nat]                                = N
 }
 
@@ -78,7 +79,7 @@ trait TListFunctions {
   type product         [L <: List]                                         = L reduceM ({ type F[LN <: Nat, RN <: Nat] = RN * LN })#F
   type count           [L <: List, F[_ <: Nat] <: Bool]                    = size[L filter F]
   type contains        [L <: List, M <: Nat]                               = nonEmpty[L filter ({ type F[N <: Nat] = M == N })#F]
-  type containsAll     [L <: List, R <: List]                              = R forall ({ type F[N <: Nat] = (L contains N)})#F
+  type containsAll     [L <: List, R <: List]                              = R forall ({ type F[N <: Nat] = L contains N })#F
   type exists          [L <: List, F[_ <: Nat] <: Bool]                    = (L count F) > _0
   type filterNot       [L <: List, F[_ <: Nat] <: Bool]                    = L filter ({ type FN[N <: Nat] = ![F[N]] })#FN
   type forall          [L <: List, F[_ <: Nat] <: Bool]                    = ![L exists ({ type FN[N <: Nat] = ![F[N]] })#FN]
@@ -89,25 +90,34 @@ trait TListFunctions {
   type isDefinedAt     [L <: List, N <: Nat]                               = size[L] >= N
   type distinct        [L <: List]                                         = reverse[reverse[L]#Distinct]
   type isDistinct      [L <: List]                                         = L === distinct[L]
+  type removeEvery     [L <: List, M <: Nat]                               = L filterNot ({ type F[N <: Nat] = M == N })#F
 
   type indexWhere      [L <: List, F[_ <: Nat] <: Bool]                    = Nothing
   type indexWhereFrom  [L <: List, F[_ <: Nat] <: Bool, B <: Nat]          = Nothing
   type indexOfSlice    [L <: List, R <: List]                              = Nothing
   type indexOfSliceFrom[L <: List, R <: List, B <: Nat]                    = Nothing
+
   type containsSlice   [L <: List, R <: List]                              = Nothing
-  type dropLeft        [L <: List, N <: Nat]                               = Nothing
-  type dropRight       [L <: List, N <: Nat]                               = Nothing
-  type dropWhile       [L <: List, F[_ <: Nat] <: Bool]                    = Nothing
-  type takeLeft        [L <: List, N <: Nat]                               = Nothing
-  type takeRigh        [L <: List, N <: Nat]                               = Nothing
-  type takeWhile       [L <: List, F[_ <: Nat] <: Bool]                    = Nothing
+  type removeSlice     [L <: List, R <: List]                              = Nothing
+  type removeAll       [L <: List, R <: List]                              = Nothing
+
+  type dropLeft        [L <: List, N <: Nat]                               <: List
+  type dropRight       [L <: List, N <: Nat]                               <: List
+  type dropWhile       [L <: List, F[_ <: Nat] <: Bool]                    <: List
+
+  type takeLeft        [L <: List, N <: Nat]                               <: List
+  type takeRigh        [L <: List, N <: Nat]                               <: List
+  type takeWhile       [L <: List, F[_ <: Nat] <: Bool]                    <: List
+
   type startsWith      [L <: List, R <: List]                              = Nothing
   type startsWithOffset[L <: List, R <: List, O <: Nat]                    = Nothing
   type endsWith        [L <: List, R <: List]                              = Nothing
+
   type diff            [L <: List, R <: List]                              = Nothing
   type union           [L <: List, R <: List]                              = Nothing
   type intersect       [L <: List, R <: List]                              = Nothing
   type permutations    [L <: List]                                         = Nothing
+
   type slice           [L <: List, B <: Nat, E <: Nat]                     = Nothing
 }
 
