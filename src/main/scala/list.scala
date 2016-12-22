@@ -106,15 +106,15 @@ trait TListFunctions {
   type indexOfSlice    [L <: List, R <: List]                              = Nothing
   type indexOfSliceFrom[L <: List, R <: List, B <: Nat]                    = Nothing
 
-  type containsSlice   [L <: List, R <: List]                              = Nothing
-  type removeSlice     [L <: List, R <: List]                              = Nothing
-  type removeAll       [L <: List, R <: List]                              = Nothing
+  type containsSlice   [L <: List, R <: List]                              <: Bool
+  type removeSlice     [L <: List, R <: List]                              <: List
+  type removeAll       [L <: List, R <: List]                              <: List
 
   type takeRight       [L <: List, N <: Nat]                               = L dropLeft (size[L] - N)
   type dropWhile       [L <: List, F[_ <: Nat] <: Bool]                    <: List
   type takeWhile       [L <: List, F[_ <: Nat] <: Bool]                    <: List
 
-  type startsWithOffset[L <: List, R <: List, O <: Nat]                    = (L dropLeft O) startsWith R
+  type startsWithOffset[L <: List, R <: List, B <: Nat]                    = (L dropLeft B) startsWith R
   type endsWith        [L <: List, R <: List]                              = (L takeRight size[R]) === R
 
   type partition       [L <: List, F[_ <: Nat] <: Bool]                    <: List

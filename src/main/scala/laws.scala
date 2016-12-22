@@ -87,8 +87,8 @@ object FilterNotLaws {
 }
 
 object RemoveLaws {
-  type given    = _1 :: _2 :: _3 :: _2 :: Nil
-  type expected = _1 :: _2 ::       _2 :: Nil
+  type given    = _1 :: _2 :: _3 :: _2 :: _3 :: Nil
+  type expected = _1 :: _2 ::       _2 :: _3 :: Nil
   type result   = given remove _3
 
   implicitly[expected =:= result]
@@ -256,6 +256,6 @@ object StartsWithtLaws {
   type prefix = _0 :: _1 :: _2 :: Nil
   type other  = _0 :: _2 :: _1 :: Nil
 
-  implicitly[(given startsWith prefix) =:= True]
+  implicitly[(given startsWith prefix) =:=  True]
   implicitly[(given startsWith other)  =:= False]
 }
