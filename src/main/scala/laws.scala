@@ -75,6 +75,19 @@ object FlatMapLaws {
   implicitly[given    =:=     id]
 }
 
+object MonadLaws {
+  type unit     [N <: Nat] = list[N]
+  type element             = _0
+  type monad               = _0 :: _1 :: _2 :: _3 :: _4 :: Nil
+  type function1[N <: Nat] = unit[N + _1]
+  type function2[N <: Nat] = unit[N + _2]
+  type chained  [N <: Nat] = function1[N] flatMap function2
+
+  implicitly[list[element] flatMap function1                    =:=      function1[element]]
+  implicitly[        monad flatMap unit                         =:=                   monad]
+  implicitly[        monad flatMap function1 flatMap function2  =:= (monad flatMap chained)]
+}
+
 object FilterLaws {
   type given    = _1 :: _2 :: _0 :: _2 :: _3 :: _5 :: _4 :: _1 :: Nil
   type expected = _1 :: _2 :: _0 :: _2 :: _3 :: _1 :: Nil
