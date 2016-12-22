@@ -125,6 +125,15 @@ object SizeTest {
   implicitly[expected =:= result]
 }
 
+object CountTest {
+  type given    = _0 :: _1 :: _2 :: _3 :: Nil
+  type expected = _2
+  type result   = given count ({ type F[N <: Nat] = N >= _2 })#F
+
+  implicitly[expected =:= result]
+}
+
+
 object EqualTest {
   type given = _0 :: _1 :: _2 :: _3 :: Nil
   type same  = _0 :: _1 :: _2 :: _3 :: Nil

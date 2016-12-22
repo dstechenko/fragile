@@ -8,6 +8,8 @@ sealed trait List {
   type Map             [F[_ <: Nat] <: Nat]                       <: List
   type Filter          [F[_ <: Nat] <: Bool]                      <: List
   type Fold            [N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat]   <: Nat
+  type Contains        [N <: Nat]                                 <: Bool
+  type ContainsSlice   [L <: List]                                <: Bool
   type Remove          [N <: Nat]                                 <: List
   type Concat          [L <: List]                                <: List
   type Equal           [L <: List]                                <: Bool
@@ -70,8 +72,9 @@ trait TListFunctions {
   type nonEmpty[L <: List]                                         = ![isEmpty[L]]
   type reduceP [L <: List, F[_ <: Nat, _ <: Nat] <: Nat]           = fold[L, _0, F]
   type reduceM [L <: List, F[_ <: Nat, _ <: Nat] <: Nat]           = fold[L, _1, F]
-  type sum     [L <: List]                                         = L reduceP ({ type F[L <: Nat, R <: Nat] = R + L })#F
-  type product [L <: List]                                         = L reduceM ({ type F[L <: Nat, R <: Nat] = R * L })#F
+  type sum     [L <: List]                                         = L reduceP ({ type F[LN <: Nat, RN <: Nat] = RN + LN })#F
+  type product [L <: List]                                         = L reduceM ({ type F[LN <: Nat, RN <: Nat] = RN * LN })#F
+  type count   [L <: List, F[_ <: Nat] <: Bool]                    = size[L filter F]
 }
 
 object List extends TListFunctions
