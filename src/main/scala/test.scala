@@ -83,10 +83,18 @@ object RemoveTest {
   implicitly[expected =:= result]
 }
 
-object SortTest {
+object SortAscTest {
   type given    = _0 :: _5 :: _3 :: _4 :: _2 :: _1 :: Nil
   type expected = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: Nil
-  type result   = sort[given]
+  type result   = sortAsc[given]
+
+  implicitly[expected =:= result]
+}
+
+object SortDescTest {
+  type given    = _0 :: _3 :: _4 :: _2 :: _5 :: _1 :: Nil
+  type expected = _5 :: _4 :: _3 :: _2 :: _1 :: _0 :: Nil
+  type result   = sortDesc[given]
 
   implicitly[expected =:= result]
 }

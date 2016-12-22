@@ -79,6 +79,8 @@ trait TListFunctions {
   type exists   [L <: List, F[_ <: Nat] <: Bool]                    = (L count F) > _0
   type filterNot[L <: List, F[_ <: Nat] <: Bool]                    = L filter ({ type FN[N <: Nat] = ![F[N]] })#FN
   type forall   [L <: List, F[_ <: Nat] <: Bool]                    = ![L exists ({ type FN[N <: Nat] = ![F[N]] })#FN]
+  type sortAsc  [L <: List]                                         = sort[L]
+  type sortDesc [L <: List]                                         = reverse[sortAsc[L]]
 }
 
 object List extends TListFunctions
