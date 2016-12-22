@@ -58,25 +58,26 @@ sealed trait Nil extends List {
 }
 
 trait TListFunctions {
-  type map     [L <: List, F[_ <: Nat] <: Nat]                     = L#Map[F]
-  type filter  [L <: List, F[_ <: Nat] <: Bool]                    = L#Filter[F]
-  type fold    [L <: List, N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat] = L#Fold[N, F]
-  type remove  [L <: List, N <: Nat]                               = L#Remove[N]
-  type :::     [L <: List, R <: List]                              = L#Concat[R]
-  type ===     [L <: List, R <: List]                              = L#Equal[R]
-  type reverse [L <: List]                                         = L#Reverse
-  type sort    [L <: List]                                         = L#Sort
-  type size    [L <: List]                                         = L#Size
+  type map      [L <: List, F[_ <: Nat] <: Nat]                     = L#Map[F]
+  type filter   [L <: List, F[_ <: Nat] <: Bool]                    = L#Filter[F]
+  type fold     [L <: List, N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat] = L#Fold[N, F]
+  type remove   [L <: List, N <: Nat]                               = L#Remove[N]
+  type :::      [L <: List, R <: List]                              = L#Concat[R]
+  type ===      [L <: List, R <: List]                              = L#Equal[R]
+  type reverse  [L <: List]                                         = L#Reverse
+  type sort     [L <: List]                                         = L#Sort
+  type size     [L <: List]                                         = L#Size
 
-  type isEmpty [L <: List]                                         = size[L] == _0
-  type nonEmpty[L <: List]                                         = ![isEmpty[L]]
-  type reduceP [L <: List, F[_ <: Nat, _ <: Nat] <: Nat]           = fold[L, _0, F]
-  type reduceM [L <: List, F[_ <: Nat, _ <: Nat] <: Nat]           = fold[L, _1, F]
-  type sum     [L <: List]                                         = L reduceP ({ type F[LN <: Nat, RN <: Nat] = RN + LN })#F
-  type product [L <: List]                                         = L reduceM ({ type F[LN <: Nat, RN <: Nat] = RN * LN })#F
-  type count   [L <: List, F[_ <: Nat] <: Bool]                    = size[L filter F]
-  type contains[L <: List, M <: Nat]                               = nonEmpty[L filter ({ type F[N <: Nat] = M == N })#F]
-  type exists  [L <: List, F[_ <: Nat] <: Bool]                    = (L count F) > _0
+  type isEmpty  [L <: List]                                         = size[L] == _0
+  type nonEmpty [L <: List]                                         = ![isEmpty[L]]
+  type reduceP  [L <: List, F[_ <: Nat, _ <: Nat] <: Nat]           = fold[L, _0, F]
+  type reduceM  [L <: List, F[_ <: Nat, _ <: Nat] <: Nat]           = fold[L, _1, F]
+  type sum      [L <: List]                                         = L reduceP ({ type F[LN <: Nat, RN <: Nat] = RN + LN })#F
+  type product  [L <: List]                                         = L reduceM ({ type F[LN <: Nat, RN <: Nat] = RN * LN })#F
+  type count    [L <: List, F[_ <: Nat] <: Bool]                    = size[L filter F]
+  type contains [L <: List, M <: Nat]                               = nonEmpty[L filter ({ type F[N <: Nat] = M == N })#F]
+  type exists   [L <: List, F[_ <: Nat] <: Bool]                    = (L count F) > _0
+  type filterNot[L <: List, F[_ <: Nat] <: Bool]                    = L filter ({ type FN[N <: Nat] = ![F[N]] })#FN
 }
 
 object List extends TListFunctions

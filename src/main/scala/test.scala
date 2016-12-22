@@ -67,6 +67,14 @@ object FilterTest {
   implicitly[expected =:= result]
 }
 
+object FilterNotTest {
+  type given    = _1 :: _2 :: _0 :: _2 :: _3 :: _5 :: _4 :: _1 :: Nil
+  type expected = _1 :: _2 :: _0 :: _2 :: _3 :: _1 :: Nil
+  type result   = given filterNot ({ type F[N <: Nat] = N > _3 })#F
+
+  implicitly[expected =:= result]
+}
+
 object RemoveTest {
   type given    = _1 :: _2 :: _3 :: _2 :: Nil
   type expected = _1 :: _2 ::       _2 :: Nil
