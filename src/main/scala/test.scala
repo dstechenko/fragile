@@ -140,6 +140,14 @@ object CountTest {
   implicitly[expected =:= result]
 }
 
+object ExistsTest {
+  type given             = _0 :: _1 :: _2 :: _3 :: Nil
+  type existsM[M <: Nat] = given exists ({ type F[N <: Nat] = N == M })#F
+
+  implicitly[existsM[_3] =:= True]
+  implicitly[existsM[_5] =:= False]
+}
+
 
 object EqualTest {
   type given = _0 :: _1 :: _2 :: _3 :: Nil
