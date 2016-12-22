@@ -244,6 +244,13 @@ object RemoveAllLaws {
   implicitly[expected =:= result]
 }
 
+object IndexWhereLaws {
+  type given    = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: _6 :: Nil
+  type expected = _5
+  // type result   = given indexWhere ({ type F[N <: Nat] = N == _4 })#F
+
+  // implicitly[expected =:= result]
+}
 
 object ProductLaws {
   type given    = _1 :: _2 :: _3 :: Nil

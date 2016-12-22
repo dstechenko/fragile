@@ -102,8 +102,8 @@ trait TListFunctions {
   type dropRight            [L <: List, N <: Nat]                               = L takeLeft (size[L] - N)
   type startsWith           [L <: List, R <: List]                              = (L takeLeft size[R]) === R
 
-  type indexWhere           [L <: List, F[_ <: Nat] <: Bool]                    <: Nat
-  type indexWhereFrom       [L <: List, F[_ <: Nat] <: Bool, B <: Nat]          <: Nat
+  type indexWhere           [L <: List, F[_ <: Nat] <: Bool]                    = (L map ({ type FN[N <: Nat] = ifN[F[N], _1, _0] })#FN) indexOf _1
+  type indexWhereFrom       [L <: List, F[_ <: Nat] <: Bool, B <: Nat]          = (L dropLeft B) indexWhere F
   type indexOfSlice         [L <: List, R <: List]                              <: Nat
   type indexOfSliceFrom     [L <: List, R <: List, B <: Nat]                    <: Nat
   type lastIndexOf          [L <: List, N <: Nat]                               <: Nat
@@ -113,7 +113,7 @@ trait TListFunctions {
   type lastIndexOfWhere     [L <: List, F[_ <: Nat] <: Bool]                    <: Nat
   type lastIndexOfWhereUntil[L <: List, F[_ <: Nat] <: Bool, E <: Nat]          <: Nat
 
-  type containsSlice        [L <: List, R <: List]                              = (R forall ({ type F[N <: Nat] = L contains N })#F)
+  type containsSlice        [L <: List, R <: List]                              <: List
   type removeSlice          [L <: List, R <: List]                              <: List
 
   type takeRight            [L <: List, N <: Nat]                               = L dropLeft (size[L] - N)
