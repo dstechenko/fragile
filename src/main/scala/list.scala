@@ -13,6 +13,7 @@ sealed trait List {
   type Remove        [N <: Nat]                               <: List
   type Concat        [L <: List]                              <: List
   type Reverse                                                <: List
+  type Distinct                                               <: List
   type Sort                                                   <: List
   type Size                                                   <: Nat
 
@@ -29,6 +30,7 @@ sealed trait ::[H <: Nat, T <: List] extends List {
   override type Remove        [N <: Nat]                               = ifL[H == N, T, H :: T#Remove[N]]
   override type Concat        [L <: List]                              = H :: T#Concat[L]
   override type Reverse                                                = T#Reverse#Concat[H :: Nil]
+  override type Distinct                                               = ifL[Tail contains Head, Tail#Distinct, H :: Tail#Distinct]
   override type Sort                                                   = T#Min[H] :: (H :: T)#Remove[T#Min[H]]#Sort
   override type Size                                                   = Succ[T#Size]
 
@@ -48,6 +50,7 @@ sealed trait Nil extends List {
   override type Remove          [N <: Nat]                                = This
   override type Concat          [L <: List]                               = L
   override type Reverse                                                   = This
+  override type Distinct                                                  = This
   override type Sort                                                      = This
   override type Size                                                      = _0
 
@@ -90,8 +93,8 @@ trait TListFunctions {
   type indexOfSlice    [L <: List, R <: List]                              = Nothing
   type indexOfSliceFrom[L <: List, R <: List, B <: Nat]                    = Nothing
   type containsSlice   [L <: List, R <: List]                              = Nothing
-  type distinct        [L <: List]                                         = Nothing
-  type isDistinct      [L <: List]                                         = Nothing
+  type distinct        [L <: List]                                         = reverse[reverse[L]#Distinct]
+  type isDistinct      [L <: List]                                         = L === distinct[L]
   type dropLeft        [L <: List, N <: Nat]                               = Nothing
   type dropRight       [L <: List, N <: Nat]                               = Nothing
   type dropWhile       [L <: List, F[_ <: Nat] <: Bool]                    = Nothing

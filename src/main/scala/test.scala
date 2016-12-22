@@ -205,3 +205,13 @@ object EqualTest {
   implicitly[===[given, same]  =:= True]
   implicitly[===[given, other] =:= False]
 }
+
+object DistinctTest {
+  type given    = _0 :: _0 :: _1 :: _2 :: _1 :: _0  :: _0 :: Nil
+  type expected = _0 ::       _1 :: _2                    :: Nil
+  type result   = distinct[given]
+
+  implicitly[expected           =:= result]
+  implicitly[isDistinct[given]  =:=  False]
+  implicitly[isDistinct[result] =:=   True]
+}
