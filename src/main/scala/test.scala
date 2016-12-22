@@ -174,19 +174,19 @@ object CountTest {
 }
 
 object ExistsTest {
-  type given             = _0 :: _1 :: _2 :: _3 :: Nil
-  type existsM[M <: Nat] = given exists ({ type F[N <: Nat] = N == M })#F
+  type given                 = _0 :: _1 :: _2 :: _3 :: Nil
+  type existsEqual[M <: Nat] = given exists ({ type F[N <: Nat] = N == M })#F
 
-  implicitly[existsM[_3] =:= True]
-  implicitly[existsM[_5] =:= False]
+  implicitly[existsEqual[_3] =:= True]
+  implicitly[existsEqual[_5] =:= False]
 }
 
 object ForallTest {
-  type given             = _3 :: _4 :: _5 :: Nil
-  type forallM[M <: Nat] = given forall ({ type F[N <: Nat] = M <= N })#F
+  type given                   = _3 :: _4 :: _5 :: Nil
+  type forallGreater[M <: Nat] = given forall ({ type F[N <: Nat] = N > M })#F
 
-  implicitly[forallM[_3] =:= True]
-  implicitly[forallM[_5] =:= False]
+  implicitly[forallGreater[_2] =:= True]
+  implicitly[forallGreater[_3] =:= False]
 }
 
 object IndexOfTest {
