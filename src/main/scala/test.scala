@@ -59,6 +59,14 @@ object MapTest {
   implicitly[expected =:= result]
 }
 
+object FlatMapTest {
+  type given    = _1 :: _2 :: _3 :: _4 :: Nil
+  type expected = _2 :: _3 :: _3 :: _4 :: _4 :: _5 :: _5 :: _6 :: Nil
+  type result   = given flatMap ({ type F[N <: Nat] = (N + _1) :: (N + _2) :: Nil })#F
+
+  implicitly[expected =:= result]
+}
+
 object FilterTest {
   type given    = _1 :: _2 :: _0 :: _2 :: _3 :: _5 :: _4 :: _1 :: Nil
   type expected = _1 :: _2 :: _0 :: _2 :: _3 :: _1 :: Nil

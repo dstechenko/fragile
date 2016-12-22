@@ -2,9 +2,11 @@ import language.higherKinds
 
 import Bool._
 import Nat._
+import List._
 
 sealed trait List {
   type Map           [F[_ <: Nat] <: Nat]                     <: List
+  type FlatMap       [F[_ <: Nat] <: List]                    <: List
   type Filter        [F[_ <: Nat] <: Bool]                    <: List
   type Fold          [N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat] <: Nat
   type IndexOf       [N <: Nat, I <: Nat]                     <: Nat
@@ -20,6 +22,7 @@ sealed trait List {
 
 sealed trait ::[H <: Nat, T <: List] extends List {
   override type Map           [F[_ <: Nat] <: Nat]                     = F[H] :: T#Map[F]
+  override type FlatMap       [F[_ <: Nat] <: List]                    = F[H] ::: T#FlatMap[F]
   override type Filter        [F[_ <: Nat] <: Bool]                    = ifL[F[H], H :: T#Filter[F], T#Filter[F]]
   override type Fold          [N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat] = F[H, T#Fold[N, F]]
   override type IndexOf       [N <: Nat, I <: Nat]                     = ifN[Head == N, I + _1, Tail#IndexOf[N, I + _1]]
@@ -38,6 +41,7 @@ sealed trait ::[H <: Nat, T <: List] extends List {
 
 sealed trait Nil extends List {
   override type Map             [F[_ <: Nat] <: Nat]                      = This
+  override type FlatMap         [F[_ <: Nat] <: List]                     = This
   override type Filter          [F[_ <: Nat] <: Bool]                     = This
   override type Fold            [N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat]  = N
   override type IndexOf         [N <: Nat, I <: Nat]                      = _0
@@ -53,6 +57,7 @@ sealed trait Nil extends List {
 
 trait TListFunctions {
   type map             [L <: List, F[_ <: Nat] <: Nat]                     = L#Map[F]
+  type flatMap         [L <: List, F[_ <: Nat] <: List]                    = L#FlatMap[F]
   type filter          [L <: List, F[_ <: Nat] <: Bool]                    = L#Filter[F]
   type fold            [L <: List, N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat] = L#Fold[N, F]
   type indexOf         [L <: List, N <: Nat]                               = L#IndexOf[N, _0]
@@ -86,6 +91,7 @@ trait TListFunctions {
   type indexOfSliceFrom[L <: List, R <: List, B <: Nat]                    = Nothing
   type containsSlice   [L <: List, R <: List]                              = Nothing
   type distinct        [L <: List]                                         = Nothing
+  type isDistinct      [L <: List]                                         = Nothing
   type dropLeft        [L <: List, N <: Nat]                               = Nothing
   type dropRight       [L <: List, N <: Nat]                               = Nothing
   type dropWhile       [L <: List, F[_ <: Nat] <: Bool]                    = Nothing
@@ -100,7 +106,6 @@ trait TListFunctions {
   type intersect       [L <: List, R <: List]                              = Nothing
   type permutations    [L <: List]                                         = Nothing
   type slice           [L <: List, B <: Nat, E <: Nat]                     = Nothing
-  type flatMap         [L <: List, F[_ <: Nat] <: List]                    = Nothing
 }
 
 object List extends TListFunctions
