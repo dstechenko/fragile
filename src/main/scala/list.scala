@@ -18,6 +18,7 @@ sealed trait List {
   type Size                                                   <: Nat
   type TakeLeft      [N <: Nat]                               <: List
   type DropWhile     [F[_ <: Nat] <: Bool]                    <: List
+  type ApplyOrElse   [N <: Nat, E <: Nat]                     <: Nat
 
   protected type This                                         <: List
   protected type Min [N <: Nat]                               <: Nat
@@ -36,6 +37,7 @@ sealed trait ::[H <: Nat, T <: List] extends List {
   override type Sort                                                   = T#Min[H] :: (H :: T)#Remove[T#Min[H]]#Sort
   override type Size                                                   = Succ[T#Size]
   override type TakeLeft      [N <: Nat]                               = ifL[isZero[N],  Nil, Head :: Tail#TakeLeft[N - _1]]
+  override type ApplyOrElse   [N <: Nat, E <: Nat]                     = ifN[N == _0, E, ifN[N == _1, Head, Tail#ApplyOrElse[N - _1, E]]]
 
   override protected type This                                         = Head :: Tail
   override protected type Min [N <: Nat]                               = T#Min[H min N]
@@ -57,12 +59,13 @@ sealed trait Nil extends List {
   override type Sort                                                      = This
   override type Size                                                      = _0
   override type TakeLeft        [N <: Nat]                                = This
+  override type ApplyOrElse     [N <: Nat, E <: Nat]                      = E
 
   override protected type This                                            = Nil
   override protected type Min   [N <: Nat]                                = N
 }
 
-trait TListFunctions {
+sealed trait TListFunctions {
   type list                 [N <: Nat]                                          = N :: Nil
   type map                  [L <: List, F[_ <: Nat] <: Nat]                     = L#Map[F]
   type flatMap              [L <: List, F[_ <: Nat] <: List]                    = L#FlatMap[F]
@@ -75,6 +78,7 @@ trait TListFunctions {
   type sort                 [L <: List]                                         = L#Sort
   type size                 [L <: List]                                         = L#Size
   type takeLeft             [L <: List, N <: Nat]                               = L#TakeLeft[N]
+  type applyOrElse          [L <: List, N <: Nat, E <: Nat]                     = L#ApplyOrElse[N, E]
 
   type isEmpty              [L <: List]                                         = size[L] == _0
   type nonEmpty             [L <: List]                                         = ![isEmpty[L]]
@@ -104,32 +108,29 @@ trait TListFunctions {
   type endsWith             [L <: List, R <: List]                              = (L takeRight size[R]) === R
   type slice                [L <: List, B <: Nat, E <: Nat]                     = (L dropLeft (B - _1)) dropRight (size[L] - E)
 
+  type indexOfUntil         [L <: List, N <: Nat, E <: Nat]                     = (L takeLeft E) indexOf N
+  type lastIndexOf          [L <: List, N <: Nat]                               = size[L] - (reverse[L] indexOf N)
+  type lastIndexOfUntil     [L <: List, N <: Nat, E <: Nat]                     = (L takeLeft E) lastIndexOf N
   type indexWhere           [L <: List, F[_ <: Nat] <: Bool]                    = (L map ({ type FN[N <: Nat] = ifN[F[N], _1, _0] })#FN) indexOf _1
   type indexWhereFrom       [L <: List, F[_ <: Nat] <: Bool, B <: Nat]          = (L dropLeft B) indexWhere F
+  type product              [L <: List]                                         = L reduceM ({ type F[LN <: Nat, RN <: Nat] = RN * LN })#F
+
   type indexOfSlice         [L <: List, R <: List]                              <: Nat
   type indexOfSliceFrom     [L <: List, R <: List, B <: Nat]                    <: Nat
-  type lastIndexOf          [L <: List, N <: Nat]                               <: Nat
-  type lastIndexOfUntil     [L <: List, N <: Nat, E <: Nat]                     <: Nat
   type lastIndexOfSlice     [L <: List, R <: List]                              <: Nat
   type lastIndexOfSliceUntil[L <: List, R <: Nat, E <: Nat]                     <: Nat
   type lastIndexOfWhere     [L <: List, F[_ <: Nat] <: Bool]                    <: Nat
   type lastIndexOfWhereUntil[L <: List, F[_ <: Nat] <: Bool, E <: Nat]          <: Nat
-
   type containsSlice        [L <: List, R <: List]                              <: List
   type removeSlice          [L <: List, R <: List]                              <: List
-
   type dropWhile            [L <: List, F[_ <: Nat] <: Bool]                    <: List
   type takeWhile            [L <: List, F[_ <: Nat] <: Bool]                    <: List
-
   type partition            [L <: List, F[_ <: Nat] <: Bool]                    <: List
   type padTo                [L <: List, N <: Nat, E <: Nat]                     <: List
-
   type diff                 [L <: List, R <: List]                              <: List
   type union                [L <: List, R <: List]                              <: List
   type intersect            [L <: List, R <: List]                              <: List
   type permutations         [L <: List]                                         <: List
-
-  type product              [L <: List]                                         = L reduceM ({ type F[LN <: Nat, RN <: Nat] = RN * LN })#F
 }
 
 object List extends TListFunctions

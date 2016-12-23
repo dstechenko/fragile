@@ -209,6 +209,39 @@ object IndexOfLaws {
   implicitly[expected =:= result]
 }
 
+object IndexOfUntilLaws {
+  type given    = _3 :: _2 :: _5 :: _4 :: Nil
+  type expected = _0
+  // type result   = indexOfUntil[given, _4, _3]
+
+  // implicitly[expected =:= result]
+}
+
+object LastIndexOfLaws {
+  type given    = _3 :: _4 :: _5 :: _4 :: Nil
+  type expected = _4
+  // type result   = given lastIndexOf _4
+
+  // implicitly[expected =:= result]
+}
+
+object LastIndexOfUntilLaws {
+  type given    = _3 :: _4 :: _5 :: _2 :: _5:: Nil
+  type expected = _3
+  // type result   = indexOfUntil[given, _5, _4]
+
+  // implicitly[expected =:= result]
+}
+
+object ApplyOrElseLaws {
+  type given    = _0 :: _1 :: _2 :: _3 :: Nil
+  type fallback = _5
+  type apply[N <: Nat] = applyOrElse[given, N, fallback]
+
+  implicitly[apply[_3]  =:=       _2]
+  implicitly[apply[_6]  =:= fallback]
+}
+
 object EqualLaws {
   type given = _0 :: _1 :: _2 :: _3 :: Nil
   type same  = _0 :: _1 :: _2 :: _3 :: Nil
@@ -255,8 +288,8 @@ object StartsWithLaws {
 
 object StartsWithOffsetLaws {
   type given             = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: Nil
-  type prefix            =             _2 :: _3 :: _4 :: Nil
-  type other             = _0 :: _2 :: _1 :: Nil
+  type prefix            =             _2 :: _3 :: _4       :: Nil
+  type other             = _0 :: _2 :: _1                   :: Nil
   type starts[L <: List] = startsWithOffset[given, L, _2]
 
   implicitly[starts[prefix] =:=   True]
