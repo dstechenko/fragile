@@ -107,6 +107,8 @@ sealed trait TListFunctions {
   type startsWithOffset     [L <: List, R <: List, B <: Nat]                    = (L dropLeft B) startsWith R
   type endsWith             [L <: List, R <: List]                              = (L takeRight size[R]) === R
   type slice                [L <: List, B <: Nat, E <: Nat]                     = (L dropLeft (B - _1)) dropRight (size[L] - E)
+  type union                [L <: List, R <: List]                              = L ::: R
+  type diff                 [L <: List, R <: List]                              = L filterNot ({ type F[N <: Nat] = R contains N})#F
 
   type indexOfUntil         [L <: List, N <: Nat, E <: Nat]                     = (L takeLeft E) indexOf N
   type lastIndexOf          [L <: List, N <: Nat]                               = size[L] - (reverse[L] indexOf N)
@@ -127,9 +129,7 @@ sealed trait TListFunctions {
   type takeWhile            [L <: List, F[_ <: Nat] <: Bool]                    <: List
   type partition            [L <: List, F[_ <: Nat] <: Bool]                    <: List
   type padTo                [L <: List, N <: Nat, E <: Nat]                     <: List
-  type diff                 [L <: List, R <: List]                              <: List
-  type union                [L <: List, R <: List]                              <: List
-  type intersect            [L <: List, R <: List]                              <: List
+  type intersect            [l <: List, r <: List]                              <: List
   type permutations         [L <: List]                                         <: List
 }
 

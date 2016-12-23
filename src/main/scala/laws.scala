@@ -353,3 +353,12 @@ object ProductLaws {
 
   // implicitly[expected =:= result]
 }
+
+object DiffLaws {
+  type givenLeft    = _1 :: _2 :: _3 :: _1 :: Nil
+  type givenRight   = _3 :: _4 :: _2 :: _5 :: Nil
+  type expected     = _1 :: _1 :: Nil
+  type result       = givenLeft diff givenRight
+
+  implicitly[expected =:= result]
+}
