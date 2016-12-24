@@ -345,7 +345,7 @@ object IntersectLaws {
   type expected     = _2 :: _3 :: Nil
   type result       = givenLeft intersect givenRight
 
-  // implicitly[expected =:= result]
+  //implicitly[expected =:= result]
 }
 
 object PartitionLaws {
