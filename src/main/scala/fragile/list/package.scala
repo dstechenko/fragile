@@ -71,7 +71,8 @@ package object list {
   type takeWhile              [L <: List, F[_ <: Nat] <: Bool]                    = L takeLeft (L countWhile F)
   type dropWhile              [L <: List, F[_ <: Nat] <: Bool]                    = L dropLeft (L countWhile F)
   type partition              [L <: List, F[_ <: Nat] <: Bool]                    = (L filter F) <--> (L filterNot F)
-
+  type tabulate               [N <: Nat, E <: Nat]                                = unfold[E] map const[N]#Apply
+  type padTo                  [L <: List, N <: Nat, E <: Nat]                     = tabulate[N, E] ::: L
 
 
 
@@ -98,7 +99,6 @@ package object list {
   type lastIndexOfWhere       [L <: List, F[_ <: Nat] <: Bool]                    <: Nat
   type lastIndexOfWhereUntil  [L <: List, F[_ <: Nat] <: Bool, E <: Nat]          <: Nat
 
-  type padTo                  [L <: List, N <: Nat, E <: Nat]                     = ((L takeLeft E) map const[N]#Apply) ::: L
 
   type permutations           [L <: List]                                         <: List
 }

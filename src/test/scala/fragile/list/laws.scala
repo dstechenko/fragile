@@ -384,9 +384,9 @@ object PartitionLaws {
 }
 
 object PadToLaws {
-  type given    =                   _1 :: _2 :: _3 :: _4 :: Nil
-  type expected = _0 :: _0 :: _0 :: _1 :: _2 :: _3 :: _4 :: Nil
-  type result   = padTo[given, _0, _3]
+  type given    =                                     _1 :: _2 :: _3 :: _4 :: Nil
+  type expected = _0 :: _0 :: _0 :: _0 :: _0 :: _0 :: _1 :: _2 :: _3 :: _4 :: Nil
+  type result   = padTo[given, _0, _6]
 
   implicitly[expected =:= result]
 }

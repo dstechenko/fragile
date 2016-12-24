@@ -5,10 +5,13 @@ import fragile.nat._
 import fragile.list._
 
 package object pair {
-  type pair   [T, F <: T, S <: T]    = Pair[T] { type FST = F; type SND = S }
+  type pair   [T, F <: T, S <: T]    = Pair[T] {
+                                                 type First = F
+                                                 type Second = S
+                                               }
 
-  type first  [T, P <: Pair[T]]      = P#FST
-  type second [T, P <: Pair[T]]      = P#SND
+  type first  [T, P <: Pair[T]]      = P#First
+  type second [T, P <: Pair[T]]      = P#Second
 
   type firstN [P <: Pair[Nat]]       = first[Nat, P]
   type firstB [P <: Pair[Bool]]      = first[Bool, P]

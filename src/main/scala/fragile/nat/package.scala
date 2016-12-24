@@ -1,6 +1,7 @@
 package fragile
 
 import fragile.bool._
+import fragile.list._
 
 package object nat {
   private[nat] type pred  [N <: Nat]           = N#Pred
@@ -12,6 +13,7 @@ package object nat {
   type min                [L <: Nat, R <: Nat] = L#Min[R, L, R]
   type ==                 [L <: Nat, R <: Nat] = L#Equal[R]
   type <                  [L <: Nat, R <: Nat] = L#Lower[R]
+  type unfold             [L <: Nat]           = reverse[L#Unfold]
 
   type max                [L <: Nat, R <: Nat] = ifN[L == (L min R), R, L]
   type =/=                [L <: Nat, R <: Nat] = ![L == R]

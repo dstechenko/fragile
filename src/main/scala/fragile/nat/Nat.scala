@@ -1,6 +1,7 @@
 package fragile.nat
 
 import fragile.bool._
+import fragile.list._
 
 import language.higherKinds
 
@@ -11,6 +12,7 @@ sealed trait Nat {
   type Min                  [N <: Nat, O <: Nat, NO <: Nat] <: Nat
   type Equal                [N <: Nat]                      <: Bool
   type Lower                [N <: Nat]                      <: Bool
+  type Unfold                                               <: List
 
   protected type This                                       <: Nat
   protected[nat] type Pred                                  <: Nat
@@ -27,6 +29,7 @@ sealed trait Succ[P <: Nat] extends Nat {
 
   override type Equal                [N <: Nat]                      = loop[N, Pred#Equal]
   override type Lower                [N <: Nat]                      = loop[N, Pred#Lower]
+  override type Unfold                                               = This :: Pred#Unfold
 
   override protected type This                                       = Pred + _1
   override protected[nat] type Pred                                  = P
@@ -40,6 +43,7 @@ sealed trait Zero extends Nat {
   override type Min                  [N <: Nat, O <: Nat, NO <: Nat] = O
   override type Equal                [N <: Nat]                      = isZero[N]
   override type Lower                [N <: Nat]                      = ![This == N]
+  override type Unfold                                               = Nil
 
   override protected type This                                       = Zero
   override protected[nat] type Pred                                  = This

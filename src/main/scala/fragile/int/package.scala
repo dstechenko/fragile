@@ -7,18 +7,21 @@ import fragile.pair._
 package object int {
   type Int                     = Pair[Nat]
   type int[N <: Nat]           = N <-> _0
-  type nat[I <: Int]           = _0
+  type eq [L <: Int, R <: Int] = False
+
+  private type isPositive[I <: Int] = firstN[I] > secondN[I]
+
+  type nat[I <: Int]           = ifN[isPositive[I], firstN[I] - secondN[I], _0]
 
   type canonical[I <: Int]     = ({
-                                   type isPositive = firstN[I] > secondN[I]
-                                   type first      = ifN[isPositive, firstN[I] - secondN[I], _0]
-                                   type second     = ifN[isPositive, _0, secondN[I] - firstN[I]]
+                                   type first      = nat[I]
+                                   type second     = nat[~[I]]
                                    type run        = first <-> second
                                  })#run
 
-  type eq [L <: Int, R <: Int] = False
 
-  type ~  [I <: Int]           = canonical[secondN[I] <-> firstN[I]]
+  type ~  [I <: Int]           = secondN[I] <-> firstN[I]
+
   type -- [L <: Int, R <: Int] = L ++ ~[R]
 
   type ++ [L <: Int, R <: Int] = ({
