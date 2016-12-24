@@ -341,9 +341,17 @@ object SliceLaws {
 object IndexWhereLaws {
   type given    = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: _6 :: Nil
   type expected = _5
-  // type result   = given indexWhere ({ type F[N <: Nat] = N == _4 })#F
+  type result   = given indexWhere ({ type F[N <: Nat] = N == _4 })#F
 
-  // implicitly[expected =:= result]
+  implicitly[expected =:= result]
+}
+
+object IndexWhereFromLaws {
+  type given    = _0 :: _4 :: _2 :: _3 :: _4 :: _5 :: _6 :: Nil
+  type expected = _6
+  type result   = indexWhereFrom[given, ({ type F[N <: Nat] = N == _4 })#F, _3]
+
+  implicitly[expected =:= result]
 }
 
 object ProductLaws {
@@ -371,7 +379,6 @@ object IntersectLaws {
 
   // implicitly[expected =:= result]
 }
-
 
 object FunctionLaws {
   type increase[N <: Nat] = N + _1

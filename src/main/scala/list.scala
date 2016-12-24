@@ -65,7 +65,7 @@ sealed trait Nil extends List {
   override protected type Min   [N <: Nat]                                = N
 }
 
-sealed trait TListFunctions {
+sealed trait ListSyntax {
   type list                 [N <: Nat]                                          = N :: Nil
   type map                  [L <: List, F[_ <: Nat] <: Nat]                     = L#Map[F]
   type flatMap              [L <: List, F[_ <: Nat] <: List]                    = L#FlatMap[F]
@@ -109,13 +109,13 @@ sealed trait TListFunctions {
   type slice                [L <: List, B <: Nat, E <: Nat]                     = (L dropLeft (B - _1)) dropRight (size[L] - E)
   type union                [L <: List, R <: List]                              = L ::: R
   type diff                 [L <: List, R <: List]                              = L filterNot ({ type F[N <: Nat] = R contains N })#F
-  type intersect            [L <: List, R <: List]                              = L filter    ({ type F[N <: Nat] = R contains N })#F
+  type indexWhere           [L <: List, F[_ <: Nat] <: Bool]                    = applyOrElse[(L filter F) map ({ type F[N <: Nat] = (L indexOf N) })#F, _1, _0]
+  type indexWhereFrom       [L <: List, F[_ <: Nat] <: Bool, B <: Nat]          = (L dropLeft B) indexWhere F
 
+  type intersect            [L <: List, R <: List]                              = L filter    ({ type F[N <: Nat] = R contains N })#F
   type indexOfUntil         [L <: List, N <: Nat, E <: Nat]                     = (L takeLeft E) indexOf N
   type lastIndexOf          [L <: List, N <: Nat]                               = size[L] - (reverse[L] indexOf N)
   type lastIndexOfUntil     [L <: List, N <: Nat, E <: Nat]                     = (L takeLeft E) lastIndexOf N
-  type indexWhere           [L <: List, F[_ <: Nat] <: Bool]                    = (L map ({ type FN[N <: Nat] = ifN[F[N], _1, _0] })#FN) indexOf _1
-  type indexWhereFrom       [L <: List, F[_ <: Nat] <: Bool, B <: Nat]          = (L dropLeft B) indexWhere F
   type product              [L <: List]                                         = L reduceM ({ type F[LN <: Nat, RN <: Nat] = RN * LN })#F
 
   type indexOfSlice         [L <: List, R <: List]                              <: Nat
@@ -124,7 +124,7 @@ sealed trait TListFunctions {
   type lastIndexOfSliceUntil[L <: List, R <: Nat, E <: Nat]                     <: Nat
   type lastIndexOfWhere     [L <: List, F[_ <: Nat] <: Bool]                    <: Nat
   type lastIndexOfWhereUntil[L <: List, F[_ <: Nat] <: Bool, E <: Nat]          <: Nat
-  type containsSlice        [L <: List, R <: List]                              <: List
+  type containsSlice        [L <: List, R <: List]                              = (L indexOfSlice R) > _0
   type removeSlice          [L <: List, R <: List]                              <: List
   type dropWhile            [L <: List, F[_ <: Nat] <: Bool]                    <: List
   type takeWhile            [L <: List, F[_ <: Nat] <: Bool]                    <: List
@@ -133,4 +133,4 @@ sealed trait TListFunctions {
   type permutations         [L <: List]                                         <: List
 }
 
-object List extends TListFunctions
+object List extends ListSyntax

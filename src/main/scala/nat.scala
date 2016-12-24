@@ -45,7 +45,7 @@ sealed trait Zero extends Nat {
   override protected type This                        = Zero
 }
 
-trait NatFunctions {
+trait NatSyntax {
   type pred  [N <: Nat]           = N#Pred
   type +     [L <: Nat, R <: Nat] = L#Plus[R]
   type -     [L <: Nat, R <: Nat] = L#Minus[R]
@@ -75,4 +75,4 @@ trait NatInstances {
   type _9 = Succ[_8]
 }
 
-object Nat extends NatFunctions with NatInstances
+object Nat extends NatSyntax with NatInstances

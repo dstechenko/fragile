@@ -1,6 +1,6 @@
 import language.higherKinds
 
-trait FunctionFunctions {
+trait FunctionSyntax {
   type Function = { type Apply[_ <: Nat] <: Nat }
 
   type identity[N <: Nat]                                = N
@@ -11,4 +11,4 @@ trait FunctionFunctions {
   type apply   [F <: Function, N <: Nat]                 = F#Apply[N]
 }
 
-object Function extends FunctionFunctions
+object Function extends FunctionSyntax

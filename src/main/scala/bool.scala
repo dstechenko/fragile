@@ -27,7 +27,7 @@ sealed trait False extends Bool {
   override type IfL[T <: List, E <: List] = E
 }
 
-trait BoolFunctions {
+trait BoolSyntax {
   type || [L <: Bool, R <: Bool]            = L#Or[R]
   type !  [B <: Bool]                       = B#Not
 
@@ -38,4 +38,4 @@ trait BoolFunctions {
   type && [L <: Bool, R <: Bool]            = ![![L] || ![R]]
 }
 
-object Bool extends BoolFunctions
+object Bool extends BoolSyntax
