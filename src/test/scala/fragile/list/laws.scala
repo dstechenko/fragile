@@ -343,7 +343,7 @@ object IntersectLaws {
   type givenLeft    = _1 :: _2 :: _3 :: _1 :: Nil
   type givenRight   = _3 :: _4 :: _2 :: _5 :: Nil
   type expected     = _2 :: _3 :: Nil
-  type result       = givenLeft intersect givenRight
+  // type result       = givenLeft intersect givenRight
 
   //implicitly[expected =:= result]
 }

@@ -2,7 +2,6 @@ package fragile.list
 
 import fragile.bool._
 import fragile.nat._
-import fragile.product._
 
 import language.higherKinds
 
@@ -27,22 +26,22 @@ sealed trait List {
 }
 
 sealed trait ::[H <: Nat, T <: List] extends List {
-  override type Map           [F[_ <: Nat] <: Nat]                     = F[H] :: T#Map[F]
-  override type FlatMap       [F[_ <: Nat] <: List]                    = F[H] ::: T#FlatMap[F]
-  override type Filter        [F[_ <: Nat] <: Bool]                    = ifL[F[H], H :: T#Filter[F], T#Filter[F]]
-  override type Fold          [N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat] = F[H, T#Fold[N, F]]
+  override type Map           [F[_ <: Nat] <: Nat]                     = F[Head] :: Tail#Map[F]
+  override type FlatMap       [F[_ <: Nat] <: List]                    = F[Head] ::: Tail#FlatMap[F]
+  override type Filter        [F[_ <: Nat] <: Bool]                    = ifL[F[Head], list[Head], Nil] ::: Tail#Filter[F]
+  override type Fold          [N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat] = F[Head, Tail#Fold[N, F]]
   override type IndexOf       [N <: Nat, I <: Nat]                     = ifN[Head == N, I + _1, Tail#IndexOf[N, I + _1]]
-  override type Remove        [N <: Nat]                               = ifL[H == N, T, H :: T#Remove[N]]
-  override type Concat        [L <: List]                              = H :: T#Concat[L]
-  override type Reverse                                                = T#Reverse#Concat[H :: Nil]
-  override type Distinct                                               = ifL[Tail contains Head, Tail#Distinct, H :: Tail#Distinct]
-  override type Sort                                                   = T#Min[H] :: (H :: T)#Remove[T#Min[H]]#Sort
-  override type Size                                                   = Succ[T#Size]
+  override type Remove        [N <: Nat]                               = ifL[Head == N, Tail, Head :: Tail#Remove[N]]
+  override type Concat        [L <: List]                              = Head :: Tail#Concat[L]
+  override type Reverse                                                = Tail#Reverse#Concat[list[Head]]
+  override type Distinct                                               = ifL[Tail contains Head, Tail#Distinct, Head :: Tail#Distinct]
+  override type Sort                                                   = Tail#Min[Head] :: (Head :: Tail)#Remove[Tail#Min[Head]]#Sort
+  override type Size                                                   = Succ[Tail#Size]
   override type TakeLeft      [N <: Nat]                               = ifL[isZero[N],  Nil, Head :: Tail#TakeLeft[N - _1]]
   override type ApplyOrElse   [N <: Nat, E <: Nat]                     = ifN[N == _0, E, ifN[N == _1, Head, Tail#ApplyOrElse[N - _1, E]]]
 
   override protected type This                                         = Head :: Tail
-  override protected type Min [N <: Nat]                               = T#Min[H min N]
+  override protected type Min [N <: Nat]                               = Tail#Min[Head min N]
 
   protected type Head                                                  = H
   protected type Tail                                                  = T
