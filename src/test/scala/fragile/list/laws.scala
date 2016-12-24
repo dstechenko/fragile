@@ -1,60 +1,9 @@
-import Bool._
-import Nat._
-import List._
-import Function._
-import Product._
+package fragile.list
 
-object NatLaws {
-  implicitly[_2 + _3   =:= _5]
-
-  implicitly[_2 - _3   =:= _0]
-  implicitly[_5 - _3   =:= _2]
-
-  implicitly[_2 == _2  =:= True]
-  implicitly[_2 == _3  =:= False]
-
-  implicitly[_2 =/= _2 =:= False]
-  implicitly[_2 =/= _3 =:= True]
-
-  implicitly[_2 <= _3  =:= True]
-  implicitly[_3 <= _3  =:= True]
-  implicitly[_4 <= _3  =:= False]
-
-  implicitly[_3 >= _3  =:= True]
-  implicitly[_3 >= _2  =:= True]
-  implicitly[_2 >= _3  =:= False]
-
-  implicitly[_2 < _3   =:= True]
-  implicitly[_3 < _3   =:= False]
-
-  implicitly[_4 > _3   =:= True]
-  implicitly[_3 > _3   =:= False]
-
-  implicitly[_4 min _3 =:= _3]
-  implicitly[_1 min _4 =:= _1]
-
-  implicitly[_4 max _3 =:= _4]
-  implicitly[_1 max _4 =:= _4]
-
-  implicitly[_9 * _0   =:= _0]
-  implicitly[_0 * _9   =:= _0]
-  implicitly[_5 * _1   =:= _5]
-  implicitly[_2 * _3   =:= _6]
-  implicitly[_4 * _2   =:= _8]
-  implicitly[_3 * _3   =:= _9]
-}
-
-object BoolLaws {
-  implicitly[![False]       =:= True]
-  implicitly[![True]        =:= False]
-
-  implicitly[True  || False =:= True]
-  implicitly[False || False =:= False]
-
-  implicitly[True  && False =:= False]
-  implicitly[False && True  =:= False]
-  implicitly[True  && True  =:= True]
-}
+import fragile.bool._
+import fragile.nat._
+import fragile.product._
+import fragile.function._
 
 object MapLaws {
   type given    = _3 :: _1 :: _2 :: _4 :: _0 :: Nil
@@ -407,15 +356,4 @@ object PartitionLaws {
   type result       = given partition ({ type F[N <: Nat] = N < _5 })#F
 
   implicitly[expected =:= result]
-}
-
-
-object FunctionLaws {
-  type increase[N <: Nat] = N + _1
-  type multiply[N <: Nat] = N * _2
-
-  implicitly[list[_1] map identity                                      =:= list[_1]]
-  implicitly[const[_1] apply _2                                         =:=       _1]
-  implicitly[(eta[increase] andThen multiply andThen multiply) apply _1 =:=       _8]
-  implicitly[(eta[increase] compose multiply compose multiply) apply _1 =:=       _5]
 }

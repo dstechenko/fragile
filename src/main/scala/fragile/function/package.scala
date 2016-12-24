@@ -1,6 +1,8 @@
-import language.higherKinds
+package fragile
 
-trait FunctionSyntax {
+import fragile.nat._
+
+package object function {
   type Function = { type Apply[_ <: Nat] <: Nat }
 
   type identity[N <: Nat]                                = N
@@ -10,5 +12,3 @@ trait FunctionSyntax {
   type compose [L <: Function, R[_ <: Nat] <: Nat]       = Function { type Apply[N <: Nat] = apply[L, R[N]] }
   type apply   [F <: Function, N <: Nat]                 = F#Apply[N]
 }
-
-object Function extends FunctionSyntax
