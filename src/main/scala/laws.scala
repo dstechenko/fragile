@@ -212,9 +212,9 @@ object IndexOfLaws {
 object IndexOfUntilLaws {
   type given    = _3 :: _2 :: _5 :: _4 :: Nil
   type expected = _0
-  // type result   = indexOfUntil[given, _4, _3]
+  type result   = indexOfUntil[given, _4, _3]
 
-  // implicitly[expected =:= result]
+  implicitly[expected =:= result]
 }
 
 object LastIndexOfLaws {
@@ -347,11 +347,11 @@ object IndexWhereLaws {
 }
 
 object IndexWhereFromLaws {
-  type given    = _0 :: _4 :: _2 :: _3 :: _4 :: _5 :: _6 :: Nil
-  type expected = _6
-  type result   = indexWhereFrom[given, ({ type F[N <: Nat] = N == _4 })#F, _3]
+  type given                = _0 :: _4 :: _2 :: _3 :: _4 :: _5 :: _6 :: Nil
+  type findFrom[B <: Nat]   = indexWhereFrom[given, ({ type F[N <: Nat] = N == _4 })#F, B]
 
-  implicitly[expected =:= result]
+  implicitly[findFrom[_3] =:= _5]
+  implicitly[findFrom[_6] =:= _0]
 }
 
 object ProductLaws {

@@ -110,12 +110,12 @@ sealed trait ListSyntax {
   type union                [L <: List, R <: List]                              = L ::: R
   type diff                 [L <: List, R <: List]                              = L filterNot ({ type F[N <: Nat] = R contains N })#F
   type indexWhere           [L <: List, F[_ <: Nat] <: Bool]                    = applyOrElse[(L filter F) map ({ type F[N <: Nat] = (L indexOf N) })#F, _1, _0]
-  type indexWhereFrom       [L <: List, F[_ <: Nat] <: Bool, B <: Nat]          = (L dropLeft B) indexWhere F
+  type indexWhereFrom       [L <: List, F[_ <: Nat] <: Bool, B <: Nat]          = ifN[(L dropLeft B) indexWhere F == _0, _0, ((L dropLeft B) indexWhere F) + B]
+  type indexOfUntil         [L <: List, M <: Nat, E <: Nat]                     = (L takeLeft E) indexWhere ({ type F[N <: Nat] = N == M })#F
 
-  type intersect            [L <: List, R <: List]                              = L filter    ({ type F[N <: Nat] = R contains N })#F
-  type indexOfUntil         [L <: List, N <: Nat, E <: Nat]                     = (L takeLeft E) indexOf N
   type lastIndexOf          [L <: List, N <: Nat]                               = size[L] - (reverse[L] indexOf N)
   type lastIndexOfUntil     [L <: List, N <: Nat, E <: Nat]                     = (L takeLeft E) lastIndexOf N
+  type intersect            [L <: List, R <: List]                              = L filter ({ type F[N <: Nat] = R contains N })#F
   type product              [L <: List]                                         = L reduceM ({ type F[LN <: Nat, RN <: Nat] = RN * LN })#F
 
   type indexOfSlice         [L <: List, R <: List]                              <: Nat
