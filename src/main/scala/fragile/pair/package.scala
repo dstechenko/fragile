@@ -5,13 +5,24 @@ import fragile.nat._
 import fragile.list._
 
 package object pair {
-  type pair [T, F <: T, S <: T]    = Pair[T] { type FST = F; type SND = S }
+  type pair   [T, F <: T, S <: T]    = Pair[T] { type FST = F; type SND = S }
 
-  type pairN[F <:  Nat, S <:  Nat] = pair[Nat, F, S]
-  type pairB[F <: Bool, S <: Bool] = pair[Bool, F, S]
-  type pairL[F <: List, S <: List] = pair[List, F, S]
+  type first  [T, P <: Pair[T]]      = P#FST
+  type second [T, P <: Pair[T]]      = P#SND
 
-  type <~>  [F <: Bool, S <: Bool] = pairB[F, S]
-  type <->  [F <: Nat, S <: Nat]   = pairN[F, S]
-  type <--> [F <: List, S <: List] = pairL[F, S]
+  type firstN [P <: Pair[Nat]]       = first[Nat, P]
+  type firstB [P <: Pair[Bool]]      = first[Bool, P]
+  type firstL [P <: Pair[List]]      = first[List, P]
+
+  type secondN[P <: Pair[Nat]]       = second[Nat, P]
+  type secondB[P <: Pair[Bool]]      = second[Bool, P]
+  type secondL[P <: Pair[List]]      = second[List, P]
+
+  type pairN  [F <:  Nat, S <:  Nat] = pair[Nat, F, S]
+  type pairB  [F <: Bool, S <: Bool] = pair[Bool, F, S]
+  type pairL  [F <: List, S <: List] = pair[List, F, S]
+
+  type <~>    [F <: Bool, S <: Bool] = pairB[F, S]
+  type <->    [F <: Nat, S <: Nat]   = pairN[F, S]
+  type <-->   [F <: List, S <: List] = pairL[F, S]
 }
