@@ -15,7 +15,8 @@ sealed trait List {
   type Concat        [L <: List]                              <: List
   type Reverse                                                <: List
   type Distinct                                               <: List
-  type Sort                                                   <: List
+  type SelectSort                                             <: List
+  type QuickSort                                              <: List
   type Size                                                   <: Nat
   type TakeLeft      [N <: Nat]                               <: List
   type DropWhile     [F[_ <: Nat] <: Bool]                    <: List
@@ -35,7 +36,22 @@ sealed trait ::[H <: Nat, T <: List] extends List {
   override type Concat        [L <: List]                              = Head :: Tail#Concat[L]
   override type Reverse                                                = Tail#Reverse#Concat[list[Head]]
   override type Distinct                                               = ifL[Tail contains Head, Tail#Distinct, Head :: Tail#Distinct]
-  override type Sort                                                   = Tail#Min[Head] :: (Head :: Tail)#Remove[Tail#Min[Head]]#Sort
+
+  override type SelectSort                                             = ({
+                                                                           type selected = Tail#Min[Head]
+                                                                           type unsorted = This#Remove[selected]
+                                                                           type run      = selected :: unsorted#SelectSort
+                                                                         })#run
+
+  override type QuickSort                                              = ({
+                                                                           type pivot              = Head
+                                                                           type separate[N <: Nat] = N < pivot
+                                                                           type separated          = Tail partition separate
+                                                                           type left               = separated#P1#QuickSort
+                                                                           type right              = separated#P2#QuickSort
+                                                                           type run                = left ::: pivot :: right
+                                                                         })#run
+
   override type Size                                                   = Succ[Tail#Size]
   override type TakeLeft      [N <: Nat]                               = ifL[isZero[N],  Nil, Head :: Tail#TakeLeft[N - _1]]
   override type ApplyOrElse   [N <: Nat, E <: Nat]                     = ifN[N == _0, E, ifN[N == _1, Head, Tail#ApplyOrElse[N - _1, E]]]
@@ -57,7 +73,8 @@ sealed trait Nil extends List {
   override type Concat          [L <: List]                               = L
   override type Reverse                                                   = This
   override type Distinct                                                  = This
-  override type Sort                                                      = This
+  override type SelectSort                                                = This
+  override type QuickSort                                                 = This
   override type Size                                                      = _0
   override type TakeLeft        [N <: Nat]                                = This
   override type ApplyOrElse     [N <: Nat, E <: Nat]                      = E

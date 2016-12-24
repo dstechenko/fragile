@@ -62,18 +62,34 @@ object RemoveLaws {
   implicitly[expected =:= result]
 }
 
-object SortAscLaws {
+object SelectSortAscLaws {
   type given    = _0 :: _5 :: _3 :: _4 :: _2 :: _1 :: Nil
   type expected = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: Nil
-  type result   = sortAsc[given]
+  type result   = selectSortAsc[given]
 
   implicitly[expected =:= result]
 }
 
-object SortDescLaws {
+object SelecSortDescLaws {
   type given    = _0 :: _3 :: _4 :: _2 :: _5 :: _1 :: Nil
   type expected = _5 :: _4 :: _3 :: _2 :: _1 :: _0 :: Nil
-  type result   = sortDesc[given]
+  type result   = selectSortDesc[given]
+
+  implicitly[expected =:= result]
+}
+
+object QuickSortAscLaws {
+  type given    = _0 :: _5 :: _3 :: _4 :: _2 :: _1 :: Nil
+  type expected = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: Nil
+  type result   = quickSortAsc[given]
+
+  implicitly[expected =:= result]
+}
+
+object QuickSortDescLaws {
+  type given    = _0 :: _3 :: _4 :: _2 :: _5 :: _1 :: Nil
+  type expected = _5 :: _4 :: _3 :: _2 :: _1 :: _0 :: Nil
+  type result   = quickSortDesc[given]
 
   implicitly[expected =:= result]
 }

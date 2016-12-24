@@ -16,7 +16,8 @@ package object list {
   type remove               [L <: List, N <: Nat]                               = L#Remove[N]
   type :::                  [L <: List, R <: List]                              = L#Concat[R]
   type reverse              [L <: List]                                         = L#Reverse
-  type sort                 [L <: List]                                         = L#Sort
+  type selectSort           [L <: List]                                         = L#SelectSort
+  type quickSort            [L <: List]                                         = L#QuickSort
   type size                 [L <: List]                                         = L#Size
   type takeLeft             [L <: List, N <: Nat]                               = L#TakeLeft[N]
   type applyOrElse          [L <: List, N <: Nat, E <: Nat]                     = L#ApplyOrElse[N, E]
@@ -33,8 +34,10 @@ package object list {
   type exists               [L <: List, F[_ <: Nat] <: Bool]                    = (L count F) > _0
   type filterNot            [L <: List, F[_ <: Nat] <: Bool]                    = L filter ({ type FN[N <: Nat] = ![F[N]] })#FN
   type forall               [L <: List, F[_ <: Nat] <: Bool]                    = ![L exists ({ type FN[N <: Nat] = ![F[N]] })#FN]
-  type sortAsc              [L <: List]                                         = sort[L]
-  type sortDesc             [L <: List]                                         = reverse[sortAsc[L]]
+  type selectSortAsc        [L <: List]                                         = selectSort[L]
+  type selectSortDesc       [L <: List]                                         = reverse[selectSortAsc[L]]
+  type quickSortAsc         [L <: List]                                         = quickSort[L]
+  type quickSortDesc        [L <: List]                                         = reverse[quickSortAsc[L]]
   type corresponds          [L <: List, R <: List]                              = L forall ({ type F[N <: Nat] = (L indexOf N) == (R indexOf N) })#F
   type ===                  [L <: List, R <: List]                              = (size[L] == size[R]) && (L corresponds R) && (R corresponds L)
   type isDefinedAt          [L <: List, N <: Nat]                               = size[L] >= N
