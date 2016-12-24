@@ -55,11 +55,11 @@ trait NatSyntax {
   type ==    [L <: Nat, R <: Nat] = L#Equal[R]
   type <     [L <: Nat, R <: Nat] = L#Lower[R]
 
-  type max   [L <: Nat, R <: Nat] = ifN[L == min[L, R], R, L]
+  type max   [L <: Nat, R <: Nat] = ifN[L == (L min R), R, L]
   type =/=   [L <: Nat, R <: Nat] = ![L == R]
   type >     [L <: Nat, R <: Nat] = ![L <= R]
-  type <=    [L <: Nat, R <: Nat] = ==[L, R] || <[L, R]
-  type >=    [L <: Nat, R <: Nat] = ==[L, R] || >[L, R]
+  type <=    [L <: Nat, R <: Nat] = (L == R) || (L < R)
+  type >=    [L <: Nat, R <: Nat] = (L == R) || (L > R)
 }
 
 trait NatInstances {
