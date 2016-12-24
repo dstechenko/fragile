@@ -10,6 +10,14 @@ object PlusLaws {
   implicitly[((_1 + _2) + _3) =:= (_1 + (_2 + _3))]
 }
 
+object MultLaws {
+  implicitly[_2 * _3          =:=               _6]
+  implicitly[(_2 * _3)        =:=        (_3 * _2)]
+  implicitly[_3 * _0          =:=               _0]
+  implicitly[_0 * _3          =:=               _0]
+  implicitly[((_2 * _3) * _4) =:= (_2 * (_3 * _4))]
+}
+
 object MinusLaws {
   implicitly[_0 - _0 =:= _0]
   implicitly[_3 - _3 =:= _0]
@@ -63,12 +71,4 @@ object MaxLaws {
   implicitly[_3 max _2 =:= _3]
   implicitly[_2 max _3 =:= _3]
   implicitly[_3 max _3 =:= _3]
-}
-
-object MultLaws {
-  implicitly[_2 * _3          =:=               _6]
-  implicitly[(_2 * _3)        =:=        (_3 * _2)]
-  implicitly[_3 * _0          =:=               _0]
-  implicitly[_0 * _3          =:=               _0]
-  implicitly[((_2 * _3) * _4) =:= (_2 * (_3 * _4))]
 }

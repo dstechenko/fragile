@@ -22,6 +22,8 @@ sealed trait List {
   type DropWhile                [F[_ <: Nat] <: Bool]                    <: List
   type ApplyOrElse              [N <: Nat, E <: Nat]                     <: Nat
 
+  // type PadTo                    [N <: Nat, E <: Nat]                     = (N :: This)#PadTo[N, E - _1]
+
   protected type This                                                    <: List
   protected[list] type MinOrElse[N <: Nat]                               <: Nat
 }
@@ -53,8 +55,8 @@ sealed trait ::[H <: Nat, T <: List] extends List {
                                                                                       type pivot              = Head
                                                                                       type separate[N <: Nat] = N < pivot
                                                                                       type separated          = Tail partition separate
-                                                                                      type left               = separated#P1#QuickSort
-                                                                                      type right              = separated#P2#QuickSort
+                                                                                      type left               = separated#FST#QuickSort
+                                                                                      type right              = separated#SND#QuickSort
                                                                                       type run                = left ::: pivot :: right
                                                                                     })#run
 

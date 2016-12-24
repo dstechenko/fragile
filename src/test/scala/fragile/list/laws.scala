@@ -2,7 +2,7 @@ package fragile.list
 
 import fragile.bool._
 import fragile.nat._
-import fragile.product._
+import fragile.pair._
 import fragile.function._
 
 object MapLaws {
@@ -215,8 +215,8 @@ object EqualLaws {
   type same  = _0 :: _1 :: _2 :: _3 :: Nil
   type other = _0 :: _2 :: _1 :: _3 :: Nil
 
-  implicitly[===[given, same]  =:= True]
-  implicitly[===[given, other] =:= False]
+  implicitly[(given ===  same)  =:=  True]
+  implicitly[(given === other)  =:= False]
 }
 
 object DistinctLaws {
@@ -364,7 +364,7 @@ object DiffLaws {
   implicitly[expected =:= result]
 }
 
-object IntersectLaws {
+ object IntersectLaws {
   type givenLeft    = _1 :: _2 :: _3 :: _1 :: Nil
   type givenRight   = _3 :: _4 :: _2 :: _5 :: Nil
   type expected     = _2 :: _3 :: Nil
@@ -377,8 +377,16 @@ object PartitionLaws {
   type given        = _1 :: _5 :: _2 :: _0 :: _6 :: _9 ::  _3 :: _1 :: Nil
   type left         = _1 ::       _2 :: _0 ::              _3 :: _1 :: Nil
   type right        = _5 ::                   _6 :: _9              :: Nil
-  type expected     = left -> right
+  type expected     = left <--> right
   type result       = given partition ({ type F[N <: Nat] = N < _5 })#F
+
+  implicitly[expected =:= result]
+}
+
+object PadToLaws {
+  type given    =                   _1 :: _2 :: _3 :: _4 :: Nil
+  type expected = _0 :: _0 :: _0 :: _1 :: _2 :: _3 :: _4 :: Nil
+  type result   = padTo[given, _0, _3]
 
   implicitly[expected =:= result]
 }
