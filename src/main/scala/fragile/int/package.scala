@@ -9,9 +9,7 @@ package object int {
   type int[N <: Nat]           = N <-> _0
   type eq [L <: Int, R <: Int] = False
 
-  private type isPositive[I <: Int] = firstN[I] > secondN[I]
-
-  type nat[I <: Int]           = ifN[isPositive[I], firstN[I] - secondN[I], _0]
+  type nat[I <: Int]           = firstN[I] - secondN[I]
 
   type canonical[I <: Int]     = ({
                                    type first      = nat[I]

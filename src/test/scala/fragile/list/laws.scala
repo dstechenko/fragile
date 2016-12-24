@@ -119,6 +119,14 @@ object SumLaws {
   implicitly[expected =:= result]
 }
 
+object ProductLaws {
+  type given    = _1 :: _2 :: _3 :: Nil
+  type expected = _6
+  type result   = product[given]
+
+  implicitly[expected =:= result]
+}
+
 object SizeLaws {
   type given    = _0 :: _1 :: _2 :: _3 :: Nil
   type expected = _4
@@ -366,14 +374,6 @@ object IndexWhereFromLaws {
 
   implicitly[findFrom[_3] =:= _5]
   implicitly[findFrom[_6] =:= _0]
-}
-
-object ProductLaws {
-  type given    = _1 :: _2 :: _3 :: Nil
-  type expected = _6
-  type result   = product[given]
-
-  implicitly[expected =:= result]
 }
 
 object DiffLaws {

@@ -14,7 +14,7 @@ package object list {
   type map                    [L <: List, F[_ <: Nat] <: Nat]                     = L#Map[F]
   type flatMap                [L <: List, F[_ <: Nat] <: List]                    = L#FlatMap[F]
   type filter                 [L <: List, F[_ <: Nat] <: Bool]                    = L#Filter[F]
-  type fold                   [L <: List, N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat] = L#Fold[N, F]
+  type foldRight              [L <: List, N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat] = L#FoldRight[N, F]
   type indexOf                [L <: List, N <: Nat]                               = L#IndexOf[N, _0]
   type remove                 [L <: List, N <: Nat]                               = L#Remove[N]
   type :::                    [L <: List, R <: List]                              = L#Concat[R]
@@ -27,10 +27,6 @@ package object list {
 
   type isEmpty                [L <: List]                                         = size[L] == _0
   type nonEmpty               [L <: List]                                         = ![isEmpty[L]]
-  type reduceP                [L <: List, F[_ <: Nat, _ <: Nat] <: Nat]           = fold[L, _0, F]
-  type reduceM                [L <: List, F[_ <: Nat, _ <: Nat] <: Nat]           = fold[L, _1, F]
-  type sum                    [L <: List]                                         = L reduceP ({ type F[LN <: Nat, RN <: Nat] = RN + LN })#F
-  type product                [L <: List]                                         = L reduceM ({ type F[LN <: Nat, RN <: Nat] = RN * LN })#F
   type count                  [L <: List, F[_ <: Nat] <: Bool]                    = size[L filter F]
   type contains               [L <: List, N <: Nat]                               = (L indexOf N) > _0
   type containsAll            [L <: List, R <: List]                              = R forall ({ type F[N <: Nat] = L contains N })#F
@@ -102,5 +98,23 @@ package object list {
   type lastIndexOfWhereUntil  [L <: List, F[_ <: Nat] <: Bool, E <: Nat]          <: Nat
 
 
-  type permutations           [L <: List]                                         <: List
+  type segmentLength          [L <: List, F[_ <: Nat] <: Bool, B <: Nat]          <: Nat
+  type prefixLength           [L <: List, F[_ <: Nat] <: Bool]                    = segmentLength[L, F, _1]
+  type updated                [L <: List, I <: Nat, N <: Nat]                     <: List
+
+  type foldLeft               [L <: List, N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat]          = foldRight[reverse[L], N, F]
+  type reduceLeft             [L <: ::[_ <: Nat, _ <: List], F[_ <: Nat, _ <: Nat] <: Nat] = foldLeft[L#Tail, L#Head, F]
+
+  type sum                    [L <: List]                                         = ({
+                                                                                      type zero                       = _0
+                                                                                      type append[A <: Nat, B <: Nat] = A + B
+                                                                                      type run                        = foldLeft[L, zero, append]
+                                                                                     })#run
+
+  type product                [L <: List]                                         = ({
+                                                                                      type zero                       = _1
+                                                                                      type append[A <: Nat, B <: Nat] = A * B
+                                                                                      type run                        = foldLeft[L, zero, append]
+                                                                                     })#run
+
 }
