@@ -1,7 +1,0 @@
-import language.higherKinds
-
-trait FunctionSyntax {
-  
-}
-
-object Function extends FunctionSyntax
