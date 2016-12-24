@@ -74,7 +74,7 @@ package object list {
 
 
   type intersectFM          [L <: List, R <: List]                              = L flatMap ({ type F[N <: Nat] = ifL[R contains N, list[N], Nil] })#F
-  type intersect            [L <: List, R <: List]                              = L filter ({ type F[N <: Nat] = R contains N })#F
+  type intersect            [L <: List, R <: List]                              = L filter  ({ type F[N <: Nat] = R contains N })#F
 
 
   type indexOfSlice         [L <: List, R <: List]                              = ({

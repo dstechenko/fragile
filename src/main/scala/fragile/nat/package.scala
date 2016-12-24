@@ -3,21 +3,22 @@ package fragile
 import fragile.bool._
 
 package object nat {
-  type pred  [N <: Nat]           = N#Pred
-  type +     [L <: Nat, R <: Nat] = L#Plus[R]
-  type -     [L <: Nat, R <: Nat] = L#Minus[R]
-  type *     [L <: Nat, R <: Nat] = L#Mult[R, _0]
-  type min   [L <: Nat, R <: Nat] = L#Min[R, L, R]
-  type isZero[N <: Nat]           = N#IsZero
-  type ==    [L <: Nat, R <: Nat] = L#Equal[R]
-  type <     [L <: Nat, R <: Nat] = L#Lower[R]
+  private[nat] type pred  [N <: Nat]           = N#Pred
+  private[nat] type isZero[N <: Nat]           = N#IsZero
 
-  type max   [L <: Nat, R <: Nat] = ifN[L == (L min R), R, L]
-  type =/=   [L <: Nat, R <: Nat] = ![L == R]
-  type >     [L <: Nat, R <: Nat] = ![L <= R]
-  type <=    [L <: Nat, R <: Nat] = (L == R) || (L < R)
-  type >=    [L <: Nat, R <: Nat] = (L == R) || (L > R)
-  type safe  [N <: Nat]           = N + _0
+  type +                  [L <: Nat, R <: Nat] = L#Plus[R]
+  type -                  [L <: Nat, R <: Nat] = L#Minus[R]
+  type *                  [L <: Nat, R <: Nat] = L#Mult[R, _0]
+  type min                [L <: Nat, R <: Nat] = L#Min[R, L, R]
+  type ==                 [L <: Nat, R <: Nat] = L#Equal[R]
+  type <                  [L <: Nat, R <: Nat] = L#Lower[R]
+
+  type max                [L <: Nat, R <: Nat] = ifN[L == (L min R), R, L]
+  type =/=                [L <: Nat, R <: Nat] = ![L == R]
+  type >                  [L <: Nat, R <: Nat] = ![L <= R]
+  type <=                 [L <: Nat, R <: Nat] = (L == R) || (L < R)
+  type >=                 [L <: Nat, R <: Nat] = (L == R) || (L > R)
+  type safe               [N <: Nat]           = N + _0
 
   type _0 = Zero
   type _1 = Succ[_0]

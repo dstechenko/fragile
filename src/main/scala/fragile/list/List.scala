@@ -53,7 +53,7 @@ sealed trait ::[H <: Nat, T <: List] extends List {
                                                                          })#run
 
   override type Size                                                   = Succ[Tail#Size]
-  override type TakeLeft      [N <: Nat]                               = ifL[isZero[N],  Nil, Head :: Tail#TakeLeft[N - _1]]
+  override type TakeLeft      [N <: Nat]                               = ifL[N == _0,  Nil, Head :: Tail#TakeLeft[N - _1]]
   override type ApplyOrElse   [N <: Nat, E <: Nat]                     = ifN[N == _0, E, ifN[N == _1, Head, Tail#ApplyOrElse[N - _1, E]]]
 
   override protected type This                                         = Head :: Tail
