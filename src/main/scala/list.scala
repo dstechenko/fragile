@@ -3,6 +3,7 @@ import language.higherKinds
 import Bool._
 import Nat._
 import List._
+import Product._
 
 sealed trait List {
   type Map           [F[_ <: Nat] <: Nat]                     <: List
@@ -122,6 +123,7 @@ sealed trait ListSyntax {
   type countWhile           [L <: List, F[_ <: Nat] <: Bool]                    = L indexWhere ({ type G[N <: Nat] = ![F[N]] })#G - _1
   type takeWhile            [L <: List, F[_ <: Nat] <: Bool]                    = L takeLeft (L countWhile F)
   type dropWhile            [L <: List, F[_ <: Nat] <: Bool]                    = L dropLeft (L countWhile F)
+  type partition            [L <: List, F[_ <: Nat] <: Bool]                    = product2[L filter F, L filterNot F]
 
 
 
@@ -140,7 +142,6 @@ sealed trait ListSyntax {
   type lastIndexOfWhereUntil[L <: List, F[_ <: Nat] <: Bool, E <: Nat]          <: Nat
   type containsSlice        [L <: List, R <: List]                              = (L indexOfSlice R) > _0
   type removeSlice          [L <: List, R <: List]                              <: List
-  type partition            [L <: List, F[_ <: Nat] <: Bool]                    <: List
   type padTo                [L <: List, N <: Nat, E <: Nat]                     <: List
   type permutations         [L <: List]                                         <: List
 }
