@@ -334,9 +334,19 @@ object IndexOfSliceLaws {
   type given    = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: _6 :: Nil
   type sliced   =                   _3 :: _4 :: _5       :: Nil
   type expected = _4
-  // type result   = given indexOfSlice sliced
+  type result   = given indexOfSlice sliced
 
-  // implicitly[expected =:= result]
+  implicitly[expected =:= result]
+}
+
+object ContainsSliceLaws {
+  type given                                  = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: _6 :: Nil
+  type contains[A <: Nat, B <: Nat, C <: Nat] = given containsSlice (A :: B :: C :: Nil)
+
+  implicitly[contains[_1, _2, _3] =:= True]
+  implicitly[contains[_3, _4, _5] =:= True]
+  implicitly[contains[_1, _2, _4] =:= False]
+  implicitly[contains[_7, _8, _9] =:= False]
 }
 
 object IndexWhereFromLaws {
@@ -368,9 +378,9 @@ object DiffLaws {
   type givenLeft    = _1 :: _2 :: _3 :: _1 :: Nil
   type givenRight   = _3 :: _4 :: _2 :: _5 :: Nil
   type expected     = _2 :: _3 :: Nil
-  // type result       = givenLeft intersect givenRight
+  type result       = givenLeft intersect givenRight
 
-  //implicitly[expected =:= result]
+  implicitly[expected =:= result]
 }
 
 object PartitionLaws {

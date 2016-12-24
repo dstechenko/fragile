@@ -30,7 +30,7 @@ sealed trait List {
 sealed trait ::[H <: Nat, T <: List] extends List {
   override type Map                      [F[_ <: Nat] <: Nat]                     = F[Head]  ::     Tail#Map[F]
   override type FlatMap                  [F[_ <: Nat] <: List]                    = F[Head] ::: Tail#FlatMap[F]
-  override type Filter                   [F[_ <: Nat] <: Bool]                    = ifL[F[Head], list[Head], Nil] ::: Tail#Filter[F]
+  override type Filter                   [F[_ <: Nat] <: Bool]                    = ifL[F[Head], Head :: Tail#Filter[F], Tail#Filter[F]]
   override type Fold                     [N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat] = F[Head, Tail#Fold[N, F]]
   override type IndexOf                  [N <: Nat, I <: Nat]                     = ifN[Head == N, I + _1, Tail#IndexOf[N, I + _1]]
   override type Remove                   [N <: Nat]                               = ifL[Head == N, Tail, Head :: Tail#Remove[N]]
