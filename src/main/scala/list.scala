@@ -86,7 +86,7 @@ sealed trait TListFunctions {
   type reduceM              [L <: List, F[_ <: Nat, _ <: Nat] <: Nat]           = fold[L, _1, F]
   type sum                  [L <: List]                                         = L reduceP ({ type F[LN <: Nat, RN <: Nat] = RN + LN })#F
   type count                [L <: List, F[_ <: Nat] <: Bool]                    = size[L filter F]
-  type contains             [L <: List, M <: Nat]                               = nonEmpty[L filter ({ type F[N <: Nat] = M == N })#F]
+  type contains             [L <: List, N <: Nat]                               = (L indexOf N) > _0
   type containsAll          [L <: List, R <: List]                              = R forall ({ type F[N <: Nat] = L contains N })#F
   type exists               [L <: List, F[_ <: Nat] <: Bool]                    = (L count F) > _0
   type filterNot            [L <: List, F[_ <: Nat] <: Bool]                    = L filter ({ type FN[N <: Nat] = ![F[N]] })#FN
@@ -108,7 +108,8 @@ sealed trait TListFunctions {
   type endsWith             [L <: List, R <: List]                              = (L takeRight size[R]) === R
   type slice                [L <: List, B <: Nat, E <: Nat]                     = (L dropLeft (B - _1)) dropRight (size[L] - E)
   type union                [L <: List, R <: List]                              = L ::: R
-  type diff                 [L <: List, R <: List]                              = L filterNot ({ type F[N <: Nat] = R contains N})#F
+  type diff                 [L <: List, R <: List]                              = L filterNot ({ type F[N <: Nat] = R contains N })#F
+  type intersect            [L <: List, R <: List]                              = L filter    ({ type F[N <: Nat] = R contains N })#F
 
   type indexOfUntil         [L <: List, N <: Nat, E <: Nat]                     = (L takeLeft E) indexOf N
   type lastIndexOf          [L <: List, N <: Nat]                               = size[L] - (reverse[L] indexOf N)
@@ -129,7 +130,6 @@ sealed trait TListFunctions {
   type takeWhile            [L <: List, F[_ <: Nat] <: Bool]                    <: List
   type partition            [L <: List, F[_ <: Nat] <: Bool]                    <: List
   type padTo                [L <: List, N <: Nat, E <: Nat]                     <: List
-  type intersect            [l <: List, r <: List]                              <: List
   type permutations         [L <: List]                                         <: List
 }
 

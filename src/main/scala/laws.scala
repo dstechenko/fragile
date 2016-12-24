@@ -362,3 +362,22 @@ object DiffLaws {
 
   implicitly[expected =:= result]
 }
+
+object IntersectLaws {
+  type givenLeft    = _1 :: _2 :: _3 :: _1 :: Nil
+  type givenRight   = _3 :: _4 :: _2 :: _5 :: Nil
+  type expected     = _2 :: _3 :: Nil
+  // type result       = givenLeft intersect givenRight
+
+  // implicitly[expected =:= result]
+}
+
+
+object FunctionLaws {
+  type increase[N <: Nat] = N + _1
+  type twice   [N <: Nat] = N * _2
+
+  implicitly[list[_1] map identity                                =:= list[_1]]
+  implicitly[const[_1] apply _2                                   =:= _1]
+  implicitly[(eta[increase] andThen twice andThen twice) apply _1 =:=       _8]
+}
