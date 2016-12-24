@@ -18,9 +18,9 @@ sealed trait Nat {
 
 sealed trait Succ[P <: Nat] extends Nat {
   override type Pred                                  = P
-  override type Plus  [N <: Nat]                      = Succ[Pred#Plus[N]]
-  override type Minus [N <: Nat]                      = ifN[isZero[N], This, Pred#Minus[N#Pred]]
-  override type Mult  [N <: Nat, A <: Nat]            = Pred#Mult[N, A#Plus[N]]
+  override type Plus  [N <: Nat]                      = Succ[Pred + N]
+  override type Minus [N <: Nat]                      = ifN[isZero[N], This, Pred - pred[N]]
+  override type Mult  [N <: Nat, A <: Nat]            = Pred#Mult[N, A + N]
   override type Min   [N <: Nat, O <: Nat, NO <: Nat] = ifN[isZero[N], NO, Pred#Min[pred[N], O, NO]]
   override type IsZero                                = False
 

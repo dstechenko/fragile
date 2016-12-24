@@ -134,15 +134,20 @@ sealed trait ListSyntax {
   type product              [L <: List]                                         = L reduceM ({ type F[LN <: Nat, RN <: Nat] = RN * LN })#F
 
 
-  type indexOfSlice         [L <: List, R <: List]                              <: Nat
-  type indexOfSliceFrom     [L <: List, R <: List, B <: Nat]                    <: Nat
-  type lastIndexOfSlice     [L <: List, R <: List]                              <: Nat
-  type lastIndexOfSliceUntil[L <: List, R <: Nat, E <: Nat]                     <: Nat
-  type lastIndexOfWhere     [L <: List, F[_ <: Nat] <: Bool]                    <: Nat
-  type lastIndexOfWhereUntil[L <: List, F[_ <: Nat] <: Bool, E <: Nat]          <: Nat
   type containsSlice        [L <: List, R <: List]                              = (L indexOfSlice R) > _0
   type removeSlice          [L <: List, R <: List]                              <: List
+
+  type indexOfSlice         [L <: List, R <: List]                              <: Nat
+  type indexOfSliceFrom     [L <: List, R <: List, B <: Nat]                    <: Nat
+
+  type lastIndexOfSlice     [L <: List, R <: List]                              <: Nat
+  type lastIndexOfSliceUntil[L <: List, R <: Nat, E <: Nat]                     <: Nat
+
+  type lastIndexOfWhere     [L <: List, F[_ <: Nat] <: Bool]                    <: Nat
+  type lastIndexOfWhereUntil[L <: List, F[_ <: Nat] <: Bool, E <: Nat]          <: Nat
+
   type padTo                [L <: List, N <: Nat, E <: Nat]                     <: List
+
   type permutations         [L <: List]                                         <: List
 }
 
