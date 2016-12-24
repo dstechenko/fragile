@@ -2,6 +2,8 @@ package fragile
 
 import fragile.nat._
 
+import language.higherKinds
+
 package object function {
   type Function = { type Apply[_ <: Nat] <: Nat }
 

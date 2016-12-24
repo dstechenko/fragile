@@ -314,6 +314,15 @@ object IndexWhereLaws {
   implicitly[expected =:= result]
 }
 
+object IndexOfSliceLaws {
+  type given    = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: _6 :: Nil
+  type sliced   =                   _3 :: _4 :: _5       :: Nil
+  type expected = _4
+  // type result   = given indexOfSlice sliced
+
+  // implicitly[expected =:= result]
+}
+
 object IndexWhereFromLaws {
   type given                = _0 :: _4 :: _2 :: _3 :: _4 :: _5 :: _6 :: Nil
   type findFrom[B <: Nat]   = indexWhereFrom[given, ({ type F[N <: Nat] = N == _4 })#F, B]

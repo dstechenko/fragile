@@ -74,13 +74,17 @@ package object list {
   type intersect            [L <: List, R <: List]                              = L filter ({ type F[N <: Nat] = R contains N })#F
 
 
+  type indexOfSlice         [L <: List, R <: List]                              = ({
+                                                                                    type source                     = reverse[L]
+                                                                                    type target                     = reverse[R]
+                                                                                    type visit [_ <: Nat, N <: Nat] = ifN[startsWithOffset[source, target, N - _1], N, N + _1]
+                                                                                    type index                      = source reduceM visit
+                                                                                    type run                        = size[L] - index - size[R]
+                                                                                  })#run
 
-
+  type indexOfSliceFrom     [L <: List, R <: List, B <: Nat]                    <: List
   type containsSlice        [L <: List, R <: List]                              = (L indexOfSlice R) > _0
   type removeSlice          [L <: List, R <: List]                              <: List
-
-  type indexOfSlice         [L <: List, R <: List]                              <: Nat
-  type indexOfSliceFrom     [L <: List, R <: List, B <: Nat]                    <: Nat
 
   type lastIndexOfSlice     [L <: List, R <: List]                              <: Nat
   type lastIndexOfSliceUntil[L <: List, R <: Nat, E <: Nat]                     <: Nat
