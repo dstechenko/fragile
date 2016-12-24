@@ -113,8 +113,14 @@ sealed trait ListSyntax {
   type indexWhereFrom       [L <: List, F[_ <: Nat] <: Bool, B <: Nat]          = ifN[(L dropLeft B) indexWhere F == _0, _0, ((L dropLeft B) indexWhere F) + B]
   type indexOfUntil         [L <: List, M <: Nat, E <: Nat]                     = (L takeLeft E) indexWhere ({ type F[N <: Nat] = N == M })#F
 
-  type lastIndexOf          [L <: List, N <: Nat]                               = size[L] - (reverse[L] indexOf N)
+
+  type lastIndexOf          [L <: List, N <: Nat]                               = ({
+                                                                                    type index = size[L] - (reverse[L] indexOf N) + _1
+                                                                                    type run   = ifN[L contains N, index, _0]
+                                                                                  })#run
+
   type lastIndexOfUntil     [L <: List, N <: Nat, E <: Nat]                     = (L takeLeft E) lastIndexOf N
+
   type intersect            [L <: List, R <: List]                              = L filter ({ type F[N <: Nat] = R contains N })#F
   type product              [L <: List]                                         = L reduceM ({ type F[LN <: Nat, RN <: Nat] = RN * LN })#F
 

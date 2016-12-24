@@ -218,19 +218,21 @@ object IndexOfUntilLaws {
 }
 
 object LastIndexOfLaws {
-  type given    = _3 :: _4 :: _5 :: _4 :: Nil
-  type expected = _4
-  // type result   = given lastIndexOf _4
+  type given              = _3 :: _4 :: _5 :: _4 :: Nil
+  type lastOf[N <: Nat]   = given lastIndexOf N
 
-  // implicitly[expected =:= result]
+  implicitly[lastOf[_5] =:= _3]
+  implicitly[lastOf[_4] =:= _4]
+  implicitly[lastOf[_1] =:= _0]
 }
 
 object LastIndexOfUntilLaws {
-  type given    = _3 :: _4 :: _5 :: _2 :: _5:: Nil
-  type expected = _3
-  // type result   = indexOfUntil[given, _5, _4]
+  type given               = _3 :: _4 :: _5 :: _2 :: _5 :: _1 :: Nil
+  type lastUntil[N <: Nat] = lastIndexOfUntil[given, _5, N]
 
-  // implicitly[expected =:= result]
+  implicitly[lastUntil[_2] =:= _0]
+  implicitly[lastUntil[_4] =:= _3]
+  implicitly[lastUntil[_6] =:= _5]
 }
 
 object ApplyOrElseLaws {
