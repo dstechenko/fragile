@@ -332,6 +332,22 @@ object TakeRightLaws {
   implicitly[expected =:= result]
 }
 
+object TakeWhile {
+  type given    = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: Nil
+  type expected = _0 :: _1 :: _2                   :: Nil
+  type result   = given takeWhile ({ type F[N <: Nat] = N < _3 })#F
+
+  implicitly[expected =:= result]
+}
+
+object DropWhile {
+  type given    = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: Nil
+  type expected =                   _3 :: _4 :: _5 :: Nil
+  type result   = given dropWhile ({ type F[N <: Nat] = N < _3 })#F
+
+  implicitly[expected =:= result]
+}
+
 object SliceLaws {
   type given    = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: Nil
   type expected =             _2 :: _3 :: _4       :: Nil
@@ -377,7 +393,7 @@ object IntersectLaws {
   type givenLeft    = _1 :: _2 :: _3 :: _1 :: Nil
   type givenRight   = _3 :: _4 :: _2 :: _5 :: Nil
   type expected     = _2 :: _3 :: Nil
-  // type result       = givenLeft intersect givenRight
+  type result       = givenLeft intersect givenRight
 
   // implicitly[expected =:= result]
 }
