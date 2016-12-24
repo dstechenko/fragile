@@ -85,8 +85,14 @@ package object list {
                                                                                       type run                 = locations indexOf _1
                                                                                     })#run
 
+  type indexOfSliceFrom       [L <: List, R <: List, B <: Nat]                    = ({
+                                                                                      type offset   = B - _1
+                                                                                      type selected = L dropLeft offset
+                                                                                      type hasSlice = selected containsSlice R
+                                                                                      type index    = (selected indexOfSlice R) + offset
+                                                                                      type run      = ifN[hasSlice, index, _0]
+                                                                                    })#run
 
-  type indexOfSliceFrom       [L <: List, R <: List, B <: Nat]                    <: List
   type removeSlice            [L <: List, R <: List]                              <: List
 
   type lastIndexOfSlice       [L <: List, R <: List]                              <: Nat

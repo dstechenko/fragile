@@ -339,6 +339,17 @@ object IndexOfSliceLaws {
   implicitly[expected =:= result]
 }
 
+object IndexOfSliceFromLaws {
+  type given               = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: _6 :: Nil
+  type slice               =             _2 :: _3 :: _4             :: Nil
+  type indexFrom[N <: Nat] = indexOfSliceFrom[given, slice, N]
+
+  implicitly[indexFrom[_1] =:= _3]
+  implicitly[indexFrom[_2] =:= _3]
+  implicitly[indexFrom[_3] =:= _3]
+  implicitly[indexFrom[_4] =:= _0]
+}
+
 object ContainsSliceLaws {
   type given                                  = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: _6 :: Nil
   type contains[A <: Nat, B <: Nat, C <: Nat] = given containsSlice (A :: B :: C :: Nil)
