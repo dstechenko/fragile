@@ -60,6 +60,7 @@ trait NatSyntax {
   type >     [L <: Nat, R <: Nat] = ![L <= R]
   type <=    [L <: Nat, R <: Nat] = (L == R) || (L < R)
   type >=    [L <: Nat, R <: Nat] = (L == R) || (L > R)
+  type safe  [N <: Nat]           = N + _0
 }
 
 trait NatInstances {

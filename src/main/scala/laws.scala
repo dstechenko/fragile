@@ -376,9 +376,9 @@ object IndexWhereFromLaws {
 object ProductLaws {
   type given    = _1 :: _2 :: _3 :: Nil
   type expected = _6
-  // type result   = product[given]
+  type result   = product[given]
 
-  // implicitly[expected =:= result]
+  implicitly[expected =:= result]
 }
 
 object DiffLaws {

@@ -86,6 +86,7 @@ sealed trait ListSyntax {
   type reduceP              [L <: List, F[_ <: Nat, _ <: Nat] <: Nat]           = fold[L, _0, F]
   type reduceM              [L <: List, F[_ <: Nat, _ <: Nat] <: Nat]           = fold[L, _1, F]
   type sum                  [L <: List]                                         = L reduceP ({ type F[LN <: Nat, RN <: Nat] = RN + LN })#F
+  type product              [L <: List]                                         = L reduceM ({ type F[LN <: Nat, RN <: Nat] = safe[RN * LN] })#F
   type count                [L <: List, F[_ <: Nat] <: Bool]                    = size[L filter F]
   type contains             [L <: List, N <: Nat]                               = (L indexOf N) > _0
   type containsAll          [L <: List, R <: List]                              = R forall ({ type F[N <: Nat] = L contains N })#F
@@ -131,7 +132,7 @@ sealed trait ListSyntax {
 
   type intersectFM          [L <: List, R <: List]                              = L flatMap ({ type F[N <: Nat] = ifL[R contains N, list[N], Nil] })#F
   type intersect            [L <: List, R <: List]                              = _0
-  type product              [L <: List]                                         = L reduceM ({ type F[LN <: Nat, RN <: Nat] = RN * LN })#F
+
 
 
   type containsSlice        [L <: List, R <: List]                              = (L indexOfSlice R) > _0
