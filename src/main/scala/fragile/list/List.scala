@@ -66,8 +66,8 @@ sealed trait ::[H <: Nat, T <: List] extends List {
   override protected type This                                                    = Head :: Tail
   override protected[list] type MinOrElse[N <: Nat]                               = Tail#MinOrElse[Head min N]
 
-  type Head                                                                       = H
-  type Tail                                                                       = T
+  private type Head                                                               = H
+  private type Tail                                                               = T
 }
 
 sealed trait Nil extends List {

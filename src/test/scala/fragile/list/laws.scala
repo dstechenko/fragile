@@ -38,6 +38,15 @@ object MonadLaws {
   implicitly[        monad flatMap function1 flatMap function2  =:= (monad flatMap chained)]
 }
 
+object FoldLaws {
+  type given                       = _0 :: _1 :: _2 :: _3 :: Nil
+  type combine[L <: Nat, R <: Nat] = L + R
+  type expected                    = _6
+
+  implicitly[expected =:= foldRight[given, _0, combine]]
+  implicitly[expected =:= foldLeft [given, _0, combine]]
+}
+
 object FilterLaws {
   type given    = _1 :: _2 :: _0 :: _2 :: _3 :: _5 :: _4 :: _1 :: Nil
   type expected = _1 :: _2 :: _0 :: _2 :: _3 :: _1 :: Nil

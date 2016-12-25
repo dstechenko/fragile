@@ -70,6 +70,7 @@ package object list {
   type tabulate               [N <: Nat, E <: Nat]                                = unfold[E] map const[N]#Apply
   type padTo                  [L <: List, N <: Nat, E <: Nat]                     = tabulate[N, E] ::: L
   type intersect              [L <: List, R <: List]                              = L filter  ({ type F[N <: Nat] = R contains N })#F
+  type foldLeft               [L <: List, N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat] = foldRight[reverse[L], N, F]
 
 
   type containsSlice          [L <: List, R <: List]                              = (L indexOfSlice R) > _0
@@ -100,10 +101,8 @@ package object list {
 
   type segmentLength          [L <: List, F[_ <: Nat] <: Bool, B <: Nat]          <: Nat
   type prefixLength           [L <: List, F[_ <: Nat] <: Bool]                    = segmentLength[L, F, _1]
-  type updated                [L <: List, I <: Nat, N <: Nat]                     <: List
+  type updated                [L <: List, I <: Nat, N <: Nat]                     = Nil
 
-  type foldLeft               [L <: List, N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat]          = foldRight[reverse[L], N, F]
-  type reduceLeft             [L <: ::[_ <: Nat, _ <: List], F[_ <: Nat, _ <: Nat] <: Nat] = foldLeft[L#Tail, L#Head, F]
 
   type sum                    [L <: List]                                         = ({
                                                                                       type zero                       = _0

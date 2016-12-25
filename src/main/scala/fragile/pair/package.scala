@@ -6,7 +6,7 @@ import fragile.list._
 
 package object pair {
   type pair   [T, F <: T, S <: T]    = Pair[T] {
-                                                 type First = F
+                                                 type First  = F
                                                  type Second = S
                                                }
 
