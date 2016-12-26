@@ -101,8 +101,15 @@ package object list {
 
   type segmentLength          [L <: List, F[_ <: Nat] <: Bool, B <: Nat]          <: Nat
   type prefixLength           [L <: List, F[_ <: Nat] <: Bool]                    = segmentLength[L, F, _1]
-  type updated                [L <: List, I <: Nat, N <: Nat]                     = Nil
 
+  type updated                [L <: List, I <: Nat, N <: Nat]                     = ({
+                                                                                      type length   = size[L]
+                                                                                      type hasIndex = (I > _0) && (I <= length)
+                                                                                      type before   = L takeLeft (I - _1)
+                                                                                      type after    = L dropLeft I
+                                                                                      type indexed  = ifL[hasIndex, list[N], Nil]
+                                                                                      type run      = before ::: indexed ::: after
+                                                                                    })#run
 
   type sum                    [L <: List]                                         = ({
                                                                                       type zero                       = _0

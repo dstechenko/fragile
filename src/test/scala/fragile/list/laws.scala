@@ -420,3 +420,13 @@ object PadToLaws {
 
   implicitly[expected =:= result]
 }
+
+object UpdatedLaws {
+  type given            = _1 :: _2 :: _3 :: Nil
+  type expected         = _1 :: _0 :: _3 :: Nil
+  type update[I <: Nat] = updated[given, I, _0]
+
+  implicitly[update[_2] =:= expected]
+  implicitly[update[_0] =:=    given]
+  implicitly[update[_4] =:=    given]
+}
