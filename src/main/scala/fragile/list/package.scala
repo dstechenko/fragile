@@ -90,7 +90,14 @@ package object list {
                                                                                       type run      = ifN[hasSlice, index, _0]
                                                                                     })#run
 
-  type removeSlice            [L <: List, R <: List]                              <: List
+  type removeSlice            [L <: List, R <: List]                              = ({
+                                                                                      type index    = L indexOfSlice R
+                                                                                      type contains = index > _0
+                                                                                      type left     = L takeLeft (index - _1)
+                                                                                      type right    = L dropLeft (index + size[R] - _1)
+                                                                                      type removed  = left ::: right
+                                                                                      type run      = ifL[contains, removed, L]
+                                                                                    })#run
 
   type lastIndexOfSlice       [L <: List, R <: List]                              <: Nat
   type lastIndexOfSliceUntil  [L <: List, R <: Nat, E <: Nat]                     <: Nat
@@ -99,7 +106,11 @@ package object list {
   type lastIndexOfWhereUntil  [L <: List, F[_ <: Nat] <: Bool, E <: Nat]          <: Nat
 
 
-  type segmentLength          [L <: List, F[_ <: Nat] <: Bool, B <: Nat]          <: Nat
+  type segmentLength          [L <: List, F[_ <: Nat] <: Bool, B <: Nat]          = ({
+                                                                                      type isBroken[N <: Nat] = ![F[N]]
+                                                                                      type run = indexWhereFrom[L, isBroken, B] - _1
+                                                                                    })#run
+
   type prefixLength           [L <: List, F[_ <: Nat] <: Bool]                    = segmentLength[L, F, _1]
 
   type updated                [L <: List, I <: Nat, N <: Nat]                     = ({
@@ -115,12 +126,12 @@ package object list {
                                                                                       type zero                       = _0
                                                                                       type append[A <: Nat, B <: Nat] = A + B
                                                                                       type run                        = foldLeft[L, zero, append]
-                                                                                     })#run
+                                                                                    })#run
 
   type product                [L <: List]                                         = ({
                                                                                       type zero                       = _1
                                                                                       type append[A <: Nat, B <: Nat] = A * B
                                                                                       type run                        = foldLeft[L, zero, append]
-                                                                                     })#run
+                                                                                    })#run
 
 }
