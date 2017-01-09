@@ -16,7 +16,6 @@ package object list {
   type filter                 [L <: List, F[_ <: Nat] <: Bool]                    = L#Filter[F]
   type foldRight              [L <: List, N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat] = L#FoldRight[N, F]
   type indexOf                [L <: List, N <: Nat]                               = L#IndexOf[N, _0]
-  type remove                 [L <: List, N <: Nat]                               = L#Remove[N]
   type :::                    [L <: List, R <: List]                              = L#Concat[R]
   type reverse                [L <: List]                                         = L#Reverse
   type selectSort             [L <: List]                                         = L#SelectSort
@@ -61,6 +60,13 @@ package object list {
   type lastIndexOf            [L <: List, N <: Nat]                               = ({
                                                                                       type index = size[L] - (reverse[L] indexOf N) + _1
                                                                                       type run   = ifN[L contains N, index, _0]
+                                                                                    })#run
+
+  type remove                 [L <: List, N <: Nat]                               = ({
+                                                                                      type index = L indexOf N
+                                                                                      type left  = L takeLeft (index - _1)
+                                                                                      type right = L dropLeft index
+                                                                                      type run   = left ::: right
                                                                                     })#run
 
   type countWhile             [L <: List, F[_ <: Nat] <: Bool]                    = L indexOfWhere ({ type G[N <: Nat] = ![F[N]] })#G - _1

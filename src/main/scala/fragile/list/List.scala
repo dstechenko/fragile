@@ -12,7 +12,6 @@ sealed trait List {
   type Filter                   [F[_ <: Nat] <: Bool]                    <: List
   type FoldRight                [N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat] <: Nat
   type IndexOf                  [N <: Nat, I <: Nat]                     <: Nat
-  type Remove                   [N <: Nat]                               <: List
   type Concat                   [L <: List]                              <: List
   type Reverse                                                           <: List
   type Distinct                                                          <: List
@@ -33,7 +32,6 @@ sealed trait ::[H <: Nat, T <: List] extends List {
   override type Filter                   [F[_ <: Nat] <: Bool]                    = ifL[F[Head], Head :: Tail#Filter[F], Tail#Filter[F]]
   override type FoldRight                [N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat] = F[Head, Tail#FoldRight[N, F]]
   override type IndexOf                  [N <: Nat, I <: Nat]                     = ifN[Head == N, I + _1, Tail#IndexOf[N, I + _1]]
-  override type Remove                   [N <: Nat]                               = ifL[Head == N, Tail, Head :: Tail#Remove[N]]
   override type Concat                   [L <: List]                              = Head :: Tail#Concat[L]
   override type Reverse                                                           = Tail#Reverse ::: list[Head]
 
@@ -76,7 +74,6 @@ sealed trait Nil extends List {
   override type Filter                   [F[_ <: Nat] <: Bool]                    = This
   override type FoldRight                [N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat] = N
   override type IndexOf                  [N <: Nat, I <: Nat]                     = _0
-  override type Remove                   [N <: Nat]                               = This
   override type Concat                   [L <: List]                              = L
   override type Reverse                                                           = This
   override type Distinct                                                          = This
