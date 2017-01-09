@@ -9,11 +9,11 @@ import language.higherKinds
 
 package object list {
   private[list] type minOrElse[L <: List, N <: Nat]                               = L#MinOrElse[N]
+  private[list] type safeL    [L <: List]                                         = L map identity
 
   type list                   [N <: Nat]                                          = N :: Nil
   type map                    [L <: List, F[_ <: Nat] <: Nat]                     = L#Map[F]
   type flatMap                [L <: List, F[_ <: Nat] <: List]                    = L#FlatMap[F]
-  type filter                 [L <: List, F[_ <: Nat] <: Bool]                    = L#Filter[F]
   type foldRight              [L <: List, N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat] = L#FoldRight[N, F]
   type indexOf                [L <: List, N <: Nat]                               = L#IndexOf[N, _0]
   type :::                    [L <: List, R <: List]                              = L#Concat[R]
@@ -67,6 +67,11 @@ package object list {
                                                                                       type left  = L takeLeft (index - _1)
                                                                                       type right = L dropLeft index
                                                                                       type run   = left ::: right
+                                                                                    })#run
+
+  type filter                 [L <: List, F[_ <: Nat] <: Bool]                    = ({
+                                                                                      type unfold[N <: Nat] = ifL[F[N], list[N], Nil]
+                                                                                      type run              = safeL[L flatMap unfold]
                                                                                     })#run
 
   type countWhile             [L <: List, F[_ <: Nat] <: Bool]                    = L indexOfWhere ({ type G[N <: Nat] = ![F[N]] })#G - _1

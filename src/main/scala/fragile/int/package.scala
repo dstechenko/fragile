@@ -5,6 +5,8 @@ import fragile.nat._
 import fragile.pair._
 
 package object int {
+  private[int] type safeI[I <: Int] = I ++ int[_0]
+
   type Int                     = Pair[Nat]
   type int[N <: Nat]           = N <-> _0
   type eq [L <: Int, R <: Int] = False

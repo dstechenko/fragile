@@ -20,7 +20,8 @@ package object nat {
   type >                  [L <: Nat, R <: Nat] = ![L <= R]
   type <=                 [L <: Nat, R <: Nat] = (L == R) || (L < R)
   type >=                 [L <: Nat, R <: Nat] = (L == R) || (L > R)
-  type safe               [N <: Nat]           = N + _0
+
+  type safeN              [N <: Nat]           = N + _0
 
   type _0 = Zero
   type _1 = Succ[_0]
