@@ -53,9 +53,9 @@ package object list {
   type slice                  [L <: List, B <: Nat, E <: Nat]                     = (L dropLeft (B - _1)) dropRight (size[L] - E)
   type union                  [L <: List, R <: List]                              = L ::: R
   type diff                   [L <: List, R <: List]                              = L removeAll R
-  type indexWhere             [L <: List, F[_ <: Nat] <: Bool]                    = applyOrElse[(L filter F) map ({ type F[N <: Nat] = (L indexOf N) })#F, _1, _0]
-  type indexWhereFrom         [L <: List, F[_ <: Nat] <: Bool, B <: Nat]          = ifN[(L dropLeft B) indexWhere F == _0, _0, ((L dropLeft B) indexWhere F) + B]
-  type indexOfUntil           [L <: List, M <: Nat, E <: Nat]                     = (L takeLeft E) indexWhere ({ type F[N <: Nat] = N == M })#F
+  type indexOfWhere           [L <: List, F[_ <: Nat] <: Bool]                    = applyOrElse[(L filter F) map ({ type F[N <: Nat] = (L indexOf N) })#F, _1, _0]
+  type indexOfWhereFrom       [L <: List, F[_ <: Nat] <: Bool, B <: Nat]          = ifN[(L dropLeft B) indexOfWhere F == _0, _0, ((L dropLeft B) indexOfWhere F) + B]
+  type indexOfUntil           [L <: List, M <: Nat, E <: Nat]                     = (L takeLeft E) indexOfWhere ({ type F[N <: Nat] = N == M })#F
   type lastIndexOfUntil       [L <: List, N <: Nat, E <: Nat]                     = (L takeLeft E) lastIndexOf N
 
   type lastIndexOf            [L <: List, N <: Nat]                               = ({
@@ -63,7 +63,7 @@ package object list {
                                                                                       type run   = ifN[L contains N, index, _0]
                                                                                     })#run
 
-  type countWhile             [L <: List, F[_ <: Nat] <: Bool]                    = L indexWhere ({ type G[N <: Nat] = ![F[N]] })#G - _1
+  type countWhile             [L <: List, F[_ <: Nat] <: Bool]                    = L indexOfWhere ({ type G[N <: Nat] = ![F[N]] })#G - _1
   type takeWhile              [L <: List, F[_ <: Nat] <: Bool]                    = L takeLeft (L countWhile F)
   type dropWhile              [L <: List, F[_ <: Nat] <: Bool]                    = L dropLeft (L countWhile F)
   type partition              [L <: List, F[_ <: Nat] <: Bool]                    = (L filter F) <--> (L filterNot F)
@@ -99,16 +99,32 @@ package object list {
                                                                                       type run      = ifL[contains, removed, L]
                                                                                     })#run
 
-  type lastIndexOfSlice       [L <: List, R <: List]                              <: Nat
-  type lastIndexOfSliceUntil  [L <: List, R <: Nat, E <: Nat]                     <: Nat
+  type lastIndexOfSlice       [L <: List, R <: List]                              = ({
+                                                                                      type reversed = reverse[L]
+                                                                                      type slice    = reverse[R]
+                                                                                      type index    = reversed indexOfSlice slice
+                                                                                      type sized    = size[slice]
+                                                                                      type run      = index - sized
+                                                                                    })#run
 
-  type lastIndexOfWhere       [L <: List, F[_ <: Nat] <: Bool]                    <: Nat
-  type lastIndexOfWhereUntil  [L <: List, F[_ <: Nat] <: Bool, E <: Nat]          <: Nat
+  type lastIndexOfSliceUntil  [L <: List, R <: List, E <: Nat]                     = (L takeLeft E) lastIndexOfSlice R
+
+  type lastIndexOfWhere       [L <: List, F[_ <: Nat] <: Bool]                    = ({
+                                                                                      type breaks   [N <: Nat] = ![F[N]]
+                                                                                      type index               = L indexOfWhere F
+                                                                                      type remaining           = L dropLeft index
+                                                                                      type breaksAt            = remaining indexOfWhere breaks
+                                                                                      type lastIndex           = index + (breaksAt - _1)
+                                                                                      type contains            = index > _0
+                                                                                      type run                 = ifN[contains, lastIndex, _0]
+                                                                                    })#run
+
+  type lastIndexOfWhereUntil  [L <: List, F[_ <: Nat] <: Bool, E <: Nat]          = (L takeLeft E) lastIndexOfWhere F
 
 
   type segmentLength          [L <: List, F[_ <: Nat] <: Bool, B <: Nat]          = ({
                                                                                       type isBroken[N <: Nat] = ![F[N]]
-                                                                                      type run = indexWhereFrom[L, isBroken, B] - _1
+                                                                                      type run                = indexOfWhereFrom[L, isBroken, B] - _1
                                                                                     })#run
 
   type prefixLength           [L <: List, F[_ <: Nat] <: Bool]                    = segmentLength[L, F, _1]
@@ -133,5 +149,4 @@ package object list {
                                                                                       type append[A <: Nat, B <: Nat] = A * B
                                                                                       type run                        = foldLeft[L, zero, append]
                                                                                     })#run
-
 }

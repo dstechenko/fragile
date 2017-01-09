@@ -339,10 +339,10 @@ object SliceLaws {
   implicitly[expected =:= result]
 }
 
-object IndexWhereLaws {
+object IndexOfWhereLaws {
   type given    = _0 :: _1 :: _2 :: _3 :: _4 :: _5 :: _6 :: Nil
   type expected = _5
-  type result   = given indexWhere ({ type F[N <: Nat] = N == _4 })#F
+  type result   = given indexOfWhere ({ type F[N <: Nat] = N == _4 })#F
 
   implicitly[expected =:= result]
 }
@@ -377,9 +377,9 @@ object ContainsSliceLaws {
   implicitly[contains[_7, _8, _9] =:= False]
 }
 
-object IndexWhereFromLaws {
+object IndexOfWhereFromLaws {
   type given                = _0 :: _4 :: _2 :: _3 :: _4 :: _5 :: _6 :: Nil
-  type findFrom[B <: Nat]   = indexWhereFrom[given, ({ type F[N <: Nat] = N == _4 })#F, B]
+  type findFrom[B <: Nat]   = indexOfWhereFrom[given, ({ type F[N <: Nat] = N == _4 })#F, B]
 
   implicitly[findFrom[_3] =:= _5]
   implicitly[findFrom[_6] =:= _0]
@@ -457,4 +457,41 @@ object RemoveSliceLaws {
 
   implicitly[(given removeSlice validSlice)   =:=   validResult]
   implicitly[(given removeSlice invalidSlice) =:= invalidResult]
+}
+
+object LastIndexOfSliceLaws {
+  type given        = _1 :: _2 :: _3 :: _0 :: _1 :: _2 :: _3 :: Nil
+  type validSlice   =                         _1 :: _2 :: _3 :: Nil
+  type invalidSlice =                         _1 ::       _3 :: Nil
+
+  // implicitly[(given lastIndexOfSlice validSlice)   =:= _5]
+  implicitly[(given lastIndexOfSlice invalidSlice) =:= _0]
+}
+
+object LastIndexOfSliceUntilLaws {
+  type given = _1 :: _2 :: _3 :: _0 :: _1 :: _2 :: _3 :: Nil
+  type slice =                         _1 :: _2 :: _3 :: Nil
+
+  // implicitly[lastIndexOfSliceUntil[given, slice, _7] =:= _5]
+  // implicitly[lastIndexOfSliceUntil[given, slice, _5] =:= _1]
+}
+
+object LastIndexOfWhereLaws {
+  type given                  = _1 :: _2 :: _3 :: _4 :: _1 :: Nil
+  type holdsValid  [N <: Nat] = N > _3
+  type holdsInvalid[N <: Nat] = N < _0
+
+  implicitly[(given lastIndexOfWhere holdsValid)   =:= _4]
+  implicitly[(given lastIndexOfWhere holdsInvalid) =:= _0]
+}
+
+object LastIndexOfWhereUntilLaws {
+  type given                  = _1 :: _2 :: _3 :: _4 :: _1 :: Nil
+  type holdsValid  [N <: Nat] = N > _3
+  type holdsInvalid[N <: Nat] = N < _0
+
+  implicitly[lastIndexOfWhereUntil[given, holdsValid, _3]   =:= _0]
+  implicitly[lastIndexOfWhereUntil[given, holdsValid, _4]   =:= _4]
+  implicitly[lastIndexOfWhereUntil[given, holdsValid, _5]   =:= _4]
+  implicitly[lastIndexOfWhereUntil[given, holdsInvalid, _5] =:= _0]
 }
