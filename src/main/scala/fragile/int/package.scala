@@ -40,4 +40,6 @@ package object int {
                                    type run         = canonical[first <-> second]
                                  })#run
 
+  type \\ [L <: Int, R <: Int] = _0
+
 }

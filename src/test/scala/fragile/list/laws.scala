@@ -460,12 +460,12 @@ object RemoveSliceLaws {
 }
 
 object LastIndexOfSliceLaws {
-  type given        = _1 :: _2 :: _3 :: _0 :: _1 :: _2 :: _3 :: Nil
-  type validSlice   =                         _1 :: _2 :: _3 :: Nil
-  type invalidSlice =                         _1 ::       _3 :: Nil
+  type given        = _1 :: _2 :: _0 :: _1 :: _2 :: Nil
+  type validSlice   =                   _1 :: _2 :: Nil
+  type invalidSlice =             _0 ::       _2 :: Nil
 
-  // implicitly[(given lastIndexOfSlice validSlice)   =:= _5]
-  implicitly[(given lastIndexOfSlice invalidSlice) =:= _0]
+  // implicitly[(given lastIndexOfSlice validSlice)   =:= _4]
+  // implicitly[(given lastIndexOfSlice invalidSlice) =:= _0]
 }
 
 object LastIndexOfSliceUntilLaws {

@@ -114,8 +114,9 @@ package object list {
                                                                                       type reversed = reverse[L]
                                                                                       type slice    = reverse[R]
                                                                                       type index    = reversed indexOfSlice slice
-                                                                                      type sized    = size[slice]
-                                                                                      type run      = index - sized
+                                                                                      type indexed  = index - _1
+                                                                                      type sized    = size[slice] - _1
+                                                                                      type run      = size[L] - indexed - sized + _1
                                                                                     })#run
 
   type lastIndexOfSliceUntil  [L <: List, R <: List, E <: Nat]                     = (L takeLeft E) lastIndexOfSlice R
