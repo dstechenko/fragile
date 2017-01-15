@@ -2,7 +2,7 @@ package fragile.list
 
 import fragile.bool._
 import fragile.nat._
-import fragile.pair._
+import fragile.product._
 
 import language.higherKinds
 

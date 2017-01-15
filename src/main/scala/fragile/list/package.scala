@@ -2,7 +2,7 @@ package fragile
 
 import fragile.bool._
 import fragile.nat._
-import fragile.pair._
+import fragile.product._
 import fragile.function._
 
 import language.higherKinds
@@ -109,17 +109,6 @@ package object list {
                                                                                       type removed  = left ::: right
                                                                                       type run      = ifL[contains, removed, L]
                                                                                     })#run
-
-  type lastIndexOfSlice       [L <: List, R <: List]                              = ({
-                                                                                      type reversed = reverse[L]
-                                                                                      type slice    = reverse[R]
-                                                                                      type index    = reversed indexOfSlice slice
-                                                                                      type indexed  = index - _1
-                                                                                      type sized    = size[slice] - _1
-                                                                                      type run      = size[L] - indexed - sized + _1
-                                                                                    })#run
-
-  type lastIndexOfSliceUntil  [L <: List, R <: List, E <: Nat]                     = (L takeLeft E) lastIndexOfSlice R
 
   type lastIndexOfWhere       [L <: List, F[_ <: Nat] <: Bool]                    = ({
                                                                                       type breaks   [N <: Nat] = ![F[N]]

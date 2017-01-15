@@ -2,7 +2,7 @@ package fragile.list
 
 import fragile.bool._
 import fragile.nat._
-import fragile.pair._
+import fragile.product._
 import fragile.function._
 
 object MapLaws {
@@ -457,23 +457,6 @@ object RemoveSliceLaws {
 
   implicitly[(given removeSlice validSlice)   =:=   validResult]
   implicitly[(given removeSlice invalidSlice) =:= invalidResult]
-}
-
-object LastIndexOfSliceLaws {
-  type given        = _1 :: _2 :: _0 :: _1 :: _2 :: Nil
-  type validSlice   =                   _1 :: _2 :: Nil
-  type invalidSlice =             _0 ::       _2 :: Nil
-
-  // implicitly[(given lastIndexOfSlice validSlice)   =:= _4]
-  // implicitly[(given lastIndexOfSlice invalidSlice) =:= _0]
-}
-
-object LastIndexOfSliceUntilLaws {
-  type given = _1 :: _2 :: _3 :: _0 :: _1 :: _2 :: _3 :: Nil
-  type slice =                         _1 :: _2 :: _3 :: Nil
-
-  // implicitly[lastIndexOfSliceUntil[given, slice, _7] =:= _5]
-  // implicitly[lastIndexOfSliceUntil[given, slice, _5] =:= _1]
 }
 
 object LastIndexOfWhereLaws {

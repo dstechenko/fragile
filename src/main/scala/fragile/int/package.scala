@@ -2,12 +2,12 @@ package fragile
 
 import fragile.bool._
 import fragile.nat._
-import fragile.pair._
+import fragile.product._
 
 package object int {
   private[int] type safeI[I <: Int] = I ++ int[_0]
 
-  type Int                     = Pair[Nat]
+  type Int                     = Product[Nat]
   type int[N <: Nat]           = N <-> _0
   type eq [L <: Int, R <: Int] = False
 
