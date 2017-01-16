@@ -9,7 +9,6 @@ package object int {
 
   type Int                     = Product[Nat]
   type int[N <: Nat]           = N <-> _0
-  type eq [L <: Int, R <: Int] = False
 
   type nat[I <: Int]           = firstN[I] - secondN[I]
 
