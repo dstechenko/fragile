@@ -232,7 +232,19 @@ type Not = True
 
 ### Safe types
 
+Scala Compiler is very fragile. Hence the name.
 
+It cannot resolve cyclic type references, so extra tricks has to be in place for it not to freak out.
+
+But when you re-use functions in a functional way, you tend to hit those cyclic resolve situations.
+
+To protect the resolving process you need to re-wrap the calculated type on cyclic type operations.
+Basically tricking the compiler into thinking it is not a cyclic type reference.
+
+These safe operations are defined in: 
+* [Nats](src/main/scala/fragile/nat/package.scala) as **safeN**
+* [Lists](src/main/scala/fragile/list/package.scala) as **safeL**
+* [Ints](src/main/scala/fragile/int/package.scala) as **safeI**
 
 ### Manual eta-expansion
 
