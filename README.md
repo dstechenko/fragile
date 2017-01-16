@@ -236,7 +236,20 @@ type Not = True
 
 ### Manual eta-expansion
 
+As in the value world, on type level there has to be eta-expansion as well.
+There has to be a way to convert from a type level function definition, to a function value-like type level entity.
 
+Basically a way to convert a type definition to a [Function](src/main/scala/fragile/function/Function.scala) type.
+
+This is done manually, compiler has no idea what's going on, it may be improved by a Scala Compiler Plugin, but meh.
+
+``` Scala
+type increase[N <: Nat] = N + _1
+
+type expanded = eta[increase]
+```
+
+Then all of the functions for composition are available.
 
 ### Laws
 
