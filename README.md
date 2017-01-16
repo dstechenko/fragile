@@ -26,12 +26,12 @@ The name of the module is dedicated to the Scala Compiler.
 ## Where?
 
 Module is broken down into packages for specific types:
-* [**bool**](src/main/scala/bool)
-* [**function**](src/main/scala/function)
-* [**int**](src/main/scala/int)
-* [**list**](src/main/scala/list)
-* [**nat**](src/main/scala/nat)
-* [**product**](src/main/scala/product)
+* [**bool**](src/main/scala/fragile/bool)
+* [**function**](src/main/scala/fragile/function)
+* [**int**](src/main/scala/fragile/int)
+* [**list**](src/main/scala/fragile/list)
+* [**nat**](src/main/scala/fragile/nat)
+* [**product**](src/main/scala/fragile/product)
 
 Each package has a corresponding test laws file.
 To run laws it is enough to simply compile tests.
