@@ -50,7 +50,7 @@ For specialized functions next syntax is used:
 
 ## How much?
 
-### bool
+### Bool
 
 Functions implemented:
 * Not
@@ -62,7 +62,7 @@ Notice **De Morgan's laws** usage to reduce **type pattern matching** cases.
 
 Also, **if** function is specialized manually.
 
-### function
+### Function
 
 Functions implemented:
 * Identity
@@ -74,7 +74,7 @@ Functions implemented:
 
 All functions work only with **Nats**.
 
-### int
+### Int
 
 Functions implemented:
 * Int
@@ -87,7 +87,7 @@ Functions implemented:
 
 Notice no need for **type pattern matching** here, as we build on top of **Nats**.
 
-### list
+### List
 
 Functions implemented:
 * List
@@ -159,7 +159,7 @@ Functions implemented:
 
 Notice that all of the **STD Scala List** functions implemented.
 
-### nat
+### Nat
 
 Functions implmeneted:
 * Minus
@@ -178,7 +178,7 @@ Functions implmeneted:
 
 Notice handy shorcuts for **Nats** in the package object.
 
-### product
+### Product
 
 Functions implmeneted:
 * First
@@ -209,7 +209,24 @@ type computed = ({
 
 ### Type pattern matching
 
+Each package has a dedicated scala file with **type pattern matching** cases.
 
+For instance **Nat.scala**.
+
+In these files you may find different type instances with corresponding match cases.
+The idea is to avoid these cases as much as possible and use functions instead.
+Functions are defined in corresponding package objects.
+
+``` Scala
+// in Bool
+type Not <: Bool
+
+// in True
+type Not = False
+
+// in False
+type Not = True
+```
 
 ### Safe types
 
