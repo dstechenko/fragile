@@ -189,6 +189,40 @@ All functions are specialized manually here.
 
 ## How?
 
+### Code blocks
+
+You may find code organized in blocks. And these blocks follow the same pattern.
+
+These blocks are used as regular value level code blocks.
+
+Each block has to be manually executed by extracting the last type in the sequence.
+
+The type is called **run** in these blocks.
+
+``` Scala
+type computed = ({
+                  type a   = _1
+                  type b   = _1
+                  type run = a + b
+                })#run
+```
+
+### Type pattern matching
+
+
+
+### Safe types
+
+
+
+### Manual eta-expansion
+
+
+
+### Laws
+
+
+
 ## So?
 
 What's next, you may ask?
@@ -196,6 +230,12 @@ What's next, you may ask?
 * Upgrade **List** to handle **Ints**
 * Upgrade **Ints** to support **Rationals**
 
-But I am too lazy. :(
+But I am too lazy. 
+
+:(
 
 ## Copyright and License
+
+Copyright © 2017 Dmytro Stechenko
+
+License: http://www.gnu.org/licenses/gpl.html
