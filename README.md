@@ -2,6 +2,8 @@
 
 > The mind is the only weapon that doesn't need a holster. © Paul Blart
 
+**Disclaimer**: No values were harmed.
+
 ## Why?
 
 This module is designed to investigate and play with Scala type system and it's **Turing completeness**.
