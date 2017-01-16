@@ -2,7 +2,7 @@
 
 > The mind is the only weapon that doesn't need a holster. © Paul Blart
 
-**Disclaimer**: No values were harmed.
+**WARNING!** No values were harmed in this module.
 
 ## Why?
 
@@ -52,7 +52,7 @@ For specialized functions next syntax is used:
 
 ## How much?
 
-### Bool
+### [Bool](src/main/scala/fragile/bool/package.scala)
 
 Functions implemented:
 * Not
@@ -64,7 +64,7 @@ Notice **De Morgan's laws** usage to reduce **type pattern matching** cases.
 
 Also, **if** function is specialized manually.
 
-### Function
+### [Function](src/main/scala/fragile/function/package.scala)
 
 Functions implemented:
 * Identity
@@ -76,7 +76,7 @@ Functions implemented:
 
 All functions work only with **Nats**.
 
-### Int
+### [Int](src/main/scala/fragile/int/package.scala)
 
 Functions implemented:
 * Int
@@ -89,7 +89,7 @@ Functions implemented:
 
 Notice no need for **type pattern matching** here, as we build on top of **Nats**.
 
-### List
+### [List](src/main/scala/fragile/list/package.scala)
 
 Functions implemented:
 * List
@@ -161,7 +161,7 @@ Functions implemented:
 
 Notice that all of the **STD Scala List** functions implemented.
 
-### Nat
+### [Nat](src/main/scala/fragile/nat/package.scala)
 
 Functions implmeneted:
 * Minus
@@ -180,7 +180,7 @@ Functions implmeneted:
 
 Notice handy shorcuts for **Nats** in the package object.
 
-### Product
+### [Product](src/main/scala/fragile/product/package.scala)
 
 Functions implmeneted:
 * First
@@ -213,7 +213,7 @@ type computed = ({
 
 Each package has a dedicated scala file with **type pattern matching** cases.
 
-For instance **Nat.scala**.
+For instance [**Nat.scala**](src/main/scala/fragile/nat/Nat.scala).
 
 In these files you may find different type instances with corresponding match cases.
 The idea is to avoid these cases as much as possible and use functions instead.
