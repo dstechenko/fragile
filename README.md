@@ -279,7 +279,7 @@ Laws contain all of the function usages and scenarios:
 ## So?
 
 What's next, you may ask?
-* Implement **Map** as a [**List**](src/main/scala/fragile/list/List.scala) of [**Products**](src/main/scala/fragile/product/Product.scala)
+* Implement **Map** as [**List**](src/main/scala/fragile/list/List.scala) of [**Products**](src/main/scala/fragile/product/Product.scala)
 * Upgrade [**List**](src/main/scala/fragile/list/List.scala) to handle [**Ints**](src/main/scala/fragile/int/package.scala)
 * Upgrade [**Ints**](src/main/scala/fragile/int/package.scala) to support **Rationals**
 
