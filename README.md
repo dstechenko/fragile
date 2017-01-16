@@ -44,10 +44,10 @@ And also they have **type pattern matching** cases in their regular scala files.
 The idea is to use type matching as little as possible and re-use functions to build new and complex ones.
 
 For specialized functions next syntax is used:
-* function**N** - **Nat**
-* function**B** - **Bool**
-* function**I** - **Int**
-* function**L** - **List**
+* function**N** - [**Nat**](src/main/scala/fragile/nat/Nat.scala)
+* function**B** - [**Bool**](src/main/scala/fragile/bool/Bool.scala)
+* function**I** - [**Int**](src/main/scala/fragile/int/package.scala)
+* function**L** - [**List**](src/main/scala/fragile/list/List.scala)
 
 
 ## How much?
@@ -74,7 +74,7 @@ Functions implemented:
 * Compose
 * Apply
 
-All functions work only with **Nats**.
+All functions work only with [**Nats**](src/main/scala/fragile/nat/Nat.scala).
 
 ### [Int](src/main/scala/fragile/int/package.scala)
 
@@ -87,7 +87,7 @@ Functions implemented:
 * Plus
 * Mult
 
-Notice no need for **type pattern matching** here, as we build on top of **Nats**.
+Notice no need for **type pattern matching** here, as we build on top of [**Nats**](src/main/scala/fragile/nat/Nat.scala).
 
 ### [List](src/main/scala/fragile/list/package.scala)
 
@@ -178,7 +178,7 @@ Functions implmeneted:
 * Lower
 * LowerEqual
 
-Notice handy shorcuts for **Nats** in the package object.
+Notice handy shorcuts for [**Nats**](src/main/scala/fragile/nat/Nat.scala) in the package object.
 
 ### [Product](src/main/scala/fragile/product/package.scala)
 
