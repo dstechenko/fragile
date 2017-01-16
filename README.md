@@ -26,7 +26,7 @@ The name of the module is dedicated to the Scala Compiler.
 ## Where?
 
 Module is broken down into packages for specific types:
-* [**bool**](https://github.com/dstechenko/fragile/tree/master/src/main/scala/fragile/bool)
+* [**bool**](../tree/master/src/main/scala/fragile/bool)
 * **function**
 * **int**
 * **list**
