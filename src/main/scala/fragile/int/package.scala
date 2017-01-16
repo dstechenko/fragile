@@ -39,7 +39,4 @@ package object int {
                                    type second      = secondLeft + secondRight
                                    type run         = canonical[first <-> second]
                                  })#run
-
-  type \\ [L <: Int, R <: Int] = _0
-
 }
