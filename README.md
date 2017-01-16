@@ -253,14 +253,23 @@ Then all of the functions for composition are available.
 
 ### Laws
 
+Tests are organized as law sets.
 
+To run tests simply compile them.
+
+Laws contain all of the function usages and scenarios:
+* [Bool](src/test/scala/fragile/bool/laws.scala)
+* [Function](src/test/scala/fragile/function/laws.scala)
+* [Int](src/test/scala/fragile/int/laws.scala)
+* [List](src/test/scala/fragile/list/laws.scala)
+* [Nat](src/test/scala/fragile/nat/laws.scala)
 
 ## So?
 
 What's next, you may ask?
-* Implement **Map** as a **List** of **Products**
-* Upgrade **List** to handle **Ints**
-* Upgrade **Ints** to support **Rationals**
+* Implement **Map** as a [**List**](src/main/scala/fragile/list/List.scala) of [**Products**](src/main/scala/fragile/product/Product.scala)
+* Upgrade [**List**](src/main/scala/fragile/list/List.scala) to handle [**Ints**](src/main/scala/fragile/int/package.scala)
+* Upgrade [**Ints**](src/main/scala/fragile/int/package.scala) to support **Rationals**
 
 But I am too lazy. 
 
