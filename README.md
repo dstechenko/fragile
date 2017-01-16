@@ -42,10 +42,10 @@ And also they have **type pattern matching** cases in their regular scala files.
 The idea is to use type matching as little as possible and re-use functions to build new and complex ones.
 
 For specialized functions next syntax is used:
-function**N** - **Nat**
-function**B** - **Bool**
-function**I** - **Int**
-function**L** - **List**
+* function**N** - **Nat**
+* function**B** - **Bool**
+* function**I** - **Int**
+* function**L** - **List**
 
 
 ## How much?
@@ -59,6 +59,7 @@ Functions implemented:
 * If
 
 Notice **De Morgan's laws** usage to reduce **type pattern matching** cases.
+
 Also, **if** function is specialized manually.
 
 ### function
@@ -71,7 +72,7 @@ Functions implemented:
 * Compose
 * Apply
 
-All functions work only with **Nat**s.
+All functions work only with **Nats**.
 
 ### int
 
@@ -84,7 +85,7 @@ Functions implemented:
 * Plus
 * Mult
 
-Notice no need for **type pattern matching** here, as we build on top of **Nat**s.
+Notice no need for **type pattern matching** here, as we build on top of **Nats**.
 
 ### list
 
@@ -108,7 +109,7 @@ Functions implmeneted:
 * Lower
 * LowerEqual
 
-Notice handy shorcuts for **Nat**s in the package object.
+Notice handy shorcuts for **Nats** in the package object.
 
 ### product
 
@@ -124,11 +125,10 @@ All functions are specialized manually here.
 ## So?
 
 What's next, you may ask?
-* Implement **Map** as a **List** of **Product**s
-* Upgrade **List** to handle **Int**s
-* Upgrade **Int**s to support **Rational**s
+* Implement **Map** as a **List** of **Products**
+* Upgrade **List** to handle **Ints**
+* Upgrade **Ints** to support **Rationals**
 
-But I am too lazy. 
-:(
+But I am too lazy. :(
 
 ## Copyright and License
