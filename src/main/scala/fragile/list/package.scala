@@ -12,7 +12,7 @@ package object list {
   private[list] type safeL    [L <: List]                                         = L map identity
 
   type list                   [N <: Nat]                                          = N :: Nil
-  type map                    [L <: List, F[_ <: Nat] <: Nat]                     = L#Map[F]
+
   type flatMap                [L <: List, F[_ <: Nat] <: List]                    = L#FlatMap[F]
   type foldRight              [L <: List, N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat] = L#FoldRight[N, F]
   type indexOf                [L <: List, N <: Nat]                               = L#IndexOf[N, _0]
@@ -72,6 +72,11 @@ package object list {
   type filter                 [L <: List, F[_ <: Nat] <: Bool]                    = ({
                                                                                       type unfold[N <: Nat] = ifL[F[N], list[N], Nil]
                                                                                       type run              = safeL[L flatMap unfold]
+                                                                                    })#run
+
+  type map                    [L <: List, F[_ <: Nat] <: Nat]                     = ({
+                                                                                      type lifted[N <: Nat] = list[F[N]]
+                                                                                      type run = L flatMap lifted
                                                                                     })#run
 
   type countWhile             [L <: List, F[_ <: Nat] <: Bool]                    = L indexOfWhere ({ type G[N <: Nat] = ![F[N]] })#G - _1

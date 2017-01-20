@@ -7,7 +7,6 @@ import fragile.product._
 import language.higherKinds
 
 sealed trait List {
-  type Map                      [F[_ <: Nat] <: Nat]                     <: List
   type FlatMap                  [F[_ <: Nat] <: List]                    <: List
   type FoldRight                [N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat] <: Nat
   type IndexOf                  [N <: Nat, I <: Nat]                     <: Nat
@@ -26,7 +25,6 @@ sealed trait List {
 }
 
 sealed trait ::[H <: Nat, T <: List] extends List {
-  override type Map                      [F[_ <: Nat] <: Nat]                     = F[Head]  ::     Tail#Map[F]
   override type FlatMap                  [F[_ <: Nat] <: List]                    = F[Head] ::: Tail#FlatMap[F]
   override type FoldRight                [N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat] = F[Head, Tail#FoldRight[N, F]]
   override type IndexOf                  [N <: Nat, I <: Nat]                     = ifN[Head == N, I + _1, Tail#IndexOf[N, I + _1]]
@@ -67,7 +65,6 @@ sealed trait ::[H <: Nat, T <: List] extends List {
 }
 
 sealed trait Nil extends List {
-  override type Map                      [F[_ <: Nat] <: Nat]                     = This
   override type FlatMap                  [F[_ <: Nat] <: List]                    = This
   override type FoldRight                [N <: Nat, F[_ <: Nat, _ <: Nat] <: Nat] = N
   override type IndexOf                  [N <: Nat, I <: Nat]                     = _0
