@@ -53,7 +53,12 @@ package object list {
   type union                  [L <: List, R <: List]                              = L ::: R
   type diff                   [L <: List, R <: List]                              = L removeAll R
   type indexOfWhere           [L <: List, F[_ <: Nat] <: Bool]                    = applyOrElse[(L filter F) map ({ type F[N <: Nat] = (L indexOf N) })#F, _1, _0]
-  type indexOfWhereFrom       [L <: List, F[_ <: Nat] <: Bool, B <: Nat]          = ifN[(L dropLeft (B - _1)) indexOfWhere F == _0, _0, ((L dropLeft B) indexOfWhere F) + B]
+  type indexOfWhereFrom       [L <: List, F[_ <: Nat] <: Bool, B <: Nat]          = ({
+                                                                                      type offset = B - _1
+                                                                                      type suffix = L dropLeft offset
+                                                                                      type index  = suffix indexOfWhere F
+                                                                                      type run    = ifN[index == _0, _0, index + offset]
+                                                                                    })#run
   type indexOfUntil           [L <: List, M <: Nat, E <: Nat]                     = (L takeLeft E) indexOfWhere ({ type F[N <: Nat] = N == M })#F
   type lastIndexOfUntil       [L <: List, N <: Nat, E <: Nat]                     = (L takeLeft E) lastIndexOf N
 
@@ -76,7 +81,7 @@ package object list {
 
   type map                    [L <: List, F[_ <: Nat] <: Nat]                     = ({
                                                                                       type lifted[N <: Nat] = list[F[N]]
-                                                                                      type run = L flatMap lifted
+                                                                                      type run              = L flatMap lifted
                                                                                     })#run
 
   type countWhile             [L <: List, F[_ <: Nat] <: Bool]                    = L indexOfWhere ({ type G[N <: Nat] = ![F[N]] })#G - _1

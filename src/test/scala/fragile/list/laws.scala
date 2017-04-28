@@ -445,7 +445,7 @@ object PrefixLengthLaws {
   type selectInvalid[N <: Nat] = N > _2
 
   implicitly[prefixLength[given, selectValid]   =:= _4]
-  implicitly[prefixLength[given, selectInvalid] =:= _1]
+  implicitly[prefixLength[given, selectInvalid] =:= _0]
 }
 
 object RemoveSliceLaws {
