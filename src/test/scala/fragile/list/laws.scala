@@ -435,8 +435,8 @@ object UpdatedLaws {
   type given            = _1 :: _2 :: _3 :: _4 :: _5 :: _6 :: _7 :: _8 :: Nil
   type select[N <: Nat] = N < _5
 
-  // implicitly[segmentLength[given, select, _1] =:= _4]
-  // implicitly[segmentLength[given, select, _2] =:= _4]
+  implicitly[segmentLength[given, select, _1] =:= _4]
+  implicitly[segmentLength[given, select, _2] =:= _4]
 }
 
 object PrefixLengthLaws {
@@ -444,8 +444,8 @@ object PrefixLengthLaws {
   type selectValid  [N <: Nat] = N < _5
   type selectInvalid[N <: Nat] = N > _2
 
-  // implicitly[prefixLength[given, selectValid]   =:= _4]
-  // implicitly[prefixLength[given, selectInvalid] =:= _8]
+  implicitly[prefixLength[given, selectValid]   =:= _4]
+  implicitly[prefixLength[given, selectInvalid] =:= _1]
 }
 
 object RemoveSliceLaws {
