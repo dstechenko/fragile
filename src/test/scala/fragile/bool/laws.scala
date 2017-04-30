@@ -1,4 +1,5 @@
-package fragile.bool
+package fragile
+package bool
 
 object NotLaws {
   implicitly[![False] =:=  True]

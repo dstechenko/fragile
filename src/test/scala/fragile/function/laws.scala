@@ -1,7 +1,9 @@
-package fragile.function
+package fragile
+package function
 
-import fragile.nat._
-import fragile.list._
+import nat._
+import nat.syntax._
+import list._
 
 object FunctionLaws {
   type increase[N <: Nat] = N + _1

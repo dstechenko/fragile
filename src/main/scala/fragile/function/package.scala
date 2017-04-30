@@ -1,6 +1,6 @@
 package fragile
 
-import fragile.nat._
+import nat._
 
 import language.higherKinds
 

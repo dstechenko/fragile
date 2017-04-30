@@ -1,4 +1,5 @@
-package fragile.product
+package fragile
+package product
 
 sealed trait Product[T] {
   type First   <: T

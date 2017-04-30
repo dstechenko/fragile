@@ -1,9 +1,11 @@
-package fragile.list
+package fragile
+package list
 
-import fragile.bool._
-import fragile.nat._
-import fragile.product._
-import fragile.function._
+import bool._
+import nat._
+import nat.syntax._
+import product._
+import function._
 
 object MapLaws {
   type given    = _3 :: _1 :: _2 :: _4 :: _0 :: Nil

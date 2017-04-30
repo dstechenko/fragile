@@ -1,7 +1,8 @@
-package fragile.bool
+package fragile
+package bool
 
-import fragile.nat._
-import fragile.list._
+import nat._
+import list._
 
 import language.higherKinds
 

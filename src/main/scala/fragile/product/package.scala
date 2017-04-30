@@ -1,8 +1,9 @@
 package fragile
 
-import fragile.bool._
-import fragile.nat._
-import fragile.list._
+import bool._
+import nat._
+import list._
+import int._
 
 package object product {
   type product [T, F <: T, S <: T]    = Product[T] {
@@ -26,6 +27,12 @@ package object product {
   type productL[F <: List, S <: List] = product[List, F, S]
 
   type <~>     [F <: Bool, S <: Bool] = productB[F, S]
-  type <->     [F <: Nat,  S <: Nat]  = productN[F, S]
-  type <-->    [F <: List, S <: List] = productL[F, S]
+  type <->      [F <: Nat,  S <: Nat]  = productN[F, S]
+  type <-->     [F <: List, S <: List] = productL[F, S]
+
+  type flip    [T, P <: Product[T]]   = product[T, second[T, P], first[T, P]]
+  type flipN   [P <: Product[Nat]]    = flip[Nat, P]
+  type flipB   [P <: Product[Bool]]   = flip[Bool, P]
+  type flipL   [P <: Product[List]]   = flip[List, P]
+  type flipI   [P <: Product[Int]]    = flip[Int, P]
 }

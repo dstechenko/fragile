@@ -1,4 +1,5 @@
-package fragile.function
+package fragile
+package function
 
 import language.higherKinds
 

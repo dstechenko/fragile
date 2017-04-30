@@ -1,26 +1,27 @@
-package fragile.int
+package fragile
+package int
 
-import fragile.nat._
+import syntax._
 
 object PlusLaws {
-  implicitly[int[_2] ++ int[_3]                =:=                           int[_5]]
-  implicitly[int[_3] ++ int[_0]                =:=                           int[_3]]
-  implicitly[int[_0] ++ int[_3]                =:=                           int[_3]]
-  implicitly[(int[_2] ++ int[_3])              =:=              (int[_3] ++ int[_2])]
-  implicitly[((int[_1] ++ int[_2]) ++ int[_3]) =:= (int[_1] ++ (int[_2] ++ int[_3]))]
+  implicitly[`2` + `3`           =:=                 `5`]
+  implicitly[`3` + `0`           =:=                 `3`]
+  implicitly[`0` + `3`           =:=                 `3`]
+  implicitly[(`2` + `3`)         =:=         (`3` + `2`)]
+  implicitly[((`1` + `2`) + `3`) =:= (`1` + (`2` + `3`))]
 }
 
 object MinusLaws {
-  implicitly[int[_0] -- int[_0] =:= int[_0]]
-  implicitly[int[_3] -- int[_3] =:= int[_0]]
-  implicitly[int[_3] -- int[_2] =:= int[_1]]
-  implicitly[int[_2] -- int[_3] =:= (int[_0] -- int[_1])]
+  implicitly[`0` - `0` =:=  `0`]
+  implicitly[`3` - `3` =:=  `0`]
+  implicitly[`3` - `2` =:=  `1`]
+  implicitly[`2` - `3` =:= `-1`]
 }
 
 object MultLaws {
-  implicitly[int[_2] ** int[_3]                =:=                           int[_6]]
-  implicitly[int[_3] ** int[_0]                =:=                           int[_0]]
-  implicitly[int[_0] ** int[_3]                =:=                           int[_0]]
-  implicitly[(int[_2] ** int[_3])              =:=              (int[_3] ** int[_2])]
-  implicitly[((int[_2] ** int[_3]) ** int[_4]) =:= (int[_2] ** (int[_3] ** int[_4]))]
+  implicitly[`2` * `3`           =:=                 `6`]
+  implicitly[`3` * `0`           =:=                 `0`]
+  implicitly[`0` * `3`           =:=                 `0`]
+  implicitly[(`2` * `3`)         =:=         (`3` * `2`)]
+  implicitly[((`2` * `3`) * `4`) =:= (`2` * (`3` * `4`))]
 }

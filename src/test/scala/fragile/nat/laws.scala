@@ -1,6 +1,8 @@
-package fragile.nat
+package fragile
+package nat
 
-import fragile.bool._
+import bool._
+import syntax._
 
 object PlusLaws {
   implicitly[_2 + _3          =:=               _5]

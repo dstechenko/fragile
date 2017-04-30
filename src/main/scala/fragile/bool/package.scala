@@ -1,7 +1,7 @@
 package fragile
 
-import fragile.nat._
-import fragile.list._
+import nat._
+import list._
 
 package object bool {
   type || [L <: Bool, R <: Bool]            = L#Or[R]
