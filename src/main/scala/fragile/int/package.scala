@@ -6,7 +6,7 @@ import product._
 import int.syntax._
 
 package object int {
-  private[int] type safeI[I <: Int]           = I + `0`
+  type safeI[I <: Int]                        = I + `0`
 
   type Int                                    = Product[Nat]
 
@@ -24,8 +24,6 @@ package object int {
                                                   type second = secondN[L] plusN secondN[R]
                                                   type run    = canonical[first <-> second]
                                                 })#run
-
-  type minusI            [L <: Int, R <: Int] = L + ~[R]
 
   type multI             [L <: Int, R <: Int] = ({
                                                   type firstLeft   = firstN[L] multN firstN[R]
@@ -54,9 +52,13 @@ package object int {
                                                   type run           = isFirstLower || (isFirstEqual && isSecondLower)
                                                 })#run
 
-  type minI              [L <: Int, R <: Int] = ({
-                                                  type run = Nothing
-                                                })#run
+  type minusI            [L <: Int, R <: Int] = L + ~[R]
+  type minI              [L <: Int, R <: Int] = ifI[L < R, L, R]
+  type maxI              [L <: Int, R <: Int] = ifI[L < R, R, L]
+  type neqI              [L <: Int, R <: Int] = ![L == R]
+  type gtI               [L <: Int, R <: Int] = ![L <= R]
+  type lteI              [L <: Int, R <: Int] = (L == R) || (L < R)
+  type gteI              [L <: Int, R <: Int] = (L == R) || (L > R)
 
   type `0`                                    = int[_0]
   type `1`                                    = int[_1]

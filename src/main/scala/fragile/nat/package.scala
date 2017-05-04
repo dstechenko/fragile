@@ -8,6 +8,8 @@ package object nat {
   private[nat] type pred  [N <: Nat]           = N#Pred
   private[nat] type isZero[N <: Nat]           = N#IsZero
 
+  type safeN              [N <: Nat]           = N + _0
+
   type plusN              [L <: Nat, R <: Nat] = L#Plus[R]
   type minusN             [L <: Nat, R <: Nat] = L#Minus[R]
   type multN              [L <: Nat, R <: Nat] = L#Mult[R, _0]
@@ -21,8 +23,6 @@ package object nat {
   type gtN                [L <: Nat, R <: Nat] = ![L <= R]
   type lteN               [L <: Nat, R <: Nat] = (L == R) || (L < R)
   type gteN               [L <: Nat, R <: Nat] = (L == R) || (L > R)
-
-  type safeN              [N <: Nat]           = N + _0
 
   type _0                                      = Zero
   type _1                                      = Succ[_0]

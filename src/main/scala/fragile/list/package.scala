@@ -10,7 +10,8 @@ import language.higherKinds
 
 package object list {
   private[list] type minOrElse[L <: List, N <: Nat]                               = L#MinOrElse[N]
-  private[list] type safeL    [L <: List]                                         = L map identity
+
+  type safeL    [L <: List]                                                       = L map identity
 
   type list                   [N <: Nat]                                          = N :: Nil
 
