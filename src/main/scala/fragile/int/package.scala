@@ -1,6 +1,7 @@
 package fragile
 
 import nat._
+import bool._
 import product._
 import int.syntax._
 
@@ -36,6 +37,26 @@ package object int {
                                                   type run         = canonical[first <-> second]
                                                 })#run
 
+  type eqI               [L <: Int, R <: Int] = ({
+                                                  type eqFirst  = firstN[L] eqN firstN[R]
+                                                  type eqSecond = secondN[L] eqN secondN[R]
+                                                  type run = eqFirst && eqSecond
+                                                })#run
+
+  type ltI               [L <: Int, R <: Int] = ({
+                                                  type firstLeft     = firstN[L]
+                                                  type firstRight    = firstN[R]
+                                                  type secondLeft    = secondN[L]
+                                                  type secondRight   = secondN[R]
+                                                  type isFirstLower  = firstLeft ltN firstRight
+                                                  type isFirstEqual  = firstLeft eqN firstRight
+                                                  type isSecondLower = secondRight ltN secondLeft
+                                                  type run           = isFirstLower || (isFirstEqual && isSecondLower)
+                                                })#run
+
+  type minI              [L <: Int, R <: Int] = ({
+                                                  type run = Nothing
+                                                })#run
 
   type `0`                                    = int[_0]
   type `1`                                    = int[_1]

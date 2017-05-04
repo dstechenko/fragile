@@ -32,7 +32,7 @@ package object product {
 
   type flip    [T, P <: Product[T]]   = product[T, second[T, P], first[T, P]]
   type flipN   [P <: Product[Nat]]    = flip[Nat, P]
+  type flipI   [P <: Product[Int]]    = flip[Int, P]
   type flipB   [P <: Product[Bool]]   = flip[Bool, P]
   type flipL   [P <: Product[List]]   = flip[List, P]
-  type flipI   [P <: Product[Int]]    = flip[Int, P]
 }
