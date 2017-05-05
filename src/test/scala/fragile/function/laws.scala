@@ -1,16 +1,16 @@
 package fragile
 package function
 
-import nat._
-import nat.syntax._
+import int._
+import int.syntax._
 import list._
 
 object FunctionLaws {
-  type increase[N <: Nat] = N + _1
-  type multiply[N <: Nat] = N * _2
+  type increase[N <: Int] = N + `1`
+  type multiply[N <: Int] = N * `2`
 
-  implicitly[list[_1] map identity                                      =:= list[_1]]
-  implicitly[const[_1] apply _2                                         =:=       _1]
-  implicitly[(eta[increase] andThen multiply andThen multiply) apply _1 =:=       _8]
-  implicitly[(eta[increase] compose multiply compose multiply) apply _1 =:=       _5]
+  implicitly[list[`1`] map identity                                      =:= list[`1`]]
+  implicitly[const[`1`] apply `2`                                        =:=       `1`]
+  implicitly[(eta[increase] andThen multiply andThen multiply) apply `1` =:=       `8`]
+  implicitly[(eta[increase] compose multiply compose multiply) apply `1` =:=       `5`]
 }

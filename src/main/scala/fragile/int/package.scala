@@ -6,16 +6,17 @@ import product._
 import int.syntax._
 
 package object int {
-  type safeI[I <: Int]                        = I + `0`
+  type safeI[N <: Int]                        = safeN[firstN[N]] <-> safeN[secondN[N]]
 
   type Int                                    = Product[Nat]
 
   type int               [N <: Nat]           = N <-> _0
-  type nat               [I <: Int]           = firstN[I] minusN secondN[I]
+  type nat               [N <: Int]           = firstN[N] minusN secondN[N]
+  type inc               [N <: Int]           = Succ[firstN[N]] <-> secondN[N]
 
-  type canonical         [I <: Int]           = ({
-                                                  type first  = nat[I]
-                                                  type second = nat[~[I]]
+  type canonical         [N <: Int]           = ({
+                                                  type first  = nat[N]
+                                                  type second = nat[~[N]]
                                                   type run    = first <-> second
                                                 })#run
 
@@ -52,7 +53,7 @@ package object int {
                                                   type run           = isFirstLower || (isFirstEqual && isSecondLower)
                                                 })#run
 
-  type unfoldI           [I <: Int]           = nat[I]#Unfold
+  type unfoldI           [N <: Int]           = nat[N]#Unfold
 
   type minusI            [L <: Int, R <: Int] = L + ~[R]
   type minI              [L <: Int, R <: Int] = ifI[L < R, L, R]

@@ -1,6 +1,7 @@
 package fragile
 package nat
 
+import int._
 import bool._
 import list._
 import syntax._
@@ -31,7 +32,7 @@ sealed trait Succ[P <: Nat] extends Nat {
 
   override type Equal                [N <: Nat]                      = loop[N, Pred#Equal]
   override type Lower                [N <: Nat]                      = loop[N, Pred#Lower]
-  override type Unfold                                               = This :: Pred#Unfold
+  override type Unfold                                               = int[This] :: Pred#Unfold
 
   override protected type This                                       = Pred + _1
   override protected[nat] type Pred                                  = P
