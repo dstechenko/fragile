@@ -409,7 +409,7 @@ object PartitionLaws {
   type given        = _1 :: _5 :: _2 :: _0 :: _6 :: _9 ::  _3 :: _1 :: Nil
   type left         = _1 ::       _2 :: _0 ::              _3 :: _1 :: Nil
   type right        = _5 ::                   _6 :: _9              :: Nil
-  type expected     = left <--> right
+  type expected     = left <~~> right
   type result       = given partition ({ type F[N <: Nat] = N < _5 })#F
 
   implicitly[expected =:= result]

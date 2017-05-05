@@ -89,7 +89,7 @@ package object list {
   type countWhile             [L <: List, F[_ <: Nat] <: Bool]                    = L indexOfWhere ({ type G[N <: Nat] = ![F[N]] })#G - _1
   type takeWhile              [L <: List, F[_ <: Nat] <: Bool]                    = L takeLeft (L countWhile F)
   type dropWhile              [L <: List, F[_ <: Nat] <: Bool]                    = L dropLeft (L countWhile F)
-  type partition              [L <: List, F[_ <: Nat] <: Bool]                    = (L filter F) <--> (L filterNot F)
+  type partition              [L <: List, F[_ <: Nat] <: Bool]                    = (L filter F) <~~> (L filterNot F)
   type tabulate               [N <: Nat, E <: Nat]                                = unfold[E] map const[N]#Apply
   type padTo                  [L <: List, N <: Nat, E <: Nat]                     = tabulate[N, E] ::: L
   type intersect              [L <: List, R <: List]                              = L filter  ({ type F[N <: Nat] = R contains N })#F
