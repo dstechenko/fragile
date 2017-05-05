@@ -52,6 +52,8 @@ package object int {
                                                   type run           = isFirstLower || (isFirstEqual && isSecondLower)
                                                 })#run
 
+  type unfoldI           [I <: Int]           = nat[I]#Unfold
+
   type minusI            [L <: Int, R <: Int] = L + ~[R]
   type minI              [L <: Int, R <: Int] = ifI[L < R, L, R]
   type maxI              [L <: Int, R <: Int] = ifI[L < R, R, L]

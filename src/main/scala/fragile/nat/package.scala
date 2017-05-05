@@ -16,7 +16,7 @@ package object nat {
   type minN               [L <: Nat, R <: Nat] = L#Min[R, L, R]
   type eqN                [L <: Nat, R <: Nat] = L#Equal[R]
   type ltN                [L <: Nat, R <: Nat] = L#Lower[R]
-  type unfoldN            [L <: Nat]           = reverse[L#Unfold]
+  type unfoldN            [N <: Nat]           = reverse[N#Unfold]
 
   type maxN               [L <: Nat, R <: Nat] = ifN[L == (L min R), R, L]
   type neqN               [L <: Nat, R <: Nat] = ![L == R]
